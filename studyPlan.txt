@@ -1,0 +1,44 @@
+영카트5 사용자데모, 관리자데모 
+
+
+디비설계 
+ +erd 만들어보기
+ + 상품(탑)(100)>블라우스(100+1) 이런식 부모자식관계
+DB공부 -> https://gngsn.tistory.com/29?category=851218
+erd생성-> https://xively.tistory.com/38
+
+
+쇼핑몰 관리자/사용자 부분 파악 만들메뉴들 체크
+(통계도 인기구매품목, 성별구매순위, 기간별구매순위등 세개정도)
+
+로그인, 결제 ->카카오페이 개발자 api검색해서 연동
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+*질문할거List
+       restful api라는게 프론트단에서 서버로 요청할때 쓰이는 uri에 규칙을 준수해서 쓴거?
+	mapper 1+1쓰는이유
+
+*서치해볼거
+	vue.config.js
+	logger, logback-spring.xml
+	securty강의
+	serialVersionUID
+	Map, Hashmap, 람다식 좀 더 공부
+@autowrited/@Bean차이
+
+
+restful?
+rest) api server?
+jwt?
+
+rest api server와 vue.js의 clientfh 게시판 구현 후,
+프로젝트(보통 쇼핑몰)
+
+*원래는 tomcat(was)에 java(spring)을 올리면 client에서 요청시 html(jsp)을 만들어서 전송(stereotype)
+rest api server는 tomcat에 java를 올리면 client요청시 json으로 데이타전송
+그럼 client쪽은 browser말고도 android, io, 기타전자기기 등 모든 곳에 데이터 사용가능! 그쪽에 맞게 데이터 변형해서 사용
+browser은 jquery로 바꿔서 사용하는데, 노가다 단점보완하고자 동적실행 가능한 vue.js/react등 사용*
+
