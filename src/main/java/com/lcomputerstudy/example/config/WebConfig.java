@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
 				.allowedOrigins("http://localhost:8080")
 				.allowedMethods("*")
 				.exposedHeaders("jwt-token");
+		System.out.println("hello");
 	}
 	
 
