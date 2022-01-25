@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "spring.devtools.livereload.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.devtools.livereload.enabled'"
+  },
+  {
+    "name": "spring.devtools.restart.log-condition-evaluation-dalta",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.devtools.restart.log-condition-evaluation-dalta'"
+  },
+  {
+    "name": "server.tomcat.file-encoding",
+    "type": "java.lang.String",
+    "description": "A description for 'server.tomcat.file-encoding'"
+  }
+]}

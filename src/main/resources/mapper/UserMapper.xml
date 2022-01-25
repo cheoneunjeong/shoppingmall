@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcomputerstudy.example.mapper.UserMapper">
+
+	<select id="readUser" parameterType="String" resultType="User">
+		select		u_id as username,
+						password,
+						name,
+						phone,
+						isAccountNonExpired,
+						isAccountNonLocked,
+						isCredentialsNonExpired,
+						isEnabled,
+		from		user
+		where		1=1
+		and			u_id = #{username}
+	</select>
+	
+	<select id="readAuthorities" parameterType="String" resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">
+		select			u_auth
+		from			u_auth
+		where			1=1
+		and				u_id = #{username}
+	</select>
+
+</mapper>
