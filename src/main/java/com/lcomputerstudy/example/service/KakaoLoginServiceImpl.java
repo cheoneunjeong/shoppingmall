@@ -9,15 +9,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.lcomputerstudy.example.domain.KakaoUser;
+import com.lcomputerstudy.example.mapper.KakaoMapper;
 
 
 @Service
 public class KakaoLoginServiceImpl implements KakaoLoginService {
+	
+	@Autowired
+	KakaoMapper kkmapper;
 
 	@Override
 	public String getAccessToken(String authorize_code) {
@@ -75,7 +81,7 @@ public class KakaoLoginServiceImpl implements KakaoLoginService {
 	}
 
 	@Override
-	public HashMap<String, Object> getUserInfo(String access_Token) {
+	public KakaoUser getUserInfo(String access_Token) {
 		
 		HashMap<String , Object> userInfo = new HashMap<String, Object>();
 		String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -113,10 +119,22 @@ public class KakaoLoginServiceImpl implements KakaoLoginService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		return userInfo;
-	}
 	
+		KakaoUser user = kkmapper.findKakao(userInfo);
+		System.out.println("s: "+ user);
+		
+		if(user == null && userInfo.get("nickname") != null) {
+			kkmapper.insertKakao(userInfo);
+			
+			return kkmapper.findKakao(userInfo);
+			
+		} else {
+
+			return user;
+		}
+		
+	}
+
 	@Override
 	public String kakaoLogout(String code) {
 
