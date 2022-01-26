@@ -24,5 +24,37 @@
 		where			1=1
 		and				u_id = #{username}
 	</select>
+	
+	<insert id="createUser" parameterType="User">
+		insert into user (
+						u_id,
+						password,
+						name,
+						isAccountNonExpired,
+						isAccountNonLocked,
+						isCredentialsNonExpired,
+						isEnabled
+				) values (
+						#{username},
+						#{password},
+						#{name},
+						#{isAccountNonExpired},
+						#{isAccountNonLocked},
+						#{isCredentialsNonExpired},
+						#{isEnabled}
+				)
+	</insert>
+	
+	<insert id="createAuthority" parameterType="org.springframework.security.core.GrantedAuthority">
+		insert into u_auth (
+						u_id,
+						u_auth
+				) values 
+				<foreach collection="authorities" item="authority" index="index" separator=",">
+						( #{username}, #{authority.role} )
+				</foreach>
+				ON DUPLICATE KEY
+					UPDATE u_id = #{username}
+	</insert>
 
 </mapper>

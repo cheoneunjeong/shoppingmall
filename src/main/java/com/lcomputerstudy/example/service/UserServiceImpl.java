@@ -42,4 +42,18 @@ public class UserServiceImpl implements UserService {
 		return usermapper.readUser(username);
 	}
 
+
+	@Override
+	public void createUser(User user) {
+		usermapper.createUser(user);
+		
+	}
+
+
+	@Override
+	public void createAuthority(User user) {
+		usermapper.createAuthority(user);
+		
+	}
+
 }

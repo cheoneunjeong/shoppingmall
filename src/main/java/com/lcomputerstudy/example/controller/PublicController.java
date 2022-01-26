@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -96,14 +97,27 @@ public class PublicController {
 
 		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles));
 	}
-//	
-//	@PostMapping("user")
-//	public ResponseEntity<?> insertNewUser(@Validated @RequestBody JoinRequest joinUser) {
-//		
-//		String encodedPassword = new BCryptPasswordEncoder().encode(joinUser.getPassword());
-//		
-//		User user = new User();
-//		
-//	}
-//	
+	
+	@PostMapping("user")
+	public ResponseEntity<?> insertNewUser(@Validated @RequestBody JoinRequest joinUser) {
+		
+		String encodedPassword = new BCryptPasswordEncoder().encode(joinUser.getPassword());
+		
+		User user = new User();
+		user.setUsername(joinUser.getUsername());
+		user.setName(joinUser.getName());
+		user.setPassword(encodedPassword);
+		user.setIsAccountNonExpired(true);
+		user.setIsAccountNonLocked(true);
+		user.setIsCredentialsNonExpired(true);
+		user.setIsEnabled(true);
+		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
+		
+		userservice.createUser(user);
+		userservice.createAuthority(user);
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+		
+	}
+	
 }
