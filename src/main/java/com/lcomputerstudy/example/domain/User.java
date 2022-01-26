@@ -12,7 +12,6 @@ public class User implements UserDetails {
 	private String username;
 	private String password;
 	private String name;
-	private String phone;
 	private String datetime;
 	private Collection<? extends GrantedAuthority> authorities;
 	private Boolean isAccountNonExpired;
@@ -22,23 +21,16 @@ public class User implements UserDetails {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", name=" + name + ", phone=" + phone
-				+ ", datetime=" + datetime + ", authorities=" + authorities + ", isAccountNonExpired="
-				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
-				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + "]";
+		return "User [username=" + username + ", password=" + password + ", name=" + name + ", datetime=" + datetime
+				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
+				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
+				+ ", isEnabled=" + isEnabled + "]";
 	}
-
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 	public String getDatetime() {
 		return datetime;

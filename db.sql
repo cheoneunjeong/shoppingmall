@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.6.4-MariaDB - mariadb.org binary distribution
+-- 서버 버전:                        10.5.8-MariaDB - mariadb.org binary distribution
 -- 서버 OS:                        Win64
--- HeidiSQL 버전:                  11.3.0.6295
+-- HeidiSQL 버전:                  11.0.0.5919
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,7 +10,6 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- project 데이터베이스 구조 내보내기
@@ -24,11 +23,25 @@ CREATE TABLE IF NOT EXISTS `category` (
   `count` int(11) DEFAULT NULL,
   `isSale` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 project.category:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
+
+-- 테이블 project.kakao_user 구조 내보내기
+CREATE TABLE IF NOT EXISTS `kakao_user` (
+  `k_number` int(11) NOT NULL AUTO_INCREMENT,
+  `k_name` varchar(50) DEFAULT NULL,
+  `k_email` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`k_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 project.kakao_user:~1 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
+INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`) VALUES
+	(11, '천은정', 'cjsdmswjd010@naver.com');
+/*!40000 ALTER TABLE `kakao_user` ENABLE KEYS */;
 
 -- 테이블 project.spring_session 구조 내보내기
 CREATE TABLE IF NOT EXISTS `spring_session` (
@@ -67,14 +80,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   `u_id` varchar(50) NOT NULL,
   `password` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
-  `phone` int(50) DEFAULT NULL,
   `datetime` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `isAccountNonExpired` tinyint(4) DEFAULT NULL,
   `isAccountNonLocked` tinyint(4) DEFAULT NULL,
   `isCredentialsNonExpired` tinyint(4) DEFAULT NULL,
   `isEnabled` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`u_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 project.user:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
@@ -85,13 +97,12 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
   `u_id` varchar(50) NOT NULL,
   `u_auth` varchar(50) NOT NULL,
   PRIMARY KEY (`u_id`,`u_auth`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 project.u_auth:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
 /*!40000 ALTER TABLE `u_auth` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
