@@ -1,4 +1,15 @@
-로그아웃/ 회원탈퇴 나누기
+security & oauth2에대해 공부
+카카오 로그인 oauth2로 연동
+일반 유저 회원가입+로그인 만들기
+두개 같이 되는지
+
+https://loosie.tistory.com/300
+https://kakao-tam.tistory.com/54
+https://devbksheen.tistory.com/143
+https://xzio.tistory.com/1049
+https://okky.kr/article/680363
+
+//로그아웃/ 회원탈퇴 나누기
 
 
 영카트5 사용자데모, 관리자데모 
