@@ -56,4 +56,11 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public int findKakaoId(String kakaoId) {
+		// TODO Auto-generated method stub
+		return usermapper.findKakaoId(kakaoId);
+	}
+
 }

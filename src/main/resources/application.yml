@@ -41,3 +41,6 @@ logging:  config: classpath:logback-spring.xml
   
 mybatis:  type-aliases-package: com.lcomputerstudy.example.domain
   mapper-locations: mapper/**/*.xml
+  
+shoppingmall:
+  key: kakaokey123

@@ -18,4 +18,8 @@ public interface UserMapper {
 
 	void createAuthority(User user);
 
+	User getKakaoUserId(String kakaoId);
+
+	int findKakaoId(String kakaoId);
+
 }

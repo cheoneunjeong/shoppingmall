@@ -5,14 +5,14 @@
 <mapper namespace="com.lcomputerstudy.example.mapper.UserMapper">
 
 	<select id="readUser" parameterType="String" resultType="User">
-		select		u_id as username,
-						password,
-						name,
-						phone,
-						isAccountNonExpired,
-						isAccountNonLocked,
-						isCredentialsNonExpired,
-						isEnabled,
+		SELECT		u_id AS username,
+				PASSWORD,
+				NAME,
+				DATETIME,
+				isAccountNonExpired,
+				isAccountNonLocked,
+				isCredentialsNonExpired,
+				isEnabled			
 		from		user
 		where		1=1
 		and			u_id = #{username}
@@ -56,5 +56,9 @@
 				ON DUPLICATE KEY
 					UPDATE u_id = #{username}
 	</insert>
+	
+	<select id="findKakaoId" parameterType="String" resultType="Integer">
+		SELECT count(*) FROM user where u_id = #{kakaoId}
+	</select>
 
 </mapper>

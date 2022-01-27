@@ -16,4 +16,7 @@ public interface UserService extends UserDetailsService {
 	public void createUser(User user);
 
 	public void createAuthority(User user);
+
+	public int findKakaoId(String kakaoId);
+
 }

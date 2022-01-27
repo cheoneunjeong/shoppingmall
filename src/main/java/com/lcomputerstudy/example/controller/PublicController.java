@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,6 +43,9 @@ public class PublicController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@Value("${shoppingmall.key}")
+	private String key;
+	
 	@Autowired
 	AuthenticationManager authenticationManager;
 	
@@ -62,11 +66,47 @@ public class PublicController {
 		System.out.println("#####"+code);
 		
 		String access_token = ks.getAccessToken(code);
-		KakaoUser user = ks.getUserInfo(access_token);
-		
-		KakaoLoginResponse response = new KakaoLoginResponse(access_token, user);
+		KakaoUser kuser = ks.getUserInfo(access_token);
 	
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		int num = userservice.findKakaoId(kuser.getK_number()+kuser.getK_email());
+		
+		if(num == 0) {
+			
+			System.out.println(key);
+			String encodedPassword = new BCryptPasswordEncoder().encode(key);
+			
+			User newUser = new User();
+			newUser.setUsername(kuser.getK_number()+kuser.getK_email());
+			newUser.setName(kuser.getK_name());
+			newUser.setPassword(encodedPassword);
+			newUser.setIsAccountNonExpired(true);
+			newUser.setIsAccountNonLocked(true);
+			newUser.setIsCredentialsNonExpired(true);
+			newUser.setIsEnabled(true);
+			newUser.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
+			
+			userservice.createUser(newUser);
+			userservice.createAuthority(newUser);
+		}
+		
+		User user = userservice.readUser(kuser.getK_number()+kuser.getK_email());
+		
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(user.getUsername(), key ));
+		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtToken(authentication);
+		
+		User principal = (User) authentication.getPrincipal();
+		
+		List<String> roles = principal.getAuthorities().stream()
+				.map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+
+		System.out.println("jwt:" +jwt);
+		System.out.println("username :" +user.getUsername());
+	
+		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles));
 	}
 	
 	@GetMapping("/kakaologout")
