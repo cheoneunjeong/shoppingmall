@@ -18,13 +18,14 @@ public class User implements UserDetails {
 	private Boolean isAccountNonLocked;
 	private Boolean isCredentialsNonExpired;
 	private Boolean isEnabled;
+	private String oauth;
 
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", name=" + name + ", datetime=" + datetime
 				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
 				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-				+ ", isEnabled=" + isEnabled + "]";
+				+ ", isEnabled=" + isEnabled + ", oauth=" + oauth + "]";
 	}
 	public String getName() {
 		return name;
@@ -103,5 +104,12 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return isEnabled;
 	}
+	public String getOauth() {
+		return oauth;
+	}
+	public void setOauth(String oauth) {
+		this.oauth = oauth;
+	}
+	
 
 }

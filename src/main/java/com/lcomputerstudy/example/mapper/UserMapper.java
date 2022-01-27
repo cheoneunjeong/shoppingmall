@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.lcomputerstudy.example.domain.User;
+import com.lcomputerstudy.example.domain.UserInfo;
 
 @Mapper
 public interface UserMapper {
@@ -21,5 +22,7 @@ public interface UserMapper {
 	User getKakaoUserId(String kakaoId);
 
 	int findKakaoId(String kakaoId);
+
+	UserInfo readUser_refresh(String username);
 
 }

@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.category:~0 rows (대략적) 내보내기
-DELETE FROM `category`;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
@@ -40,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
-DELETE FROM `kakao_user`;
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
 INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`) VALUES
 	(11, '천은정', 'cjsdmswjd010@naver.com');
@@ -62,7 +60,6 @@ CREATE TABLE IF NOT EXISTS `spring_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session`;
 /*!40000 ALTER TABLE `spring_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session` ENABLE KEYS */;
 
@@ -76,26 +73,28 @@ CREATE TABLE IF NOT EXISTS `spring_session_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session_attributes:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session_attributes`;
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
 
 -- 테이블 project.user 구조 내보내기
 CREATE TABLE IF NOT EXISTS `user` (
-  `u_id` varchar(50) NOT NULL,
-  `password` varchar(50) DEFAULT NULL,
+  `u_id` varchar(100) NOT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `datetime` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `isAccountNonExpired` tinyint(4) DEFAULT NULL,
   `isAccountNonLocked` tinyint(4) DEFAULT NULL,
   `isCredentialsNonExpired` tinyint(4) DEFAULT NULL,
   `isEnabled` tinyint(4) DEFAULT NULL,
+  `oauth` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`u_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.user:~0 rows (대략적) 내보내기
-DELETE FROM `user`;
+-- 테이블 데이터 project.user:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`) VALUES
+	('11cjsdmswjd010@naver.com', '$2a$10$Sa3HcLEbbHS4llS3uZzL0.GPsSm8jLVMEftk9H4qPtqoobp/lFcUu', '천은정', '2022-01-27 22:18:24', 1, 1, 1, 1, 'kakao'),
+	('aa', '$2a$10$lcxI32vChj95c6MNdzfQ6.GkLD.umpWPRTttuBzD8M3BU2bDGMmtG', 'aa', '2022-01-27 23:35:40', 1, 1, 1, 1, NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- 테이블 project.u_auth 구조 내보내기
@@ -105,9 +104,11 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
   PRIMARY KEY (`u_id`,`u_auth`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.u_auth:~0 rows (대략적) 내보내기
-DELETE FROM `u_auth`;
+-- 테이블 데이터 project.u_auth:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
+INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
+	('11cjsdmswjd010@naver.com', 'ROLE_USER'),
+	('aa', 'ROLE_USER');
 /*!40000 ALTER TABLE `u_auth` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -1,8 +1,11 @@
 package com.lcomputerstudy.example.controller;
 
 
+import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lcomputerstudy.example.config.JwtUtils;
 import com.lcomputerstudy.example.domain.KakaoUser;
 import com.lcomputerstudy.example.domain.User;
+import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.request.JoinRequest;
 import com.lcomputerstudy.example.request.LoginRequest;
 import com.lcomputerstudy.example.response.JwtResponse;
@@ -68,13 +73,13 @@ public class PublicController {
 		String access_token = ks.getAccessToken(code);
 		KakaoUser kuser = ks.getUserInfo(access_token);
 	
-		int num = userservice.findKakaoId(kuser.getK_number()+kuser.getK_email());
+		User user = userservice.readUser(kuser.getK_number()+kuser.getK_email());
 		
-		if(num == 0) {
+		if(user == null) {
 			
 			System.out.println(key);
 			String encodedPassword = new BCryptPasswordEncoder().encode(key);
-			
+
 			User newUser = new User();
 			newUser.setUsername(kuser.getK_number()+kuser.getK_email());
 			newUser.setName(kuser.getK_name());
@@ -84,13 +89,14 @@ public class PublicController {
 			newUser.setIsCredentialsNonExpired(true);
 			newUser.setIsEnabled(true);
 			newUser.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
+			newUser.setOauth("kakao");
 			
 			userservice.createUser(newUser);
 			userservice.createAuthority(newUser);
+			
+			user = userservice.readUser(kuser.getK_number()+kuser.getK_email());
 		}
-		
-		User user = userservice.readUser(kuser.getK_number()+kuser.getK_email());
-		
+
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(user.getUsername(), key ));
 		
@@ -106,16 +112,16 @@ public class PublicController {
 		System.out.println("jwt:" +jwt);
 		System.out.println("username :" +user.getUsername());
 	
-		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles));
+		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles, user.getOauth()));
 	}
 	
-	@GetMapping("/kakaologout")
-	public ResponseEntity<?> kakaologout(@RequestParam(value = "code", required = false) String code) throws Exception {
-		
-		String result = ks.kakaoLogout(code);
-		
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
+//	@GetMapping("/kakaoUnlink")
+//	public ResponseEntity<?> kakaologout(@RequestParam(value = "code", required = false) String code) throws Exception {
+//		
+//		String result = ks.kakaoLogout(code);
+//		
+//		return new ResponseEntity<>(result, HttpStatus.OK);
+//	}
 	
 	@PostMapping("login")
 	public ResponseEntity<?> loginUser(@Validated @RequestBody LoginRequest loginUser) {
@@ -135,7 +141,7 @@ public class PublicController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles));
+		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles, user.getOauth()));
 	}
 	
 	@PostMapping("user")
@@ -158,6 +164,24 @@ public class PublicController {
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/unpackToken")
+	public ResponseEntity<?> unpackToken(HttpServletRequest request) {
+		String token = new String();
+		token = request.getHeader("Authorization");
+
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		
+		String username = jwtUtils.getUserEmailFromToken(token);
+		UserInfo user = userservice.readUser_refresh(username);
+		
+		List<String> roles = userservice.getAuthorities(username).stream()
+				.map(item -> item.getAuthority()).collect(Collectors.toList());
+		
+		return ResponseEntity.ok(new JwtResponse(token, username, user.getName(), roles, user.getOauth()));
 	}
 	
 }

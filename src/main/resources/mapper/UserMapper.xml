@@ -12,7 +12,8 @@
 				isAccountNonExpired,
 				isAccountNonLocked,
 				isCredentialsNonExpired,
-				isEnabled			
+				isEnabled,
+				oauth	
 		from		user
 		where		1=1
 		and			u_id = #{username}
@@ -33,7 +34,8 @@
 						isAccountNonExpired,
 						isAccountNonLocked,
 						isCredentialsNonExpired,
-						isEnabled
+						isEnabled,
+						oauth
 				) values (
 						#{username},
 						#{password},
@@ -41,7 +43,8 @@
 						#{isAccountNonExpired},
 						#{isAccountNonLocked},
 						#{isCredentialsNonExpired},
-						#{isEnabled}
+						#{isEnabled},
+						#{oauth}
 				)
 	</insert>
 	
@@ -57,8 +60,19 @@
 					UPDATE u_id = #{username}
 	</insert>
 	
-	<select id="findKakaoId" parameterType="String" resultType="Integer">
-		SELECT count(*) FROM user where u_id = #{kakaoId}
+	<select id="readUser_refresh" parameterType="String" resultType="UserInfo">
+		SELECT			ta.u_id username,
+						ta.name,
+						ta.oauth,
+						tb.u_auth auth
+		FROM			user ta
+		LEFT JOIN (
+					SELECT		ta.u_id,
+								GROUP_CONCAT(ta.u_auth SEPARATOR ",") u_auth
+					FROM		u_auth ta
+					GROUP BY	ta.u_id
+					) tb ON ta.u_id = tb.u_id
+		WHERE		ta.u_id = #{username}
 	</select>
 
 </mapper>

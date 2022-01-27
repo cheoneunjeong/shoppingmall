@@ -8,13 +8,15 @@ public class JwtResponse {
 	private String username;
 	private String name;
 	private List<String> roles;
+	private String oauth;
 	private String type = "Bearer";
 	
-	public JwtResponse(String jwt, String id, String name, List<String> u_roles) {
+	public JwtResponse(String jwt, String id, String name, List<String> u_roles, String oauth) {
 		this.token = jwt;
 		this.username = id;
 		this.name = name;
 		this.roles = u_roles;
+		this.oauth = oauth;
 	}
 
 	public String getToken() {
@@ -43,6 +45,14 @@ public class JwtResponse {
 
 	public List<String> getRoles() {
 		return roles;
+	}
+
+	public String getOauth() {
+		return oauth;
+	}
+
+	public void setOauth(String oauth) {
+		this.oauth = oauth;
 	}
 
 	public void setRoles(List<String> roles) {
