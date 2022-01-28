@@ -12,5 +12,12 @@ public interface KakaoMapper {
 	KakaoUser findKakao(HashMap<String, Object> userInfo);
 
 	void insertKakao(HashMap<String, Object> userInfo);
+
+	void insertAccessToken(HashMap<String, Object> userInfo);
+
+	String getAccessToken(String username);
+
+	void deleteUser(String username);
+
 	
 }

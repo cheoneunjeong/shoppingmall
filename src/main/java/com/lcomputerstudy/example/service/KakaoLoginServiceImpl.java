@@ -116,6 +116,7 @@ public class KakaoLoginServiceImpl implements KakaoLoginService {
 			
 			userInfo.put("nickname", nickname);
 			userInfo.put("email", email);
+			userInfo.put("access_token", access_Token);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -125,18 +126,17 @@ public class KakaoLoginServiceImpl implements KakaoLoginService {
 		
 		if(user == null && userInfo.get("nickname") != null) {
 			kkmapper.insertKakao(userInfo);
-			
-			return kkmapper.findKakao(userInfo);
-			
-		} else {
+			user = kkmapper.findKakao(userInfo);
+		} 
 
-			return user;
-		}
+		kkmapper.insertAccessToken(userInfo);
 		
+			return user;
+
 	}
 
 	@Override
-	public String kakaoLogout(String code) {
+	public String kakaoUnlink(String code) {
 
 		String reqURL = "https://kapi.kakao.com/v1/user/unlink";
 		
@@ -165,7 +165,7 @@ public class KakaoLoginServiceImpl implements KakaoLoginService {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return "logoutSuccess";
 	}
 }

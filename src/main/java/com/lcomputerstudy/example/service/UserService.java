@@ -19,5 +19,9 @@ public interface UserService extends UserDetailsService {
 	public void createAuthority(User user);
 
 	public UserInfo readUser_refresh(String username);
+
+	public void deleteUser(String username);
+
+	public void deleteAuthority(String username);
 	
 }

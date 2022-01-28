@@ -64,4 +64,18 @@ public class UserServiceImpl implements UserService {
 		return usermapper.readUser_refresh(username);
 	}
 
+
+	@Override
+	public void deleteUser(String username) {
+		usermapper.deleteUser(username);
+		
+	}
+
+
+	@Override
+	public void deleteAuthority(String username) {
+		usermapper.deleteAuthority(username);
+		
+	}
+
 }

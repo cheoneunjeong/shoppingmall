@@ -12,5 +12,18 @@
 		insert into kakao_user (k_name, k_email)
 					values (#{nickname}, #{email})
 	</insert>
+	
+	<update id="insertAccessToken" parameterType="java.util.HashMap">
+		UPDATE kakao_user SET access_token = #{access_token}
+		WHERE k_email = #{email}
+	</update>
+	
+	<select id="getAccessToken" parameterType="String" resultType="String">
+		select access_token from kakao_user where k_email = #{username}
+	</select>
+	
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM kakao_user WHERE k_email = #{username}
+	</delete>
 
 </mapper>

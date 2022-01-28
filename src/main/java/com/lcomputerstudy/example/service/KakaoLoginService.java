@@ -8,6 +8,6 @@ public interface KakaoLoginService {
 
 	public KakaoUser getUserInfo(String access_Token);
 
-	String kakaoLogout(String code);
+	String kakaoUnlink(String code);
 
 }

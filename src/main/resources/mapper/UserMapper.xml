@@ -74,5 +74,12 @@
 					) tb ON ta.u_id = tb.u_id
 		WHERE		ta.u_id = #{username}
 	</select>
+	
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM user WHERE u_id = #{username}
+	</delete>
 
+	<delete id="deleteAuthority" parameterType="String">
+		DELETE FROM u_auth WHERE u_id = #{username}
+	</delete>
 </mapper>

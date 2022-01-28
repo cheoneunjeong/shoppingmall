@@ -25,4 +25,8 @@ public interface UserMapper {
 
 	UserInfo readUser_refresh(String username);
 
+	void deleteUser(String username);
+
+	void deleteAuthority(String username);
+
 }
