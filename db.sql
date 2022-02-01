@@ -19,16 +19,22 @@ USE `project`;
 
 -- 테이블 project.category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `category` (
-  `code` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `count` int(11) DEFAULT NULL,
-  `isSale` tinyint(4) NOT NULL DEFAULT 1,
+  `code` int(255) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `isSale` tinyint(4) NOT NULL,
+  `groups` int(11) DEFAULT NULL,
+  `orders` int(11) DEFAULT NULL,
+  `depth` int(11) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.category:~0 rows (대략적) 내보내기
-DELETE FROM `category`;
+-- 테이블 데이터 project.category:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` (`code`, `name`, `stock`, `isSale`, `groups`, `orders`, `depth`) VALUES
+	(1, 'test', 1111, 1, 1, 1, NULL),
+	(110, 'test2', 2222, 1, 1, 3, 1),
+	(120, 'test3', 333, 1, 1, 2, 1);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- 테이블 project.kakao_user 구조 내보내기
@@ -41,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
-DELETE FROM `kakao_user`;
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
 INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`, `access_token`) VALUES
 	(15, '천은정', 'cjsdmswjd010@naver.com', 'SdgxqF-C50rx-3Dn3w6EDImY-ubonoGtzWacNworDNQAAAF-o32rYA');
@@ -63,7 +68,6 @@ CREATE TABLE IF NOT EXISTS `spring_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session`;
 /*!40000 ALTER TABLE `spring_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session` ENABLE KEYS */;
 
@@ -77,7 +81,6 @@ CREATE TABLE IF NOT EXISTS `spring_session_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session_attributes:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session_attributes`;
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
 
@@ -96,7 +99,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.user:~2 rows (대략적) 내보내기
-DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`) VALUES
 	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 1, 1, 1, 'kakao'),
@@ -111,7 +113,6 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.u_auth:~2 rows (대략적) 내보내기
-DELETE FROM `u_auth`;
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
 INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
 	('cjsdmswjd010@naver.com', 'ROLE_USER'),

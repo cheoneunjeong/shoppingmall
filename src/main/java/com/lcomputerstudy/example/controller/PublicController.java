@@ -1,7 +1,5 @@
 package com.lcomputerstudy.example.controller;
 
-
-import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +36,6 @@ import com.lcomputerstudy.example.mapper.KakaoMapper;
 import com.lcomputerstudy.example.request.JoinRequest;
 import com.lcomputerstudy.example.request.LoginRequest;
 import com.lcomputerstudy.example.response.JwtResponse;
-import com.lcomputerstudy.example.response.KakaoLoginResponse;
 import com.lcomputerstudy.example.service.KakaoLoginService;
 import com.lcomputerstudy.example.service.UserService;
 
