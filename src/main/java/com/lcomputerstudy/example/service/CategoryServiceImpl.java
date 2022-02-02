@@ -33,4 +33,10 @@ public class CategoryServiceImpl implements CategoryService {
 		
 	}
 
+	@Override
+	public void editCategory(Category category) {
+		categoryMapper.editCategory(category);
+		
+	}
+
 }

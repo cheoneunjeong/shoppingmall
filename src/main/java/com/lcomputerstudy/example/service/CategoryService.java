@@ -12,4 +12,6 @@ public interface CategoryService {
 
 	void insertchildCategory(Category category);
 
+	void editCategory(Category category);
+
 }

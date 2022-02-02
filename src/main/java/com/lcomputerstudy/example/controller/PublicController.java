@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -199,6 +200,56 @@ public class PublicController {
 				.map(item -> item.getAuthority()).collect(Collectors.toList());
 		
 		return ResponseEntity.ok(new JwtResponse(token, username, user.getName(), roles, user.getOauth()));
+	}
+	
+	@PostMapping("/roleAdmin")
+	public ResponseEntity<?> addRoleAdmin(HttpServletRequest request, @Validated @RequestBody UserInfo user_) {
+		String token = new String();
+		token = request.getHeader("Authorization");
+
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		
+		User u = userservice.readUser(user_.getUsername());
+		
+		u.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN"));
+		userservice.createAuthority(u);
+		
+		List<String> roles = userservice.getAuthorities(u.getUsername()).stream()
+								.map(item -> item.getAuthority())
+								.collect(Collectors.toList());
+		
+		UserInfo user = userservice.readUser_refresh(user_.getUsername());
+		user.setToken(token);
+		user.setRoles(roles);
+		
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/roleAdmin")
+	public ResponseEntity<?> deleteRoleAdmin(HttpServletRequest request, @Validated UserInfo user_) {
+		String token = new String();
+		token = request.getHeader("Authorization");
+
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		
+		User u = userservice.readUser(user_.getUsername());
+		
+		u.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
+		userservice.deleteRoleAdmin(u.getUsername());
+		
+		List<String> roles= userservice.getAuthorities(u.getUsername()).stream()
+				.map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+		
+		UserInfo user = userservice.readUser_refresh(user_.getUsername());
+		user.setToken(token);
+		user.setRoles(roles);
+		
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
 }

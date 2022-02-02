@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,6 @@ public class AdminController {
 	}
 	
 	@PostMapping("category")
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> createCategory(@Validated @RequestBody Category category) {
 		
 		categoryService.insertCategory(category);
@@ -50,14 +50,22 @@ public class AdminController {
 	}
 	
 	@PostMapping("childCategory")
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ResponseEntity<?> createchildCategory(@Validated @RequestBody Category category) {
-		System.out.println(category.getGroups());
-		System.out.println(category.getOrders());
+	public ResponseEntity<?> createChildCategory(@Validated @RequestBody Category category) {
+
 		categoryService.insertchildCategory(category);
 		
 		List<Category> list = categoryService.getCategories();
 
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@PostMapping("edit-Category")
+	public ResponseEntity<?> updateChildCategory(@Validated @RequestBody Category category) {
+		
+		categoryService.editCategory(category);
+		
+		List<Category> list = categoryService.getCategories();
+		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	

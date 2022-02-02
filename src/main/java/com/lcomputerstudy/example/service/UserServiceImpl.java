@@ -78,4 +78,11 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public void deleteRoleAdmin(String username) {
+		usermapper.deleteRoleAdmin(username);
+		
+	}
+
 }

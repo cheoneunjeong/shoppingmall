@@ -40,7 +40,7 @@
 						depth
 		) VALUES (
 						#{code},
-						#{name},
+						(select CONCAT(t.name,'/',#{name})FROM (SELECT * FROM category WHERE orders = #{orders}) t),
 						#{stock},
 						#{isSale},
 						#{groups},
@@ -56,6 +56,14 @@
 				 (not code =  #{code} )
 					&amp;&amp; (not orders &lt; #{orders}+1) 
 					&amp;&amp; (groups = #{groups})
+	</update>
+	
+	<update id="editCategory" parameterType="Category">
+  	 	UPDATE 				category
+  	 	SET 				name	=	#{name},
+  	 						stock	=	#{stock},
+  	 						isSale	=	#{isSale}			
+		WHERE 			CODE = #{code}
 	</update>
 	
 

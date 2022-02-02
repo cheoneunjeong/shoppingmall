@@ -16,4 +16,6 @@ public interface CategoryMapper {
 	void insertchildCategory(Category category);
 
 	void insertchildCategory2(Category category);
+
+	void editCategory(Category category);
 }

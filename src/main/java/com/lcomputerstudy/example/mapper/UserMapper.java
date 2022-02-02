@@ -29,4 +29,6 @@ public interface UserMapper {
 
 	void deleteAuthority(String username);
 
+	void deleteRoleAdmin(String username);
+
 }

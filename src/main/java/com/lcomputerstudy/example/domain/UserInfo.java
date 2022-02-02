@@ -13,6 +13,7 @@ public class UserInfo {
 	private String oauth;
 	private Collection<? extends GrantedAuthority> authorities;
 	private List<String> roles;
+	private String token;
 	
 	public String getUsername() {
 		return username;
@@ -49,6 +50,12 @@ public class UserInfo {
 	}
 	public void setOauth(String oauth) {
 		this.oauth = oauth;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

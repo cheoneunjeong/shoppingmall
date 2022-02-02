@@ -82,4 +82,10 @@
 	<delete id="deleteAuthority" parameterType="String">
 		DELETE FROM u_auth WHERE u_id = #{username}
 	</delete>
+	
+	<delete id="deleteRoleAdmin" parameterType="String">
+		DELETE 
+ 		FROM 		u_auth 
+ 		WHERE 		u_auth = 'ROLE_ADMIN' &amp;&amp; u_id = #{username}
+	</delete>
 </mapper>

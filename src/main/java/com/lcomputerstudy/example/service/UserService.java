@@ -23,5 +23,7 @@ public interface UserService extends UserDetailsService {
 	public void deleteUser(String username);
 
 	public void deleteAuthority(String username);
+
+	public void deleteRoleAdmin(String username);
 	
 }

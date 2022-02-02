@@ -29,12 +29,14 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.category:~3 rows (대략적) 내보내기
+-- 테이블 데이터 project.category:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`code`, `name`, `stock`, `isSale`, `groups`, `orders`, `depth`) VALUES
-	(1, 'test', 1111, 1, 1, 1, NULL),
-	(110, 'test2', 2222, 1, 1, 3, 1),
-	(120, 'test3', 333, 1, 1, 2, 1);
+	(1, 'test', 111, 1, 1, 1, NULL),
+	(110, 'test/2', 222, 1, 1, 3, 1),
+	(120, 'test/ㅋㅋ', 555, 1, 1, 2, 1),
+	(11010, 'test/2/33', 333, 1, 1, 4, 2),
+	(1101010, 'test/2/33/-44', 456, 1, 1, 5, 3);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- 테이블 project.kakao_user 구조 내보내기
@@ -49,8 +51,26 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
 INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`, `access_token`) VALUES
-	(15, '천은정', 'cjsdmswjd010@naver.com', 'SdgxqF-C50rx-3Dn3w6EDImY-ubonoGtzWacNworDNQAAAF-o32rYA');
+	(15, '천은정', 'cjsdmswjd010@naver.com', 'EG3C9etxJPLnpS3dxLQ8ek8vvPcUNaE3lDCbHAo9c04AAAF-ulkezg');
 /*!40000 ALTER TABLE `kakao_user` ENABLE KEYS */;
+
+-- 테이블 project.product 구조 내보내기
+CREATE TABLE IF NOT EXISTS `product` (
+  `p_code` int(100) NOT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `isSale` tinyint(4) DEFAULT NULL,
+  `hit` int(11) DEFAULT NULL,
+  PRIMARY KEY (`p_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- 테이블 데이터 project.product:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- 테이블 project.spring_session 구조 내보내기
 CREATE TABLE IF NOT EXISTS `spring_session` (
@@ -112,10 +132,12 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
   PRIMARY KEY (`u_id`,`u_auth`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.u_auth:~2 rows (대략적) 내보내기
+-- 테이블 데이터 project.u_auth:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
 INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
+	('cjsdmswjd010@naver.com', 'ROLE_ADMIN'),
 	('cjsdmswjd010@naver.com', 'ROLE_USER'),
+	('zz', 'ROLE_ADMIN'),
 	('zz', 'ROLE_USER');
 /*!40000 ALTER TABLE `u_auth` ENABLE KEYS */;
 
