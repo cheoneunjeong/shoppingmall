@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcomputerstudy.example.mapper.ProductMapper">
+
+	<insert id="createProduct" parameterType="Product">
+		INSERT INTO product (
+							code,
+							category,
+							name,
+							descr,
+							type,
+							isSale,
+							detail_desc,
+							material,
+							size,
+							manufacturer,
+							caution,
+							price,
+							point_t,
+							stock,
+							ship
+			) VALUES (
+							#{code},
+							#{category_s},
+							#{name},
+							#{desc},
+							#{type_s},
+							#{isSale},
+							#{detail_desc},
+							#{material},
+							#{size},
+							#{manufacturer},
+							#{caution},
+							#{price},
+							#{point},
+							#{stock},
+							#{shipping}
+			)
+	</insert>
+	
+	<insert id="insertOptions" parameterType="map">
+		INSERT INTO p_options (
+							p_code,
+							option,
+							option_details
+			) VALUES (
+							#{code},
+							#{o},
+							#{od}
+			)
+	</insert>
+
+</mapper>

@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lcomputerstudy.example.domain.Category;
+import com.lcomputerstudy.example.domain.Option;
+import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.service.CategoryService;
+import com.lcomputerstudy.example.service.ProductService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -29,6 +32,9 @@ public class AdminController {
 	
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	ProductService productService;
 	
 	@GetMapping("category")
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -67,6 +73,46 @@ public class AdminController {
 		List<Category> list = categoryService.getCategories();
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@PostMapping("CreateProduct")
+	public ResponseEntity<?> createProduct(@Validated @RequestBody Product product) {
+
+		System.out.println(product.isSale());
+		System.out.println(product.getDesc());
+		
+		List<String> list = product.getCategory();
+		StringBuilder category = new StringBuilder();
+		for(String s : list) {
+			category.append(s);
+			category.append(",");
+		}
+		if (category.toString().contains(",")) {
+			int p = category.toString().lastIndexOf(",");
+			category.deleteCharAt(p);
+		}
+		product.setCategory_s(category.toString());
+			
+		List<String> list2 = product.getType();
+		StringBuilder type = new StringBuilder();
+		for(String t : list2) {
+			type.append(t);
+			type.append(",");
+		}
+		if (type.toString().contains(",")) {
+			int p2 = type.toString().lastIndexOf(",");
+			category.deleteCharAt(p2);
+		}
+		product.setType_s(type.toString());
+		
+		List<Option> list3 = product.getOptions();
+		for(Option option : list3) {
+			productService.insertOptions(option, product.getCode());
+		}
+	
+		productService.createProduct(product);
+		
+		return null;
 	}
 	
 	
