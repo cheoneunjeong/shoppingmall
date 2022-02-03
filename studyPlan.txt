@@ -1,3 +1,9 @@
+분류리스트가져오기
+상품코드 자동생성
+
+
+
+
 -분류코드 추가(간단히 만들고 세부내용 이미지 이런거까지 해야하는건지 질문해보기)
 
 -상품관리메뉴만들기
@@ -30,6 +36,7 @@ erd생성-> https://xively.tistory.com/38
 	serialVersionUID
 	Map, Hashmap, 람다식 좀 더 공부
 @autowrited/@Bean차이
+아스키코드 byte
 
 
 restful?
