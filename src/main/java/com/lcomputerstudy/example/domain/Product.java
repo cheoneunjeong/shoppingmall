@@ -19,10 +19,10 @@ public class Product {
 	private String point;
 	private int stock;
 	private String shipping;
-	private List<String> files;
 	private List<Option> options;
 	private String category_s;
 	private String type_s;
+	private String filesname;
 	
 	
 	public int getCode() {
@@ -115,12 +115,6 @@ public class Product {
 	public void setShipping(String shipping) {
 		this.shipping = shipping;
 	}
-	public List<String> getFiles() {
-		return files;
-	}
-	public void setFiles(List<String> files) {
-		this.files = files;
-	}
 	public List<Option> getOptions() {
 		return options;
 	}
@@ -138,6 +132,12 @@ public class Product {
 	}
 	public void setType_s(String type_s) {
 		this.type_s = type_s;
+	}
+	public String getFilesname() {
+		return filesname;
+	}
+	public void setFilesname(String filesname) {
+		this.filesname = filesname;
 	}
 	
 }

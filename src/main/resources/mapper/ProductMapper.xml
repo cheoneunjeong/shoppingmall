@@ -40,6 +40,12 @@
 			)
 	</insert>
 	
+	<update id="insertfilesname" parameterType="map" >
+	
+		UPDATE product SET files = #{filesname} WHERE CODE = #{code}
+		
+	</update>
+	
 	<insert id="insertOptions" parameterType="map">
 		INSERT INTO p_options (
 							p_code,
@@ -51,5 +57,25 @@
 							#{od}
 			)
 	</insert>
+	
+	<select id="getProductList" resultType="Product">
+		SELECT   	code,
+					name,
+					descr,
+					isSale,
+					detail_desc,
+					material,
+					size,
+					manufacturer,
+					caution,
+					price,
+					point_t AS point,
+					stock,
+					ship AS shipping,
+					files AS filesname,
+					type AS type_s,
+					category AS category_s
+		FROM product
+	</select>
 
 </mapper>

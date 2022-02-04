@@ -1,7 +1,10 @@
 package com.lcomputerstudy.example.controller;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,10 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.Option;
@@ -75,11 +81,8 @@ public class AdminController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	@PostMapping("CreateProduct")
+	@PostMapping("product")
 	public ResponseEntity<?> createProduct(@Validated @RequestBody Product product) {
-
-		System.out.println(product.isSale());
-		System.out.println(product.getDesc());
 		
 		List<String> list = product.getCategory();
 		StringBuilder category = new StringBuilder();
@@ -109,10 +112,57 @@ public class AdminController {
 		for(Option option : list3) {
 			productService.insertOptions(option, product.getCode());
 		}
-	
-		productService.createProduct(product);
+//	
+//		productService.createProduct(product);
+//		
+//		List<Product> result = productService.getProductList();
 		
-		return null;
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/product-files", method=RequestMethod.POST)
+	public ResponseEntity<?> createProductFiles(@RequestParam("file") List<MultipartFile> multipartFiles,
+												@RequestParam("code") String code) {
+		
+		String path = System.getProperty("user.home")+"\\shoppingmall_vue\\src\\assets\\";
+		System.out.println(path);
+		StringBuilder builder = new StringBuilder();
+		
+		for(MultipartFile file : multipartFiles) {
+			if(!file.isEmpty()) {
+				String filename = file.getOriginalFilename();
+				builder.append(filename);
+				builder.append(",");
+				
+				File f = new File(path+filename);
+				
+				try {
+					InputStream input = file.getInputStream();
+					FileUtils.copyInputStreamToFile(input, f);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if(builder.toString().contains(",")) {
+			int p = builder.toString().lastIndexOf(",");
+			builder.deleteCharAt(p);
+		}
+		
+//		productService.insertfilesname(builder.toString(), code);	
+//		
+//		List<Product> result = productService.getProductList();
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
+	@GetMapping("product")
+	public ResponseEntity<?> getProductList() {
+		
+		List<Product> result = productService.getProductList();
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	

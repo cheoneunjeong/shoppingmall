@@ -1,5 +1,7 @@
 package com.lcomputerstudy.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,18 @@ public class ProductServiceImpl implements ProductService {
 		String od = option.getOp_detail();
 		productmapper.insertOptions(o, od, code);
 		
+	}
+
+	@Override
+	public void insertfilesname(String filesname, String code) {
+		productmapper.insertfilesname(filesname, code);
+		
+	}
+
+	@Override
+	public List<Product> getProductList() {
+		// TODO Auto-generated method stub
+		return productmapper.getProductList();
 	}
 
 }
