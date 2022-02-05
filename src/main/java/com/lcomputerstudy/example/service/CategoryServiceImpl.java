@@ -39,4 +39,10 @@ public class CategoryServiceImpl implements CategoryService {
 		
 	}
 
+	@Override
+	public void deleteCategory(int code) {
+		categoryMapper.deleteCategory(code);
+		
+	}
+
 }

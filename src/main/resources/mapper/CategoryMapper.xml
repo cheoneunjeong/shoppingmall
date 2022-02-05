@@ -66,5 +66,9 @@
 		WHERE 			CODE = #{code}
 	</update>
 	
+	<delete id="deleteCategory" parameterType="Integer">
+		DELETE FROM category WHERE code = #{code}
+	</delete>
+	
 
 </mapper>

@@ -10,11 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,7 +93,8 @@ public class AdminController {
 			category.deleteCharAt(p);
 		}
 		product.setCategory_s(category.toString());
-			
+
+		
 		List<String> list2 = product.getType();
 		StringBuilder type = new StringBuilder();
 		for(String t : list2) {
@@ -104,18 +103,16 @@ public class AdminController {
 		}
 		if (type.toString().contains(",")) {
 			int p2 = type.toString().lastIndexOf(",");
-			category.deleteCharAt(p2);
+			type.deleteCharAt(p2);
 		}
 		product.setType_s(type.toString());
+		
+		productService.createProduct(product);
 		
 		List<Option> list3 = product.getOptions();
 		for(Option option : list3) {
 			productService.insertOptions(option, product.getCode());
 		}
-//	
-//		productService.createProduct(product);
-//		
-//		List<Product> result = productService.getProductList();
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
@@ -125,7 +122,6 @@ public class AdminController {
 												@RequestParam("code") String code) {
 		
 		String path = System.getProperty("user.home")+"\\shoppingmall_vue\\src\\assets\\";
-		System.out.println(path);
 		StringBuilder builder = new StringBuilder();
 		
 		for(MultipartFile file : multipartFiles) {
@@ -149,11 +145,10 @@ public class AdminController {
 			int p = builder.toString().lastIndexOf(",");
 			builder.deleteCharAt(p);
 		}
-		
-//		productService.insertfilesname(builder.toString(), code);	
-//		
-//		List<Product> result = productService.getProductList();
-		
+		System.out.println("ÆÄÀÏ1¹ø¤Š = "+multipartFiles.get(0).getOriginalFilename());
+		productService.insertMainPhoto(multipartFiles.get(0).getOriginalFilename(), code);
+		productService.insertfilesname(builder.toString(), code);	
+
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
@@ -163,6 +158,24 @@ public class AdminController {
 		List<Product> result = productService.getProductList();
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PostMapping("delete-product")
+	public ResponseEntity<?> deleteProduct(@Validated @RequestBody List<Integer> codeList) {
+		for(int code : codeList) {
+			productService.deleteProduct(code);
+		}
+		
+		return null;
+	}
+	
+	@PostMapping("delete-category")
+	public ResponseEntity<?> deleteCategory(@Validated @RequestBody List<Integer> codeList) {
+		for(int code : codeList) {
+			categoryService.deleteCategory(code);
+		}
+		
+		return null;
 	}
 	
 	

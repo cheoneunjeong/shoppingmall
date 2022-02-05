@@ -46,6 +46,12 @@
 		
 	</update>
 	
+	<update id="insertMainPhoto" parameterType="map" >
+	
+		UPDATE product SET mainPhoto = #{mainPhoto} WHERE CODE = #{code}
+		
+	</update>
+	
 	<insert id="insertOptions" parameterType="map">
 		INSERT INTO p_options (
 							p_code,
@@ -74,8 +80,13 @@
 					ship AS shipping,
 					files AS filesname,
 					type AS type_s,
-					category AS category_s
+					category AS category_s,
+					mainPhoto
 		FROM product
 	</select>
+	
+	<delete id="deleteProduct" parameterType="Integer">
+		DELETE FROM product WHERE code = #{code}
+	</delete>
 
 </mapper>

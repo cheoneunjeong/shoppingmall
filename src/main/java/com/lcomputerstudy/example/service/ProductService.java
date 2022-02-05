@@ -15,4 +15,8 @@ public interface ProductService {
 
 	List<Product> getProductList();
 
+	void insertMainPhoto(String string, String code);
+
+	void deleteProduct(int code);
+
 }

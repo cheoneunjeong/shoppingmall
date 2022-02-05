@@ -41,4 +41,16 @@ public class ProductServiceImpl implements ProductService {
 		return productmapper.getProductList();
 	}
 
+	@Override
+	public void insertMainPhoto(String mainPhoto, String code) {
+		productmapper.insertMainPhoto(mainPhoto, code);
+		
+	}
+
+	@Override
+	public void deleteProduct(int code) {
+		productmapper.deleteProduct(code);
+		
+	}
+
 }

@@ -23,6 +23,7 @@ public class Product {
 	private String category_s;
 	private String type_s;
 	private String filesname;
+	private String mainPhoto;
 	
 	
 	public int getCode() {
@@ -139,5 +140,12 @@ public class Product {
 	public void setFilesname(String filesname) {
 		this.filesname = filesname;
 	}
+	public String getMainPhoto() {
+		return mainPhoto;
+	}
+	public void setMainPhoto(String mainPhoto) {
+		this.mainPhoto = mainPhoto;
+	}
+	
 	
 }

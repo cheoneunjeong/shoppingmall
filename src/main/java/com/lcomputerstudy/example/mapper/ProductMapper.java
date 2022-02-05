@@ -19,4 +19,8 @@ public interface ProductMapper {
 
 	List<Product> getProductList();
 
+	void insertMainPhoto(@Param("mainPhoto")String mainPhoto, @Param("code")String code);
+
+	void deleteProduct(int code);
+
 }

@@ -14,4 +14,6 @@ public interface CategoryService {
 
 	void editCategory(Category category);
 
+	void deleteCategory(int code);
+
 }
