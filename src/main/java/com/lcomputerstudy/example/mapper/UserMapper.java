@@ -31,4 +31,8 @@ public interface UserMapper {
 
 	void deleteRoleAdmin(String username);
 
+	List<UserInfo> getUserList();
+
+	void updateAuth(User u);
+
 }

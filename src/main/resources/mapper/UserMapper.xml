@@ -35,7 +35,10 @@
 						isAccountNonLocked,
 						isCredentialsNonExpired,
 						isEnabled,
-						oauth
+						oauth,
+						auth,
+						phone,
+						address
 				) values (
 						#{username},
 						#{password},
@@ -44,7 +47,10 @@
 						#{isAccountNonLocked},
 						#{isCredentialsNonExpired},
 						#{isEnabled},
-						#{oauth}
+						#{oauth},
+						#{auth},
+						#{phone},
+						#{address}
 				)
 	</insert>
 	
@@ -88,4 +94,21 @@
  		FROM 		u_auth 
  		WHERE 		u_auth = 'ROLE_ADMIN' &amp;&amp; u_id = #{username}
 	</delete>
+	
+	<select id="getUserList" resultType="UserInfo">
+		SELECT u_id as username,
+					name,
+					datetime,
+					oauth,
+					address,
+					phone,
+					point,
+					auth
+		from user
+	</select>
+	<update id="updateAuth" parameterType="User">
+		UPDATE 				user
+  	 	SET 				auth = #{auth}	
+		WHERE 			u_id = #{username}
+	</update>
 </mapper>

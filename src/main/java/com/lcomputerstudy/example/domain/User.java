@@ -19,13 +19,17 @@ public class User implements UserDetails {
 	private Boolean isCredentialsNonExpired;
 	private Boolean isEnabled;
 	private String oauth;
+	private String auth;
+	private String phone;
+	private String address;
 
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", name=" + name + ", datetime=" + datetime
 				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
 				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-				+ ", isEnabled=" + isEnabled + ", oauth=" + oauth + "]";
+				+ ", isEnabled=" + isEnabled + ", oauth=" + oauth + ", auth=" + auth + ", phone=" + phone + ", address="
+				+ address + "]";
 	}
 	public String getName() {
 		return name;
@@ -110,6 +114,23 @@ public class User implements UserDetails {
 	public void setOauth(String oauth) {
 		this.oauth = oauth;
 	}
-	
+	public String getAuth() {
+		return auth;
+	}
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 }

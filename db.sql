@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   CONSTRAINT `category_ibfk_1` FOREIGN KEY (`groups`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.category:~0 rows (대략적) 내보내기
+-- 테이블 데이터 project.category:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`code`, `name`, `stock`, `isSale`, `groups`, `orders`, `depth`) VALUES
 	(1, '1번', 100, 1, 1, 1, NULL),
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`mainCategory`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.product:~0 rows (대략적) 내보내기
+-- 테이블 데이터 project.product:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`code`, `category`, `name`, `descr`, `type`, `isSale`, `detail_desc`, `material`, `size`, `manufacturer`, `caution`, `price`, `point_t`, `stock`, `ship`, `files`, `mainPhoto`, `mainCategory`) VALUES
 	(1, '1번(1)', 'ss', 'sss', 'hit,recom,new,best', 0, 'ssss', 's', 's', 's', 's', 10000000, '구매가기준 설정비율', 0, '무료배송', 'dd.jpg,jj.jpg', 'dd.jpg', 1),
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `p_options` (
   CONSTRAINT `p_options_ibfk_1` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.p_options:~0 rows (대략적) 내보내기
+-- 테이블 데이터 project.p_options:~8 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `p_options` DISABLE KEYS */;
 INSERT INTO `p_options` (`num`, `p_code`, `option`, `option_details`) VALUES
 	(73, 1, 'ss', 'sss'),
@@ -152,20 +152,25 @@ CREATE TABLE IF NOT EXISTS `user` (
   `u_id` varchar(100) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
-  `datetime` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `datetime` timestamp NULL DEFAULT current_timestamp(),
   `isAccountNonExpired` tinyint(4) DEFAULT NULL,
   `isAccountNonLocked` tinyint(4) DEFAULT NULL,
   `isCredentialsNonExpired` tinyint(4) DEFAULT NULL,
   `isEnabled` tinyint(4) DEFAULT NULL,
   `oauth` varchar(50) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `point` int(255) NOT NULL DEFAULT 0,
+  `auth` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`u_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.user:~2 rows (대략적) 내보내기
+-- 테이블 데이터 project.user:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`) VALUES
-	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 1, 1, 1, 'kakao'),
-	('zz', '$2a$10$JSSKVJGkwx/g5q2deVEbeeNztil6xpC6u43T3rllDCjPcg.kj57H2', 'zz', '2022-01-28 10:27:34', 1, 1, 1, 1, NULL);
+INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`, `address`, `phone`, `point`, `auth`) VALUES
+	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', '에이', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, '에이네집', '01033332220', 0, 'ADMIN'),
+	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 1, 1, 1, 'kakao', NULL, NULL, 0, NULL),
+	('zz', '$2a$10$JSSKVJGkwx/g5q2deVEbeeNztil6xpC6u43T3rllDCjPcg.kj57H2', 'zz', '2022-01-28 10:27:34', 1, 1, 1, 1, NULL, NULL, NULL, 0, NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- 테이블 project.u_auth 구조 내보내기
@@ -175,11 +180,14 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
   PRIMARY KEY (`u_id`,`u_auth`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.u_auth:~4 rows (대략적) 내보내기
+-- 테이블 데이터 project.u_auth:~5 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
 INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
+	('aa', 'ROLE_ADMIN'),
+	('aa', 'ROLE_USER'),
 	('cjsdmswjd010@naver.com', 'ROLE_ADMIN'),
 	('cjsdmswjd010@naver.com', 'ROLE_USER'),
+	('vv', 'ROLE_USER'),
 	('zz', 'ROLE_ADMIN'),
 	('zz', 'ROLE_USER');
 /*!40000 ALTER TABLE `u_auth` ENABLE KEYS */;

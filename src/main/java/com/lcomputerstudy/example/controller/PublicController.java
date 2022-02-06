@@ -82,7 +82,10 @@ public class PublicController {
 		user.setIsCredentialsNonExpired(true);
 		user.setIsEnabled(true);
 		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
-		
+		user.setAuth("USER");
+		user.setPhone(joinUser.getPhone());
+		user.setAddress(joinUser.getAddress());
+	
 		userservice.createUser(user);
 		userservice.createAuthority(user);
 		
@@ -135,6 +138,7 @@ public class PublicController {
 			newUser.setIsEnabled(true);
 			newUser.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
 			newUser.setOauth("kakao");
+			newUser.setAuth("USER");
 			
 			userservice.createUser(newUser);
 			userservice.createAuthority(newUser);
@@ -215,6 +219,8 @@ public class PublicController {
 		
 		u.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN"));
 		userservice.createAuthority(u);
+		u.setAuth("ADMIN");
+		userservice.updateAuth(u);
 		
 		List<String> roles = userservice.getAuthorities(u.getUsername()).stream()
 								.map(item -> item.getAuthority())
@@ -240,6 +246,8 @@ public class PublicController {
 		
 		u.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
 		userservice.deleteRoleAdmin(u.getUsername());
+		u.setAuth("USER");
+		userservice.updateAuth(u);
 		
 		List<String> roles= userservice.getAuthorities(u.getUsername()).stream()
 				.map(item -> item.getAuthority())

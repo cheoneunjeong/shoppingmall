@@ -14,6 +14,11 @@ public class UserInfo {
 	private Collection<? extends GrantedAuthority> authorities;
 	private List<String> roles;
 	private String token;
+	private String address;
+	private String phone;
+	private int point;
+	private String auth;
+	private String datetime;
 	
 	public String getUsername() {
 		return username;
@@ -57,5 +62,37 @@ public class UserInfo {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	public String getAuth() {
+		return auth;
+	}
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
+	public String getDatetime() {
+		return datetime;
+	}
+	public void setDatetime(String datetime) {
+		this.datetime = datetime;
+	}
+	
+	
 }

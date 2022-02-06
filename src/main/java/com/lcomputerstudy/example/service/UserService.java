@@ -1,5 +1,6 @@
 package com.lcomputerstudy.example.service;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,5 +26,9 @@ public interface UserService extends UserDetailsService {
 	public void deleteAuthority(String username);
 
 	public void deleteRoleAdmin(String username);
+
+	public List<UserInfo> getUserList();
+
+	public void updateAuth(User u);
 	
 }

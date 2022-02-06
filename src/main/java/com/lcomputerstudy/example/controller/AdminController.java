@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -28,8 +29,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.Option;
 import com.lcomputerstudy.example.domain.Product;
+import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.service.CategoryService;
 import com.lcomputerstudy.example.service.ProductService;
+import com.lcomputerstudy.example.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -43,6 +46,9 @@ public class AdminController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	UserService userService;
 	
 	@GetMapping("category")
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -223,5 +229,12 @@ public class AdminController {
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
+	@GetMapping("userlist")
+	public ResponseEntity<?> getUserList() {
+		
+		List<UserInfo> list = userService.getUserList();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
 }

@@ -85,4 +85,18 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public List<UserInfo> getUserList() {
+		// TODO Auto-generated method stub
+		return usermapper.getUserList();
+	}
+
+
+	@Override
+	public void updateAuth(User u) {
+		usermapper.updateAuth(u);
+		
+	}
+
 }
