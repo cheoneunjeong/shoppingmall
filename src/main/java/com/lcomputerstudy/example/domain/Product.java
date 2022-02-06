@@ -2,12 +2,15 @@ package com.lcomputerstudy.example.domain;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Product {
 
 	private int code;
-	private List<String> category;
+	//private List<String> category;
+	private String category;
 	private String name;
-	private String desc;
+	private String descr;
 	private List<String> type;
 	private boolean isSale;
 	private String detail_desc;
@@ -20,22 +23,22 @@ public class Product {
 	private int stock;
 	private String shipping;
 	private List<Option> options;
-	private String category_s;
 	private String type_s;
 	private String filesname;
 	private String mainPhoto;
-	
-	
+	private List<MultipartFile> file_list;
+	private String mainCategory;
+
 	public int getCode() {
 		return code;
 	}
 	public void setCode(int code) {
 		this.code = code;
 	}
-	public List<String> getCategory() {
+	public String getCategory() {
 		return category;
 	}
-	public void setCategory(List<String> category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 	public String getName() {
@@ -44,11 +47,11 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDesc() {
-		return desc;
+	public String getDescr() {
+		return descr;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 	public List<String> getType() {
 		return type;
@@ -122,12 +125,6 @@ public class Product {
 	public void setOptions(List<Option> options) {
 		this.options = options;
 	}
-	public String getCategory_s() {
-		return category_s;
-	}
-	public void setCategory_s(String category_s) {
-		this.category_s = category_s;
-	}
 	public String getType_s() {
 		return type_s;
 	}
@@ -146,6 +143,18 @@ public class Product {
 	public void setMainPhoto(String mainPhoto) {
 		this.mainPhoto = mainPhoto;
 	}
-	
+	public List<MultipartFile> getFile_list() {
+		return file_list;
+	}
+	public void setFile_list(List<MultipartFile> file_list) {
+		this.file_list = file_list;
+	}
+	public String getMainCategory() {
+		return mainCategory;
+	}
+	public void setMainCategory(String mainCategory) {
+		this.mainCategory = mainCategory;
+	}
+
 	
 }

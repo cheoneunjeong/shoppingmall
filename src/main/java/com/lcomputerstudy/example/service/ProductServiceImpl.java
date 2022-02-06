@@ -53,4 +53,30 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public Product getProductDetails(int code) {
+		// TODO Auto-generated method stub
+		return productmapper.getProductDetails(code);
+	}
+
+	@Override
+	public List<Option> getOptions(int code) {
+		// TODO Auto-generated method stub
+		return productmapper.getOptions(code);
+	}
+
+	@Override
+	public void editProduct(Product product) {
+		productmapper.editProduct(product);
+		
+	}
+
+	@Override
+	public void editOptions(Option option, int num) {
+		String o = option.getOption();
+		String od = option.getOp_detail();
+		productmapper.editOptions(o, od, num);
+		
+	}
+
 }

@@ -20,22 +20,26 @@ USE `project`;
 -- 테이블 project.category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `category` (
   `code` int(255) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
   `stock` int(11) DEFAULT NULL,
   `isSale` tinyint(4) NOT NULL,
   `groups` int(11) DEFAULT NULL,
   `orders` int(11) DEFAULT NULL,
   `depth` int(11) DEFAULT NULL,
-  PRIMARY KEY (`code`)
+  PRIMARY KEY (`code`),
+  KEY `category_ibfk_1` (`groups`),
+  CONSTRAINT `category_ibfk_1` FOREIGN KEY (`groups`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.category:~5 rows (대략적) 내보내기
-DELETE FROM `category`;
+-- 테이블 데이터 project.category:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`code`, `name`, `stock`, `isSale`, `groups`, `orders`, `depth`) VALUES
-	(1, 'test', 111, 1, 1, 1, NULL),
-	(110, 'test/2', 222, 0, 1, 3, 1),
-	(120, 'test/ㅋㅋ', 555, 1, 1, 2, 1);
+	(1, '1번', 100, 1, 1, 1, NULL),
+	(2, '2번', 100, 1, 2, 1, NULL),
+	(3, '3번', 100, 1, 3, 1, NULL),
+	(110, '1번/1-1번', 100, 1, 1, 2, 1),
+	(210, '2번/2-1', 100, 1, 2, 2, 1),
+	(21010, '2번/2-1/21-1', 100, 1, 2, 3, 2);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- 테이블 project.kakao_user 구조 내보내기
@@ -48,7 +52,6 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
-DELETE FROM `kakao_user`;
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
 INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`, `access_token`) VALUES
 	(15, '천은정', 'cjsdmswjd010@naver.com', 'EG3C9etxJPLnpS3dxLQ8ek8vvPcUNaE3lDCbHAo9c04AAAF-ulkezg');
@@ -73,12 +76,19 @@ CREATE TABLE IF NOT EXISTS `product` (
   `ship` varchar(50) DEFAULT NULL,
   `files` varchar(50) DEFAULT NULL,
   `mainPhoto` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`code`)
+  `mainCategory` int(255) NOT NULL,
+  PRIMARY KEY (`code`),
+  KEY `product_ibfk_1` (`mainCategory`),
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`mainCategory`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.product:~1 rows (대략적) 내보내기
-DELETE FROM `product`;
+-- 테이블 데이터 project.product:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` (`code`, `category`, `name`, `descr`, `type`, `isSale`, `detail_desc`, `material`, `size`, `manufacturer`, `caution`, `price`, `point_t`, `stock`, `ship`, `files`, `mainPhoto`, `mainCategory`) VALUES
+	(1, '1번(1)', 'ss', 'sss', 'hit,recom,new,best', 0, 'ssss', 's', 's', 's', 's', 10000000, '구매가기준 설정비율', 0, '무료배송', 'dd.jpg,jj.jpg', 'dd.jpg', 1),
+	(2, '2번/2-1/21-1(21010)', 'aa', 'aa', 'recom', 0, 'aa', '상세페이지 참고a', '상세페이지 참고a', '상세페이지 참고a', '상세페이지 참고a', 20, '구매가기준 설정비율', 20, '무료배송', 'dd.jpg', 'dd.jpg', 21010),
+	(3, '1번(1)', '', '', 'hit,new,disc,recom,best', 0, '', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 0, '', 0, '', '풍경사진.jpg', '풍경사진.jpg', 1),
+	(4, '1번(1)', '', '', 'hit,new,disc,recom,best', 0, '', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 0, '', 0, '', '풍경.jpg', '풍경.jpg', 1);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- 테이블 project.p_options 구조 내보내기
@@ -90,11 +100,19 @@ CREATE TABLE IF NOT EXISTS `p_options` (
   PRIMARY KEY (`num`),
   KEY `p_options_ibfk_1` (`p_code`),
   CONSTRAINT `p_options_ibfk_1` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.p_options:~2 rows (대략적) 내보내기
-DELETE FROM `p_options`;
+-- 테이블 데이터 project.p_options:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `p_options` DISABLE KEYS */;
+INSERT INTO `p_options` (`num`, `p_code`, `option`, `option_details`) VALUES
+	(73, 1, 'ss', 'sss'),
+	(74, 1, 's1s1', 's11'),
+	(75, 2, 'a', 'aa'),
+	(76, 2, 'a1', 'aa11'),
+	(77, 3, NULL, NULL),
+	(78, 3, NULL, NULL),
+	(79, 4, NULL, NULL),
+	(80, 4, NULL, NULL);
 /*!40000 ALTER TABLE `p_options` ENABLE KEYS */;
 
 -- 테이블 project.spring_session 구조 내보내기
@@ -113,7 +131,6 @@ CREATE TABLE IF NOT EXISTS `spring_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session`;
 /*!40000 ALTER TABLE `spring_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session` ENABLE KEYS */;
 
@@ -127,7 +144,6 @@ CREATE TABLE IF NOT EXISTS `spring_session_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session_attributes:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session_attributes`;
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
 
@@ -146,7 +162,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.user:~2 rows (대략적) 내보내기
-DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`) VALUES
 	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 1, 1, 1, 'kakao'),
@@ -161,7 +176,6 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.u_auth:~4 rows (대략적) 내보내기
-DELETE FROM `u_auth`;
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
 INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
 	('cjsdmswjd010@naver.com', 'ROLE_ADMIN'),

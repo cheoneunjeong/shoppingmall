@@ -23,4 +23,12 @@ public interface ProductMapper {
 
 	void deleteProduct(int code);
 
+	Product getProductDetails(int code);
+
+	List<Option> getOptions(int code);
+
+	void editProduct(Product product);
+
+	void editOptions(@Param("o")String o,@Param("od") String od,@Param("num") int num);
+
 }

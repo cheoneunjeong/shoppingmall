@@ -19,4 +19,12 @@ public interface ProductService {
 
 	void deleteProduct(int code);
 
+	Product getProductDetails(int code);
+
+	List<Option> getOptions(int code);
+
+	void editProduct(Product product);
+
+	void editOptions(Option option, int num);
+
 }

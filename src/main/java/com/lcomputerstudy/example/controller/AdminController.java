@@ -1,7 +1,10 @@
 package com.lcomputerstudy.example.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -14,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -82,18 +86,10 @@ public class AdminController {
 	@PostMapping("product")
 	public ResponseEntity<?> createProduct(@Validated @RequestBody Product product) {
 		
-		List<String> list = product.getCategory();
-		StringBuilder category = new StringBuilder();
-		for(String s : list) {
-			category.append(s);
-			category.append(",");
-		}
-		if (category.toString().contains(",")) {
-			int p = category.toString().lastIndexOf(",");
-			category.deleteCharAt(p);
-		}
-		product.setCategory_s(category.toString());
-
+		String category = product.getCategory();
+		int point = category.indexOf("(");
+		String mainCategory = category.substring(point+1, category.length()-1);
+		product.setMainCategory(mainCategory);
 		
 		List<String> list2 = product.getType();
 		StringBuilder type = new StringBuilder();
@@ -145,7 +141,7 @@ public class AdminController {
 			int p = builder.toString().lastIndexOf(",");
 			builder.deleteCharAt(p);
 		}
-		System.out.println("ÆÄÀÏ1¹ø¤Š = "+multipartFiles.get(0).getOriginalFilename());
+
 		productService.insertMainPhoto(multipartFiles.get(0).getOriginalFilename(), code);
 		productService.insertfilesname(builder.toString(), code);	
 
@@ -166,7 +162,7 @@ public class AdminController {
 			productService.deleteProduct(code);
 		}
 		
-		return null;
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PostMapping("delete-category")
@@ -175,7 +171,56 @@ public class AdminController {
 			categoryService.deleteCategory(code);
 		}
 		
-		return null;
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("product-details")
+	public ResponseEntity<?> getProductDetails(@Validated int code) throws IOException {
+		
+		Product product = productService.getProductDetails(code);
+
+		String type = product.getType_s();
+		if(type.contains(",")) {
+			product.setType(Arrays.asList(type.split(",")));
+		} else {
+			List<String> list = Arrays.asList(type);
+			product.setType(list);
+		}
+
+		List<Option> options = productService.getOptions(code);
+		product.setOptions(options);
+
+		return new ResponseEntity<>(product, HttpStatus.OK);
+	}
+	
+	@PutMapping("product")
+	public ResponseEntity<?> editProductDetails(@Validated @RequestBody Product product) {
+		
+		String category = product.getCategory();
+		int point = category.indexOf("(");
+		String mainCategory = category.substring(point+1, category.length()-1);
+		product.setMainCategory(mainCategory);
+
+		List<String> list2 = product.getType();
+		StringBuilder type = new StringBuilder();
+		for(String t : list2) {
+			type.append(t);
+			type.append(",");
+		}
+		if (type.toString().contains(",")) {
+			int p2 = type.toString().lastIndexOf(",");
+			type.deleteCharAt(p2);
+		}
+		product.setType_s(type.toString());
+		
+		productService.editProduct(product);
+		
+		List<Option> list3 = product.getOptions();
+		for(Option option : list3) {	
+			productService.editOptions(option, option.getNum());
+		}
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
 	
