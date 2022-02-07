@@ -44,4 +44,6 @@ public interface UserMapper {
 
 	void updateUnblockUser(String username);
 
+	void updateUserInfo(UserInfo user);
+
 }

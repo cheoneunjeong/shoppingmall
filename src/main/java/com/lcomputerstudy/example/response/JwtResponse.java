@@ -2,21 +2,19 @@ package com.lcomputerstudy.example.response;
 
 import java.util.List;
 
+import com.lcomputerstudy.example.domain.UserInfo;
+
 public class JwtResponse {
 
 	private String token;
-	private String username;
-	private String name;
 	private List<String> roles;
-	private String oauth;
 	private String type = "Bearer";
+	private UserInfo user;
 	
-	public JwtResponse(String jwt, String id, String name, List<String> u_roles, String oauth) {
+	public JwtResponse(String jwt, List<String>u_roles, UserInfo user) {
 		this.token = jwt;
-		this.username = id;
-		this.name = name;
 		this.roles = u_roles;
-		this.oauth = oauth;
+		this.user = user;	
 	}
 
 	public String getToken() {
@@ -27,32 +25,16 @@ public class JwtResponse {
 		this.token = token;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public List<String> getRoles() {
 		return roles;
 	}
-
-	public String getOauth() {
-		return oauth;
+	
+	public UserInfo getUser() {
+		return user;
 	}
 
-	public void setOauth(String oauth) {
-		this.oauth = oauth;
+	public void setUser(UserInfo user) {
+		this.user = user;
 	}
 
 	public void setRoles(List<String> roles) {

@@ -38,5 +38,7 @@ public interface UserService extends UserDetailsService {
 	public void updateBlockUser(String username);
 
 	public void updateUnblockUser(String username);
+
+	public void updateUserInfo(UserInfo user);
 	
 }

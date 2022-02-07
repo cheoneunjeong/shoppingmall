@@ -14,6 +14,7 @@ public class UserInfo {
 	private Collection<? extends GrantedAuthority> authorities;
 	private List<String> roles;
 	private String token;
+	private int postcode;
 	private String address;
 	private String phone;
 	private int point;
@@ -99,6 +100,12 @@ public class UserInfo {
 	}
 	public void setReject(boolean reject) {
 		this.reject = reject;
+	}
+	public int getPostcode() {
+		return postcode;
+	}
+	public void setPostcode(int postcode) {
+		this.postcode = postcode;
 	}
 	
 	

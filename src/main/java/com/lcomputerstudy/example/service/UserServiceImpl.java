@@ -126,4 +126,11 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public void updateUserInfo(UserInfo user) {
+		usermapper.updateUserInfo(user);
+		
+	}
+
 }

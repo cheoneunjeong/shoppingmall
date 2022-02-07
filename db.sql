@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.5.8-MariaDB - mariadb.org binary distribution
+-- 서버 버전:                        10.6.4-MariaDB - mariadb.org binary distribution
 -- 서버 OS:                        Win64
--- HeidiSQL 버전:                  11.0.0.5919
+-- HeidiSQL 버전:                  11.3.0.6295
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,6 +10,7 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- project 데이터베이스 구조 내보내기
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`code`),
   KEY `category_ibfk_1` (`groups`),
   CONSTRAINT `category_ibfk_1` FOREIGN KEY (`groups`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.category:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
   `k_email` varchar(50) NOT NULL,
   `access_token` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`k_number`,`k_email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
@@ -66,14 +67,11 @@ CREATE TABLE IF NOT EXISTS `pointlist` (
   `total` int(100) DEFAULT NULL,
   PRIMARY KEY (`num`),
   KEY `id` (`id`),
-  CONSTRAINT `pointlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `pointlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.pointlist:~0 rows (대략적) 내보내기
+-- 테이블 데이터 project.pointlist:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `pointlist` DISABLE KEYS */;
-INSERT INTO `pointlist` (`num`, `id`, `contents`, `point`, `datetime`, `total`) VALUES
-	(1, 'zz', 'test', '100', '2022-02-07 10:32:50', 100),
-	(2, 'zz', 'testtt', '100', '2022-02-07 10:34:04', 200);
 /*!40000 ALTER TABLE `pointlist` ENABLE KEYS */;
 
 -- 테이블 project.product 구조 내보내기
@@ -99,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`code`),
   KEY `product_ibfk_1` (`mainCategory`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`mainCategory`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.product:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
@@ -119,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `p_options` (
   PRIMARY KEY (`num`),
   KEY `p_options_ibfk_1` (`p_code`),
   CONSTRAINT `p_options_ibfk_1` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.p_options:~8 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `p_options` DISABLE KEYS */;
@@ -177,19 +175,20 @@ CREATE TABLE IF NOT EXISTS `user` (
   `isCredentialsNonExpired` tinyint(4) DEFAULT NULL,
   `isEnabled` tinyint(4) DEFAULT NULL,
   `oauth` varchar(50) DEFAULT NULL,
+  `postcode` int(11) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `point` int(255) NOT NULL DEFAULT 0,
   `auth` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`u_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.user:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`, `address`, `phone`, `point`, `auth`) VALUES
-	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', '에이', '2022-02-06 23:50:34', 1, 0, 1, 1, NULL, '에이네집', '01033332220', 0, 'ADMIN'),
-	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 1, 1, 1, 'kakao', NULL, NULL, 0, NULL),
-	('zz', '$2a$10$JSSKVJGkwx/g5q2deVEbeeNztil6xpC6u43T3rllDCjPcg.kj57H2', 'zz', '2022-01-28 10:27:34', 1, 1, 1, 1, NULL, NULL, NULL, 200, NULL);
+INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`, `postcode`, `address`, `phone`, `point`, `auth`) VALUES
+	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', 'AAA', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, 42923, '대구 달성군 다사읍 서재리 202 경신그린빌 102', '01044445555', 0, 'ADMIN'),
+	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 1, 1, 1, 'kakao', NULL, NULL, NULL, 0, NULL),
+	('zz', '$2a$10$HkU6fIv6rGhsv649s4zDwelshW2wtodh0qxi.7V.EofPSVFIFZs0m', 'zz', '2022-02-07 21:47:01', 1, 1, 1, 1, NULL, NULL, NULL, '111111111', 0, 'ADMIN');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- 테이블 project.u_auth 구조 내보내기
@@ -197,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
   `u_id` varchar(50) NOT NULL,
   `u_auth` varchar(50) NOT NULL,
   PRIMARY KEY (`u_id`,`u_auth`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.u_auth:~7 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
@@ -206,11 +205,11 @@ INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
 	('aa', 'ROLE_USER'),
 	('cjsdmswjd010@naver.com', 'ROLE_ADMIN'),
 	('cjsdmswjd010@naver.com', 'ROLE_USER'),
-	('vv', 'ROLE_USER'),
 	('zz', 'ROLE_ADMIN'),
 	('zz', 'ROLE_USER');
 /*!40000 ALTER TABLE `u_auth` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

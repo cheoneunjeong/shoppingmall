@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,8 +111,9 @@ public class PublicController {
 		List<String> roles = user.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-
-		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles, user.getOauth()));
+		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
+				
+		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
 	}
 	
 	@GetMapping("/kakaologin")
@@ -158,10 +160,9 @@ public class PublicController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		System.out.println("jwt:" +jwt);
-		System.out.println("username :" +user.getUsername());
-	
-		return ResponseEntity.ok(new JwtResponse(jwt, user.getUsername(), user.getName(), roles, user.getOauth()));
+		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
+		
+		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
 	}
 	
 	@GetMapping("/kakaoUnlink")
@@ -203,7 +204,7 @@ public class PublicController {
 		List<String> roles = userservice.getAuthorities(username).stream()
 				.map(item -> item.getAuthority()).collect(Collectors.toList());
 		
-		return ResponseEntity.ok(new JwtResponse(token, username, user.getName(), roles, user.getOauth()));
+		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
 	
 	@PostMapping("/roleAdmin")
@@ -227,10 +228,8 @@ public class PublicController {
 								.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
-		user.setToken(token);
-		user.setRoles(roles);
 		
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
 	
 	@DeleteMapping("/roleAdmin")
@@ -254,10 +253,26 @@ public class PublicController {
 				.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
-		user.setToken(token);
-		user.setRoles(roles);
 		
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
+	
+	@PutMapping("user")
+	public ResponseEntity<?> updateUserInfo(@Validated @RequestBody UserInfo user) {
+	
+		userservice.updateUserInfo(user);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping("user")
+	public ResponseEntity<?> deleteUser(@Validated String username) {
+		
+		userservice.deleteUser(username);
+		userservice.deleteAuthority(username);
+		
+		return null;
+	}
+	
 	
 }

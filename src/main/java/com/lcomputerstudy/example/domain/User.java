@@ -22,6 +22,8 @@ public class User implements UserDetails {
 	private String auth;
 	private String phone;
 	private String address;
+	private int postcode;
+
 
 	@Override
 	public String toString() {
@@ -29,7 +31,7 @@ public class User implements UserDetails {
 				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
 				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
 				+ ", isEnabled=" + isEnabled + ", oauth=" + oauth + ", auth=" + auth + ", phone=" + phone + ", address="
-				+ address + "]";
+				+ address + ", postcode=" + postcode + "]";
 	}
 	public String getName() {
 		return name;
@@ -132,5 +134,12 @@ public class User implements UserDetails {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public int getPostcode() {
+		return postcode;
+	}
+	public void setPostcode(int postcode) {
+		this.postcode = postcode;
+	}
 
+	
 }

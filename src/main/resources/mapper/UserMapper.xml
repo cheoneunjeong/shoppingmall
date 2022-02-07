@@ -70,7 +70,13 @@
 		SELECT			ta.u_id username,
 						ta.name,
 						ta.oauth,
-						tb.u_auth auth
+						tb.u_auth authList,
+						DATETIME,
+						address,
+						phone,
+						POINT,
+						auth,
+						isAccountNonLocked as reject
 		FROM			user ta
 		LEFT JOIN (
 					SELECT		ta.u_id,
@@ -134,6 +140,15 @@
 	<update id="updateUnblockUser" parameterType="String">
 		UPDATE 				user
   	 	SET 				isAccountNonLocked = true
+		WHERE 				u_id = #{username}
+	</update>
+	
+	<update id="updateUserInfo" parameterType="UserInfo">
+		UPDATE 				user
+  	 	SET 				name = #{name},
+  	 						postcode = #{postcode},
+  	 						address = #{address},
+  	 						phone = #{phone} 
 		WHERE 				u_id = #{username}
 	</update>
 </mapper>
