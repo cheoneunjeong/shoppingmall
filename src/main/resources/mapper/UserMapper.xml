@@ -103,12 +103,37 @@
 					address,
 					phone,
 					point,
-					auth
+					auth,
+					isAccountNonLocked as reject
 		from user
 	</select>
 	<update id="updateAuth" parameterType="User">
 		UPDATE 				user
   	 	SET 				auth = #{auth}	
 		WHERE 			u_id = #{username}
+	</update>
+	
+	<update id="givePoint" parameterType="map">
+		UPDATE 				user
+  	 	SET 				point = point + #{point}
+		WHERE 				u_id = #{id}
+	</update>
+	
+	<select id="getTotal_point" resultType="Integer">
+		SELECT point
+		FROM user
+		WHERE u_id = #{id}
+	</select>
+	
+	<update id="updateBlockUser" parameterType="String">
+		UPDATE 				user
+  	 	SET 				isAccountNonLocked = false
+		WHERE 				u_id = #{username}
+	</update>
+	
+	<update id="updateUnblockUser" parameterType="String">
+		UPDATE 				user
+  	 	SET 				isAccountNonLocked = true
+		WHERE 				u_id = #{username}
 	</update>
 </mapper>

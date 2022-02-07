@@ -6,7 +6,6 @@ import java.io.InputStream;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -17,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.Option;
+import com.lcomputerstudy.example.domain.Point;
 import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.service.CategoryService;
+import com.lcomputerstudy.example.service.PointService;
 import com.lcomputerstudy.example.service.ProductService;
 import com.lcomputerstudy.example.service.UserService;
 
@@ -49,6 +51,9 @@ public class AdminController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	PointService pointService;
 	
 	@GetMapping("category")
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -235,6 +240,44 @@ public class AdminController {
 		List<UserInfo> list = userService.getUserList();
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@PostMapping("point")
+	public ResponseEntity<?> givePoint(@Validated @RequestBody Point point_) {
+
+		String point = point_.getPoint();
+		String id = point_.getId();
+		userService.givePoint(id, point);
+
+		int totalP = userService.getTotal_point(id);
+		point_.setTotal(totalP);
+		pointService.insertPoint(point_);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("point")
+	public ResponseEntity<?> getPointList() {
+		
+		List<Point> list = pointService.getPointList();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@PutMapping("block-user")
+	public ResponseEntity<?> blockUser(@Validated @RequestBody UserInfo user) {
+		
+		userService.updateBlockUser(user.getUsername());
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PutMapping("unblock-user")
+	public ResponseEntity<?> unblockUser(@Validated @RequestBody UserInfo user) {
+		
+		userService.updateUnblockUser(user.getUsername());
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

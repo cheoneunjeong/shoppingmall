@@ -30,5 +30,13 @@ public interface UserService extends UserDetailsService {
 	public List<UserInfo> getUserList();
 
 	public void updateAuth(User u);
+
+	public void givePoint(String id, String point);
+
+	public int getTotal_point(String id);
+
+	public void updateBlockUser(String username);
+
+	public void updateUnblockUser(String username);
 	
 }

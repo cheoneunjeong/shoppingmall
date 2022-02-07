@@ -19,6 +19,7 @@ public class UserInfo {
 	private int point;
 	private String auth;
 	private String datetime;
+	private boolean reject;
 	
 	public String getUsername() {
 		return username;
@@ -93,6 +94,13 @@ public class UserInfo {
 	public void setDatetime(String datetime) {
 		this.datetime = datetime;
 	}
+	public boolean isReject() {
+		return reject;
+	}
+	public void setReject(boolean reject) {
+		this.reject = reject;
+	}
+	
 	
 	
 }

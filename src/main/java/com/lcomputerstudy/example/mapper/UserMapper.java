@@ -3,6 +3,7 @@ package com.lcomputerstudy.example.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.lcomputerstudy.example.domain.User;
@@ -34,5 +35,13 @@ public interface UserMapper {
 	List<UserInfo> getUserList();
 
 	void updateAuth(User u);
+
+	void givePoint(@Param("id") String id, @Param("point")String point);
+
+	int getTotal_point(String id);
+
+	void updateBlockUser(String username);
+
+	void updateUnblockUser(String username);
 
 }

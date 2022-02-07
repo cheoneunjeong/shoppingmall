@@ -99,4 +99,31 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public void givePoint(String id, String point) {
+		usermapper.givePoint(id, point);
+		
+	}
+
+
+	@Override
+	public int getTotal_point(String id) {
+		// TODO Auto-generated method stub
+		return usermapper.getTotal_point(id);
+	}
+
+
+	@Override
+	public void updateBlockUser(String username) {
+		usermapper.updateBlockUser(username);
+	}
+
+
+	@Override
+	public void updateUnblockUser(String username) {
+		usermapper.updateUnblockUser(username);
+		
+	}
+
 }
