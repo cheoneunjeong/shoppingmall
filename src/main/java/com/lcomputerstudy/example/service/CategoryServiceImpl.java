@@ -45,4 +45,10 @@ public class CategoryServiceImpl implements CategoryService {
 		
 	}
 
+	@Override
+	public List<Category> getMenu() {
+		// TODO Auto-generated method stub
+		return categoryMapper.getMenu();
+	}
+
 }

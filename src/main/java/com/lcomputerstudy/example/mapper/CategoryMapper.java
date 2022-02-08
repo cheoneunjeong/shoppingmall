@@ -20,4 +20,6 @@ public interface CategoryMapper {
 	void editCategory(Category category);
 
 	void deleteCategory(int code);
+
+	List<Category> getMenu();
 }

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lcomputerstudy.example.config.JwtUtils;
+import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.KakaoUser;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
@@ -38,6 +39,7 @@ import com.lcomputerstudy.example.mapper.KakaoMapper;
 import com.lcomputerstudy.example.request.JoinRequest;
 import com.lcomputerstudy.example.request.LoginRequest;
 import com.lcomputerstudy.example.response.JwtResponse;
+import com.lcomputerstudy.example.service.CategoryService;
 import com.lcomputerstudy.example.service.KakaoLoginService;
 import com.lcomputerstudy.example.service.UserService;
 
@@ -68,6 +70,9 @@ public class PublicController {
 	
 	@Autowired
 	private KakaoLoginService ks;
+	
+	@Autowired
+	CategoryService categoryService;
 	
 	@PostMapping("newUser")
 	public ResponseEntity<?> insertNewUser(@Validated @RequestBody JoinRequest joinUser) {
@@ -271,8 +276,15 @@ public class PublicController {
 		userservice.deleteUser(username);
 		userservice.deleteAuthority(username);
 		
-		return null;
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@GetMapping("menu")
+	public ResponseEntity<?> getMainPage_menu() {
+		
+		List<Category> list = categoryService.getMenu();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
 }

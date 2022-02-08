@@ -70,5 +70,9 @@
 		DELETE FROM category WHERE code = #{code}
 	</delete>
 	
+	<select id="getMenu" resultType="Category">
+		SELECT * FROM category WHERE orders = '1'
+	</select>
+	
 
 </mapper>

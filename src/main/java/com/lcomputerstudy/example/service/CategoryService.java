@@ -16,4 +16,6 @@ public interface CategoryService {
 
 	void deleteCategory(int code);
 
+	List<Category> getMenu();
+
 }
