@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lcomputerstudy.example.config.JwtUtils;
 import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.KakaoUser;
+import com.lcomputerstudy.example.domain.Option;
 import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
@@ -124,6 +125,8 @@ public class PublicController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
+		List<String> wishList = userservice.getWishList(user.getUsername());
+		userInfo.setWishList(wishList);
 				
 		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
 	}
@@ -173,6 +176,8 @@ public class PublicController {
 				.collect(Collectors.toList());
 
 		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
+		List<String> wishList = userservice.getWishList(user.getUsername());
+		userInfo.setWishList(wishList);
 		
 		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
 	}
@@ -216,6 +221,9 @@ public class PublicController {
 		List<String> roles = userservice.getAuthorities(username).stream()
 				.map(item -> item.getAuthority()).collect(Collectors.toList());
 		
+		List<String> wishList = userservice.getWishList(user.getUsername());
+		user.setWishList(wishList);
+		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
 	
@@ -240,6 +248,8 @@ public class PublicController {
 								.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
+		List<String> wishList = userservice.getWishList(user.getUsername());
+		user.setWishList(wishList);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
@@ -265,6 +275,8 @@ public class PublicController {
 				.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
+		List<String> wishList = userservice.getWishList(user.getUsername());
+		user.setWishList(wishList);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
@@ -313,32 +325,32 @@ public class PublicController {
 	public ResponseEntity<?> getProductDetails_shop(@Validated int code) {
 		
 		Product product = productService.getProductDetails(code);
-		//상품 파일네임 리스트로 나눠담아서 set
-		//타입 리스트로 나눠담아서 set
-		//현재 console에찍히는 product
-//			category: "TOP/sweater(120)"
-//			caution: "상세페이지 참고"
-//			code: 1
-//			descr: "출처 우신사"
-//			detail_desc: "출처 우신사스토어"
-//			file_list: null
-//			filesname: "sweater1.jpg,sweater1detail.jpg"
-//			mainCategory: null
-//			mainPhoto: "sweater1.jpg"
-//			manufacturer: "상세페이지 참고"
-//			material: "상세페이지 참고"
-//			name: "pinkSweater"
-//			options: null
-//			point: "판매가기준 설정비율"
-//			price: 50000
-//			sale: true
-//			shipping: "무료배송"
-//			size: "상세페이지 참고"
-//			stock: 10
-//			type: null
-//			type_s: "hit,new,disc,recom,best"
 		
-		return new ResponseEntity<>( HttpStatus.OK);
+		String t = product.getType_s();
+		if(t.contains(",")) {
+			product.setType(Arrays.asList(t.split(",")));
+		}else {
+			product.setType(Arrays.asList(t));
+		}
+
+		String files = product.getFilesname();
+		if(files.contains(",")) {
+			product.setFile_list(Arrays.asList(files.split(",")));
+		}else {
+			product.setFile_list(Arrays.asList(files));
+		}
+
+		List<Option> options = productService.getOptions(code);
+		product.setOptions(options);
+		
+		List<String> options_s = new ArrayList<String>();
+		for(Option option : options) {
+			options_s.add(option.getOption());
+		}
+		
+		product.setOptions_s(options_s);
+		
+		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 	
 }

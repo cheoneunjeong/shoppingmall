@@ -1,13 +1,70 @@
+category: "ACC(3)"
+caution: "상세페이지 참고"
+code: 2
+descr: "우신사스토어"
+detail_desc: "사진출처 우신사스토어"
+file_list: Array(2)
+0: "키링.jpg"
+1: "키링디테일.jpg"
+length: 2
+__ob__: Observer {value: Array(2), dep: Dep, vmCount: 0}
+[[Prototype]]: Array
+filesname: "키링.jpg,키링디테일.jpg"
+mainCategory: "3"
+mainPhoto: "키링.jpg"
+manufacturer: "상세페이지 참고"
+material: "상세페이지 참고"
+name: "래빗키링"
+options: Array(1)
+0:
+num: 83
+option: "옵션없음"
+p_code: 2
+__ob__: Observer {value: {…}, dep: Dep, vmCount: 0}
+get num: ƒ reactiveGetter()
+set num: ƒ reactiveSetter(newVal)
+get option: ƒ reactiveGetter()
+set option: ƒ reactiveSetter(newVal)
+get p_code: ƒ reactiveGetter()
+set p_code: ƒ reactiveSetter(newVal)
+[[Prototype]]: Object
+length: 1
+__ob__: Observer {value: Array(1), dep: Dep, vmCount: 0}
+[[Prototype]]: Array
+point: "구매가기준 설정비율"
+price: 20000
+sale: true
+shipping: "쇼핑몰 기본설정 사용"
+size: "상세페이지 참고"
+stock: 20
+type: Array(2)
+0: "hit"
+1: "new"
+length: 2
+__ob__: Observer {value: Array(2), dep: Dep, vmCount: 0}
+[[Prototype]]: Array
+type_s: "hit,new"
+
 ******쇼핑몰페이지****
--상품등록할때 옵션설정 설문조사처럼 누르면 옵션추가할수있도록 만들기
--상품등록때 메인사진, 상세페이지사진 나누기---뷰 state에 메인 디데일로 다 나눴음 컨트롤러랑 도메인, 디비 정리!!
-ㄴ그러고 상품 상세페이지 연달아서 완성
-리스트페이지 뷰완성
--상품디데일페이지만들기
+-위시클래스삭제
+-찜했을때 하트체크
+-장바구니....위시리스트로 그냥하자.. ->페이지만들기
+-상위재고 표시
+-구매 ->주문내역리스트 + 재고자동차감 -재고 0이면 자동으로 판매설정
+-별점(생략..?)
+-게시판(문의, 후기 등)
+-통계
+-상품 타입별 색다르게해서 표시
+
+
 
 ****나중에할거
 -주문내역리스트 만들어서 마이페이지에 뿌리기
 -사이드메뉴만들기
+
+
+***질문할거
+-상품삭제시 asstes사진삭제는??
 ------------------------------------------
 
 디비설계 

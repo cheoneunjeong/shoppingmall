@@ -59,12 +59,10 @@
 	<insert id="insertOptions" parameterType="map">
 		INSERT INTO p_options (
 							p_code,
-							option,
-							option_details
+							option
 			) VALUES (
 							#{code},
-							#{o},
-							#{od}
+							#{o}
 			)
 	</insert>
 	
@@ -110,7 +108,8 @@
 					files AS filesname,
 					type AS type_s,
 					category,
-					mainPhoto
+					mainPhoto, 
+					mainCategory
 		FROM product
 		WHERE CODE = #{code}
 	</select>
@@ -118,8 +117,7 @@
 	<select id="getOptions" parameterType="Integer" resultType="Option">
 		SELECT   	num,
 				p_code,
-				option,
-				option_details as op_detail
+				option
 		FROM p_options
 		WHERE p_code = #{code}
 	</select>
@@ -148,8 +146,7 @@
 	<update id="editOptions" parameterType="map">
 		UPDATE 				p_options
   	 	SET 				
-							option = #{o},
-							option_details = #{od}
+							option = #{o}
 		WHERE 
 				 num = #{num}
 	</update>

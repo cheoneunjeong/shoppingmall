@@ -24,8 +24,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void insertOptions(Option option, int code) {
 		String o = option.getOption();
-		String od = option.getOp_detail();
-		productmapper.insertOptions(o, od, code);
+		productmapper.insertOptions(o, code);
 		
 	}
 
@@ -74,8 +73,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void editOptions(Option option, int num) {
 		String o = option.getOption();
-		String od = option.getOp_detail();
-		productmapper.editOptions(o, od, num);
+		productmapper.editOptions(o, num);
 		
 	}
 

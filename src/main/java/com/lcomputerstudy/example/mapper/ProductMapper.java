@@ -13,7 +13,7 @@ public interface ProductMapper {
 
 	void createProduct(Product product);
 
-	void insertOptions(@Param("o")String o,@Param("od") String od,@Param("code") int code);
+	void insertOptions(@Param("o")String o,@Param("code") int code);
 
 	void insertfilesname(@Param("filesname")String filesname, @Param("code")String code);
 
@@ -29,7 +29,7 @@ public interface ProductMapper {
 
 	void editProduct(Product product);
 
-	void editOptions(@Param("o")String o,@Param("od") String od,@Param("num") int num);
+	void editOptions(@Param("o")String o,@Param("num") int num);
 
 	List<Product> getproductlist_shop(int code);
 

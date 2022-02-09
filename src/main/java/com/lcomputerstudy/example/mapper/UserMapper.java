@@ -46,4 +46,8 @@ public interface UserMapper {
 
 	void updateUserInfo(UserInfo user);
 
+	void insertWishList(@Param("s")String s, @Param("username")String username);
+
+	List<String> getWishList(String username);
+
 }

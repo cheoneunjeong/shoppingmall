@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class Product {
 
 	private int code;
-	//private List<String> category;
 	private String category;
 	private String name;
 	private String descr;
@@ -26,8 +25,9 @@ public class Product {
 	private String type_s;
 	private String filesname;
 	private String mainPhoto;
-	private List<MultipartFile> file_list;
 	private String mainCategory;
+	private List<String> file_list;
+	private List<String> options_s;
 
 	public int getCode() {
 		return code;
@@ -143,17 +143,23 @@ public class Product {
 	public void setMainPhoto(String mainPhoto) {
 		this.mainPhoto = mainPhoto;
 	}
-	public List<MultipartFile> getFile_list() {
-		return file_list;
-	}
-	public void setFile_list(List<MultipartFile> file_list) {
-		this.file_list = file_list;
-	}
 	public String getMainCategory() {
 		return mainCategory;
 	}
 	public void setMainCategory(String mainCategory) {
 		this.mainCategory = mainCategory;
+	}
+	public List<String> getFile_list() {
+		return file_list;
+	}
+	public void setFile_list(List<String> file_list) {
+		this.file_list = file_list;
+	}
+	public List<String> getOptions_s() {
+		return options_s;
+	}
+	public void setOptions_s(List<String> options_s) {
+		this.options_s = options_s;
 	}
 
 	

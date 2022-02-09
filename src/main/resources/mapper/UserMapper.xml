@@ -151,4 +151,14 @@
   	 						phone = #{phone} 
 		WHERE 				u_id = #{username}
 	</update>
+	
+	<insert id="insertWishList" parameterType="map">
+		INSERT INTO wishlist (wishitem, id) VALUES (#{s}, #{username})
+		ON DUPLICATE KEY
+					UPDATE id = #{username}
+	</insert>
+	
+	<select id="getWishList" parameterType="String" resultType="String">
+		SELECT wishitem FROM wishlist WHERE id = #{username}
+	</select>
 </mapper>

@@ -133,4 +133,18 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public void insertWishList(String s, String username) {
+		usermapper.insertWishList(s, username);
+		
+	}
+
+
+	@Override
+	public List<String> getWishList(String username) {
+		// TODO Auto-generated method stub
+		return usermapper.getWishList(username);
+	}
+
 }
