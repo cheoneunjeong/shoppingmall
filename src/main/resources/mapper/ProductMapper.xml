@@ -153,5 +153,9 @@
 		WHERE 
 				 num = #{num}
 	</update>
+	
+	<select id="getproductlist_shop" parameterType="Integer" resultType="Product">
+		SELECT * FROM product WHERE  mainCategory = #{code}
+	</select>
 
 </mapper>

@@ -22,4 +22,6 @@ public interface CategoryMapper {
 	void deleteCategory(int code);
 
 	List<Category> getMenu();
+
+	List<Integer> getCodes(int code);
 }

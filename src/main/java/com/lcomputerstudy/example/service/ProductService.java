@@ -27,4 +27,6 @@ public interface ProductService {
 
 	void editOptions(Option option, int num);
 
+	List<Product> getproductlist_shop(int code);
+
 }

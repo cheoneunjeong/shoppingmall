@@ -79,4 +79,10 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public List<Product> getproductlist_shop(int code) {
+		// TODO Auto-generated method stub
+		return productmapper.getproductlist_shop(code);
+	}
+
 }

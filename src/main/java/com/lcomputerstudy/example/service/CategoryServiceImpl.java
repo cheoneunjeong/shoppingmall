@@ -51,4 +51,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.getMenu();
 	}
 
+	@Override
+	public List<Integer> getCodes(int code) {
+		// TODO Auto-generated method stub
+		return categoryMapper.getCodes(code);
+	}
+
 }

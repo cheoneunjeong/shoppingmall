@@ -74,5 +74,8 @@
 		SELECT * FROM category WHERE orders = '1'
 	</select>
 	
+	<select id="getCodes" parameterType="Integer" resultType="Integer">
+		SELECT code FROM category WHERE groups = #{code}
+	</select>
 
 </mapper>

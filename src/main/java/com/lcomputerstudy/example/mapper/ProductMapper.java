@@ -31,4 +31,6 @@ public interface ProductMapper {
 
 	void editOptions(@Param("o")String o,@Param("od") String od,@Param("num") int num);
 
+	List<Product> getproductlist_shop(int code);
+
 }

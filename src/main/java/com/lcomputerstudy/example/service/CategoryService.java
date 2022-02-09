@@ -18,4 +18,6 @@ public interface CategoryService {
 
 	List<Category> getMenu();
 
+	List<Integer> getCodes(int code);
+
 }

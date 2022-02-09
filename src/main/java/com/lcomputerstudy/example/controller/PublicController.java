@@ -1,5 +1,7 @@
 package com.lcomputerstudy.example.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lcomputerstudy.example.config.JwtUtils;
 import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.KakaoUser;
+import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.mapper.KakaoMapper;
@@ -41,6 +44,7 @@ import com.lcomputerstudy.example.request.LoginRequest;
 import com.lcomputerstudy.example.response.JwtResponse;
 import com.lcomputerstudy.example.service.CategoryService;
 import com.lcomputerstudy.example.service.KakaoLoginService;
+import com.lcomputerstudy.example.service.ProductService;
 import com.lcomputerstudy.example.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -73,6 +77,9 @@ public class PublicController {
 	
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	ProductService productService;
 	
 	@PostMapping("newUser")
 	public ResponseEntity<?> insertNewUser(@Validated @RequestBody JoinRequest joinUser) {
@@ -280,11 +287,58 @@ public class PublicController {
 	}
 	
 	@GetMapping("menu")
-	public ResponseEntity<?> getMainPage_menu() {
+	public ResponseEntity<?> getShopMainPage_menu() {
 		
 		List<Category> list = categoryService.getMenu();
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("productlist-shop")
+	public ResponseEntity<?> getProductList_shop(@Validated  int code) {
+		
+		List<Integer> codes = categoryService.getCodes(code);
+		List<Product> list = new ArrayList<>();
+
+		for(int code_ : codes) {
+			List<Product> p = productService.getproductlist_shop(code_);
+			list.addAll(p);
+		}
+		
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("product-details-shop")
+	public ResponseEntity<?> getProductDetails_shop(@Validated int code) {
+		
+		Product product = productService.getProductDetails(code);
+		//상품 파일네임 리스트로 나눠담아서 set
+		//타입 리스트로 나눠담아서 set
+		//현재 console에찍히는 product
+//			category: "TOP/sweater(120)"
+//			caution: "상세페이지 참고"
+//			code: 1
+//			descr: "출처 우신사"
+//			detail_desc: "출처 우신사스토어"
+//			file_list: null
+//			filesname: "sweater1.jpg,sweater1detail.jpg"
+//			mainCategory: null
+//			mainPhoto: "sweater1.jpg"
+//			manufacturer: "상세페이지 참고"
+//			material: "상세페이지 참고"
+//			name: "pinkSweater"
+//			options: null
+//			point: "판매가기준 설정비율"
+//			price: 50000
+//			sale: true
+//			shipping: "무료배송"
+//			size: "상세페이지 참고"
+//			stock: 10
+//			type: null
+//			type_s: "hit,new,disc,recom,best"
+		
+		return new ResponseEntity<>( HttpStatus.OK);
 	}
 	
 }
