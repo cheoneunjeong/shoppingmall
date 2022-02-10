@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lcomputerstudy.example.config.JwtUtils;
+import com.lcomputerstudy.example.domain.Option;
 import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.UserInfo;
+import com.lcomputerstudy.example.request.OrderRequest;
 import com.lcomputerstudy.example.response.JwtResponse;
 import com.lcomputerstudy.example.response.WishListResponse;
 import com.lcomputerstudy.example.service.ProductService;
@@ -92,5 +94,16 @@ public class UserController {
 		}
 		
 		return ResponseEntity.ok(new WishListResponse(wishItems, list));
+	}
+	
+	@PostMapping("orderlist") 
+	public ResponseEntity<?> getOrderList(@Validated @RequestBody List<OrderRequest> request) {
+		
+		for(OrderRequest order : request) {
+			Product product = productService.getProductDetails(order.getCode());
+			order.setProduct(product);
+		}
+		
+		return new ResponseEntity<>(request, HttpStatus.OK);
 	}
 }
