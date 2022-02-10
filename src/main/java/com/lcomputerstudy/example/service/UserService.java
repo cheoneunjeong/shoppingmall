@@ -41,8 +41,10 @@ public interface UserService extends UserDetailsService {
 
 	public void updateUserInfo(UserInfo user);
 
-	public void insertWishList(String s, String username);
+	public void insertWishList(int s, String username);
 
-	public List<String> getWishList(String username);
+	public List<Integer> getWishList(String username);
+
+	public void deleteWishItem(int code, String username);
 	
 }

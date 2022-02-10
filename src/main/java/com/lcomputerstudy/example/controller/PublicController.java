@@ -125,7 +125,7 @@ public class PublicController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
-		List<String> wishList = userservice.getWishList(user.getUsername());
+		List<Integer> wishList = userservice.getWishList(user.getUsername());
 		userInfo.setWishList(wishList);
 				
 		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
@@ -176,7 +176,7 @@ public class PublicController {
 				.collect(Collectors.toList());
 
 		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
-		List<String> wishList = userservice.getWishList(user.getUsername());
+		List<Integer> wishList = userservice.getWishList(user.getUsername());
 		userInfo.setWishList(wishList);
 		
 		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
@@ -221,7 +221,7 @@ public class PublicController {
 		List<String> roles = userservice.getAuthorities(username).stream()
 				.map(item -> item.getAuthority()).collect(Collectors.toList());
 		
-		List<String> wishList = userservice.getWishList(user.getUsername());
+		List<Integer> wishList = userservice.getWishList(user.getUsername());
 		user.setWishList(wishList);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
@@ -248,7 +248,7 @@ public class PublicController {
 								.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
-		List<String> wishList = userservice.getWishList(user.getUsername());
+		List<Integer> wishList = userservice.getWishList(user.getUsername());
 		user.setWishList(wishList);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
@@ -275,7 +275,7 @@ public class PublicController {
 				.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
-		List<String> wishList = userservice.getWishList(user.getUsername());
+		List<Integer> wishList = userservice.getWishList(user.getUsername());
 		user.setWishList(wishList);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));

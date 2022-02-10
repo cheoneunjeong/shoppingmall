@@ -158,7 +158,11 @@
 					UPDATE id = #{username}
 	</insert>
 	
-	<select id="getWishList" parameterType="String" resultType="String">
+	<select id="getWishList" parameterType="String" resultType="Integer">
 		SELECT wishitem FROM wishlist WHERE id = #{username}
 	</select>
+	
+	<delete id="deleteWishItem" parameterType="map">
+		DELETE FROM wishlist WHERE wishitem = #{code} AND id = #{username}
+	</delete>
 </mapper>

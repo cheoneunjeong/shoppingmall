@@ -21,7 +21,7 @@ public class UserInfo {
 	private String auth;
 	private String datetime;
 	private boolean reject;
-	private List<String> wishList;
+	private List<Integer> wishList;
 	
 	public String getUsername() {
 		return username;
@@ -108,13 +108,12 @@ public class UserInfo {
 	public void setPostcode(int postcode) {
 		this.postcode = postcode;
 	}
-	public List<String> getWishList() {
+	public List<Integer> getWishList() {
 		return wishList;
 	}
-	public void setWishList(List<String> wishList) {
+	public void setWishList(List<Integer> wishList) {
 		this.wishList = wishList;
 	}
-	
-	
+
 	
 }
