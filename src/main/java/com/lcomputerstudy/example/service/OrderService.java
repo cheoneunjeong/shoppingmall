@@ -1,8 +1,11 @@
 package com.lcomputerstudy.example.service;
 
+import java.util.List;
+
 import com.lcomputerstudy.example.domain.OrderInfo;
 import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.ReceiverInfo;
+import com.lcomputerstudy.example.domain.UserInfo;
 
 public interface OrderService {
 
@@ -13,5 +16,15 @@ public interface OrderService {
 	void insertReceiverInfo(ReceiverInfo receiverInfo);
 
 	int getOrderCode();
+
+	void insertUserInfo_order(UserInfo userInfo);
+
+	List<OrderInfo> getOrderInfo(String id);
+
+	List<OrderRequest> getOrderDetails(int orderCode);
+
+	ReceiverInfo getReceiverInfo(int orderCode);
+
+	UserInfo getUserInfo(int orderCode);
 
 }

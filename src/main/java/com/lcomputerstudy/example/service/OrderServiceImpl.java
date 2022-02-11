@@ -1,11 +1,14 @@
 package com.lcomputerstudy.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lcomputerstudy.example.domain.OrderInfo;
 import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.ReceiverInfo;
+import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.mapper.OrderMapper;
 
 @Service
@@ -36,6 +39,37 @@ public class OrderServiceImpl implements OrderService {
 	public int getOrderCode() {
 		// TODO Auto-generated method stub
 		return orderMapper.getOrderCode();
+	}
+
+
+	@Override
+	public void insertUserInfo_order(UserInfo userInfo) {
+		orderMapper.insertUserInfo_order(userInfo);
+		
+	}
+
+	@Override
+	public List<OrderInfo> getOrderInfo(String id) {
+		// TODO Auto-generated method stub
+		return orderMapper.getOrderInfo(id);
+	}
+
+	@Override
+	public List<OrderRequest> getOrderDetails(int orderCode) {
+		// TODO Auto-generated method stub
+		return orderMapper.getOrderDetails(orderCode);
+	}
+
+	@Override
+	public ReceiverInfo getReceiverInfo(int orderCode) {
+		// TODO Auto-generated method stub
+		return orderMapper.getReceiverInfo(orderCode);
+	}
+
+	@Override
+	public UserInfo getUserInfo(int orderCode) {
+		// TODO Auto-generated method stub
+		return orderMapper.getUserInfo(orderCode);
 	}
 
 }

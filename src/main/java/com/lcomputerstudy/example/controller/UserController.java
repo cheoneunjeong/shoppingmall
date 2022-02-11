@@ -33,6 +33,7 @@ import com.lcomputerstudy.example.config.JwtUtils;
 import com.lcomputerstudy.example.domain.OrderInfo;
 import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.Product;
+import com.lcomputerstudy.example.domain.ReceiverInfo;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.response.WishListResponse;
 import com.lcomputerstudy.example.service.OrderService;
@@ -135,7 +136,7 @@ public class UserController {
 					+ "&total_amount="+total // 총 금액
 					+ "&vat_amount=200" // 부가세
 					+ "&tax_free_amount=0" // 상품 비과세 금액
-					+ "&approval_url=http://localhost:8080/shop/kakaopay-success" // 결제 성공 시
+					+ "&approval_url=http://localhost:8080/shop/mypage" // 결제 성공 시
 					+ "&fail_url=http://localhost:8080/shop/kakaopay-fail" // 결제 실패 시
 					+ "&cancel_url=http://localhost:8080/shop/kakaopay-fail"; // 결제 취소 시
 			OutputStream send = connection.getOutputStream(); // 이제 뭔가를 를 줄 수 있다.
@@ -174,9 +175,10 @@ public class UserController {
 		order.setState("주문확인중");
 		order.setUser(order.getUserInfo().getUsername());
 		orderService.insertOrderInfo(order);
-		if(order.getReceiverInfo() == null) {
+		if(order.getReceiverInfo().getAddress()==null) {
 			order.getReceiverInfo().setSame("주문자와 동일");
 		}
+		orderService.insertUserInfo_order(order.getUserInfo());
 		orderService.insertReceiverInfo(order.getReceiverInfo());
 		int code = orderService.getOrderCode();
 		
@@ -185,6 +187,28 @@ public class UserController {
 			orderService.insertOrderDetails(o);
 		}
 		
-		return null;
+		return new ResponseEntity<>(code, HttpStatus.OK);
+	}
+	
+	@GetMapping("order-success")
+	public ResponseEntity<?> getOrderSuccessList(@Validated String id) {
+		
+		List<OrderInfo> orders = orderService.getOrderInfo(id);
+		
+		for(OrderInfo order : orders) {
+			List<OrderRequest> orderDetails = orderService.getOrderDetails(order.getOrderCode());
+			for(OrderRequest request : orderDetails) {
+				Product p = productService.getProductDetails(request.getCode());
+				request.setProduct(p);
+			}
+			order.setProducts(orderDetails);
+			
+			ReceiverInfo receiverInfo = orderService.getReceiverInfo(order.getOrderCode());
+			order.setReceiverInfo(receiverInfo);
+			UserInfo user = orderService.getUserInfo(order.getOrderCode());
+			order.setUserInfo(user);
+		}
+
+		return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
 }

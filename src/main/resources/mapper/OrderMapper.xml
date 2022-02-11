@@ -42,8 +42,44 @@
 		WHERE orderCode = LAST_INSERT_ID()
 	</update>
 	
+	<update id="insertUserInfo_order" parameterType="UserInfo">
+		UPDATE orderinfo
+		SET		user_address = 	#{address},
+					user_phone = #{phone},
+					user_name = #{name}
+		WHERE orderCode = LAST_INSERT_ID()
+	</update>
+	
 	<select id="getOrderCode" resultType="Integer">
 		SELECT orderCode FROM orderinfo ORDER BY DATETIME DESC LIMIT 1
 	</select>
 	
+	<select id="getOrderInfo" parameterType="String" resultType="OrderInfo" >
+		SELECT * FROM orderinfo WHERE user = #{id}
+	</select>
+	
+	<select id="getOrderDetails" parameterType="Integer" resultType="OrderRequest" >
+		SELECT p_code AS code, order_num, count, option FROM order_details WHERE order_num = #{orderCode}
+	</select>
+	
+	<select id="getReceiverInfo" parameterType="Integer" resultType="ReceiverInfo" >
+		SELECT 						receiver_address AS address,
+									receiver_postcode,
+									receiver_name,
+									receiver_phone,
+									receiver_same AS same									
+		
+		FROM orderinfo 
+		WHERE orderCode = #{orderCode}
+	</select>
+	
+	<select id="getUserInfo" parameterType="Integer" resultType="UserInfo" >
+		SELECT 						user AS username,
+									user_name AS name,
+									user_phone AS phone,
+									user_address AS address									
+
+		FROM orderinfo 
+		WHERE orderCode = #{orderCode}
+	</select>
 </mapper>
