@@ -1,21 +1,28 @@
 package com.lcomputerstudy.example.domain;
 
+import java.util.List;
+
 public class OrderInfo {
 
 	private int orderCode;	
 	private String state;	
-	private String payment;	
-	private String price;	
-	private String username;	
-	private UserInfo user;	
-	private String datetime;	
-	private String receiver;
-	private String receiver_address;
-	private String receiver_phone;
-	private Product product;
+	private String payway;	
 	private int point;
-	private int count;
+	private List<OrderRequest> products;
+	private ReceiverInfo receiverInfo;
+	private int total;
+	private UserInfo userInfo;
+	private String datetime;
 	
+	private String user;
+
+	
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
 	public int getOrderCode() {
 		return orderCode;
 	}
@@ -28,59 +35,11 @@ public class OrderInfo {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getPayment() {
-		return payment;
+	public String getPayway() {
+		return payway;
 	}
-	public void setPayment(String payment) {
-		this.payment = payment;
-	}
-	public String getPrice() {
-		return price;
-	}
-	public void setPrice(String price) {
-		this.price = price;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public UserInfo getUser() {
-		return user;
-	}
-	public void setUser(UserInfo user) {
-		this.user = user;
-	}
-	public String getDatetime() {
-		return datetime;
-	}
-	public void setDatetime(String datetime) {
-		this.datetime = datetime;
-	}
-	public String getReceiver() {
-		return receiver;
-	}
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
-	}
-	public String getReceiver_address() {
-		return receiver_address;
-	}
-	public void setReceiver_address(String receiver_address) {
-		this.receiver_address = receiver_address;
-	}
-	public String getReceiver_phone() {
-		return receiver_phone;
-	}
-	public void setReceiver_phone(String receiver_phone) {
-		this.receiver_phone = receiver_phone;
-	}
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setPayway(String payway) {
+		this.payway = payway;
 	}
 	public int getPoint() {
 		return point;
@@ -88,13 +47,37 @@ public class OrderInfo {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	public int getCount() {
-		return count;
+	public List<OrderRequest> getProducts() {
+		return products;
 	}
-	public void setCount(int count) {
-		this.count = count;
+	public void setProducts(List<OrderRequest> products) {
+		this.products = products;
 	}
-	
-	
+	public ReceiverInfo getReceiverInfo() {
+		return receiverInfo;
+	}
+	public void setReceiverInfo(ReceiverInfo receiverInfo) {
+		this.receiverInfo = receiverInfo;
+	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+	public String getDatetime() {
+		return datetime;
+	}
+	public void setDatetime(String datetime) {
+		this.datetime = datetime;
+	}	
+
+
 	
 }

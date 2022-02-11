@@ -1,6 +1,4 @@
-package com.lcomputerstudy.example.request;
-
-import com.lcomputerstudy.example.domain.Product;
+package com.lcomputerstudy.example.domain;
 
 public class OrderRequest {
 
@@ -8,7 +6,14 @@ public class OrderRequest {
 	private int count;
 	private String option;
 	private Product product;
+	private int order_num;
 	
+	public int getOrder_num() {
+		return order_num;
+	}
+	public void setOrder_num(int order_num) {
+		this.order_num = order_num;
+	}
 	public int getCode() {
 		return code;
 	}
