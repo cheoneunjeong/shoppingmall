@@ -74,15 +74,14 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
   `user_address` varchar(50) DEFAULT NULL,
   `user_phone` int(11) DEFAULT NULL,
   `user_name` varchar(50) DEFAULT NULL,
+  `user_postcode` int(11) DEFAULT NULL,
   PRIMARY KEY (`orderCode`),
   KEY `user` (`user`),
   CONSTRAINT `orderinfo_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.orderinfo:~4 rows (대략적) 내보내기
+-- 테이블 데이터 project.orderinfo:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
-INSERT INTO `orderinfo` (`orderCode`, `state`, `payway`, `point`, `total`, `user`, `datetime`, `receiver_address`, `receiver_postcode`, `receiver_name`, `receiver_phone`, `receiver_same`, `user_address`, `user_phone`, `user_name`) VALUES
-	(14, '주문확인중', '카카오페이', 0, 70000, 'aa', '2022-02-11 15:49:26', NULL, NULL, NULL, NULL, '주문자와 동일', 'trst  ', 0, 'test');
 /*!40000 ALTER TABLE `orderinfo` ENABLE KEYS */;
 
 -- 테이블 project.order_details 구조 내보내기
@@ -97,10 +96,8 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.order_details:~3 rows (대략적) 내보내기
+-- 테이블 데이터 project.order_details:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
-INSERT INTO `order_details` (`p_code`, `order_num`, `count`, `option`) VALUES
-	(6, 14, 1, 'M');
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 
 -- 테이블 project.pointlist 구조 내보내기
@@ -272,19 +269,21 @@ INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
 CREATE TABLE IF NOT EXISTS `wishlist` (
   `wishitem` int(11) NOT NULL,
   `id` varchar(100) NOT NULL,
-  PRIMARY KEY (`wishitem`,`id`) USING BTREE,
+  `option` varchar(50) NOT NULL,
+  `count` int(11) DEFAULT NULL,
+  `num` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`num`),
   KEY `id` (`id`),
+  KEY `wishitem` (`wishitem`),
   CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`),
   CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`wishitem`) REFERENCES `product` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.wishlist:~4 rows (대략적) 내보내기
+-- 테이블 데이터 project.wishlist:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
-INSERT INTO `wishlist` (`wishitem`, `id`) VALUES
-	(1, 'aa'),
-	(5, 'aa'),
-	(7, 'aa'),
-	(8, 'aa');
+INSERT INTO `wishlist` (`wishitem`, `id`, `option`, `count`, `num`) VALUES
+	(6, 'aa', 'S', 2, 7),
+	(8, 'aa', '체리곰', 1, 14);
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

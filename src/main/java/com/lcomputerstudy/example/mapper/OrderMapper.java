@@ -30,4 +30,6 @@ public interface OrderMapper {
 
 	UserInfo getUserInfo(int orderCode);
 
+	List<OrderInfo> getOrderInfo_All();
+
 }

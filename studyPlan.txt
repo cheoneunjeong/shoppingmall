@@ -1,78 +1,20 @@
-**주문시 넘어오는 값들**
-payway: "카카오페이"
-point: 0
-products: Array(1)
-0:
-code: 6
-count: 1
-option: "M"
-product: Object
-__ob__: Observer {value: {…}, dep: Dep, vmCount: 0}
-get code: ƒ reactiveGetter()
-set code: ƒ reactiveSetter(newVal)
-get count: ƒ reactiveGetter()
-payway: "카카오페이"
-point: "4400"
-products: Array(1)
-0:
-code: 6
-count: 1
-option: "M"
-product: Object
-category: "BOTTOM(2)"
-caution: "상세페이지 참고"
-code: 6
-descr: "상세페이지 참고"
-detail_desc: "우신사 스토어"
-file_list: null
-filesname: "pants1.jpg,pants1detail.jpg"
-mainCategory: "2"
-mainPhoto: "pants1.jpg"
-manufacturer: "상세페이지 참고"
-material: "상세페이지 참고"
-name: "오버롤st"
-options: null
-options_s: null
-point: "판매가기준 설정비율"
-price: 70000
-sale: true
-shipping: "무료배송"
-size: "상세페이지 참고"
-stock: 50
-type: null
-type_s: "new,best"
-receiverInfo: Object
-address: "대구 남구 경상길 1  (대명동)"
-receiver_name: "받는"
-receiver_phone: "2"
-receiver_postcode: "42463"
-userInfo: Object
-address: "서울 강남구 가로수길 5  (신사동)"
-name: "주문자"
-phone: "1"
-postcode: "06035"
-username: "aa"
+카카오페이 결제성공시 성공페이지로가는지
+실패시 디비저장안되도록
+
+주문할때 주문자 포스트코드저장
+
+포인트사용할때마다 차감시키기
+
+-장바구니에 수량 수정할수있도록하고
+-장바구니 저장될때 옵션 이름 아이디 같으면 수량올리기로..?
 
 주문번호, 주문상태, 결제수단, 결재금액,
  회원id(주문자정보: 이름, 전화), 주문일시
 받는분, 주문상품디데일(일단코드 + 주문할때 넘겨왔던정보ex포인트사용,상품수,배송지 등),
 지급해야힐포인트 
 
-결제성공->결제완료페이지(간단한 주문내역)kakaopay-success
-결제실패
-결제취kakaopay-fail
-
 ******쇼핑몰페이지****
 
-*주문폼*
-주문상품내역
-주문자정보
-수취인정보
-결제수단
-포인트차감액
-토탈 결제금액
-
-##컨트롤러-orderInfo랑 orderDetails 디비에 잘저장되는지 확인하고 주문내역리스트만들기
 -주문내역리스트 만들기(고객용/관리자용)
 -장바구니담긴거 선택주문 ->  주문서로이동
 

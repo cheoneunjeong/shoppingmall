@@ -46,7 +46,8 @@
 		UPDATE orderinfo
 		SET		user_address = 	#{address},
 					user_phone = #{phone},
-					user_name = #{name}
+					user_name = #{name},
+					user_postcode = #{postcode}
 		WHERE orderCode = LAST_INSERT_ID()
 	</update>
 	
@@ -77,9 +78,14 @@
 		SELECT 						user AS username,
 									user_name AS name,
 									user_phone AS phone,
-									user_address AS address									
+									user_address AS address,
+									user_postcode AS postcode								
 
 		FROM orderinfo 
 		WHERE orderCode = #{orderCode}
+	</select>
+	
+	<select id="getOrderInfo_All" resultType="OrderInfo">
+		SELECT * FROM orderinfo
 	</select>
 </mapper>

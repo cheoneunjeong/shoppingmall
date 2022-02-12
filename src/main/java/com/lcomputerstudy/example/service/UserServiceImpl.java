@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.mapper.UserMapper;
@@ -132,25 +133,26 @@ public class UserServiceImpl implements UserService {
 		usermapper.updateUserInfo(user);
 		
 	}
-
+	
 
 	@Override
-	public void insertWishList(int s, String username) {
-		usermapper.insertWishList(s, username);
+	public void insertWishItems(OrderRequest item) {
+		usermapper.insertWishItems(item);
 		
 	}
 
 
 	@Override
-	public List<Integer> getWishList(String username) {
-		// TODO Auto-generated method stub
-		return usermapper.getWishList(username);
+	public List<OrderRequest> getWishItems(String username) {
+		
+		return usermapper.getWishItems(username);
+		
 	}
 
 
 	@Override
-	public void deleteWishItem(int code, String username) {
-		usermapper.deleteWishItem(code, username);
+	public void delete_WishItem(int code) {
+		usermapper.delete_WishItem(code);
 		
 	}
 

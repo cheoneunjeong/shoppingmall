@@ -7,6 +7,8 @@ public class OrderRequest {
 	private String option;
 	private Product product;
 	private int order_num;
+	private String id;
+	private int num;
 	
 	public int getOrder_num() {
 		return order_num;
@@ -37,6 +39,18 @@ public class OrderRequest {
 	}
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
 	
 	

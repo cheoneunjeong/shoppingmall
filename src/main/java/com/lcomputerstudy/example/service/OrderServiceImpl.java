@@ -72,4 +72,10 @@ public class OrderServiceImpl implements OrderService {
 		return orderMapper.getUserInfo(orderCode);
 	}
 
+	@Override
+	public List<OrderInfo> getOrderInfo_All() {
+		// TODO Auto-generated method stub
+		return orderMapper.getOrderInfo_All();
+	}
+
 }

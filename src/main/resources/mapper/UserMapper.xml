@@ -152,17 +152,18 @@
 		WHERE 				u_id = #{username}
 	</update>
 	
-	<insert id="insertWishList" parameterType="map">
-		INSERT INTO wishlist (wishitem, id) VALUES (#{s}, #{username})
-		ON DUPLICATE KEY
-					UPDATE id = #{username}
+	<insert id="insertWishItems" parameterType="OrderRequest">
+		INSERT INTO wishlist (wishitem, id, option, count) 
+		VALUES (#{code}, #{id}, #{option}, #{count})
 	</insert>
 	
-	<select id="getWishList" parameterType="String" resultType="Integer">
-		SELECT wishitem FROM wishlist WHERE id = #{username}
+	<select id="getWishItems" parameterType="String" resultType="OrderRequest">
+		SELECT wishitem AS code, id, option, count, num
+		FROM wishlist
+		WHERE id = #{username}
 	</select>
 	
-	<delete id="deleteWishItem" parameterType="map">
-		DELETE FROM wishlist WHERE wishitem = #{code} AND id = #{username}
+	<delete id="delete_WishItem" parameterType="Integer">
+		DELETE FROM wishlist WHERE num = #{code}
 	</delete>
 </mapper>

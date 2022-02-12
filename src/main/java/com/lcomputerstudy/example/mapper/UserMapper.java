@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
 
@@ -46,10 +47,12 @@ public interface UserMapper {
 
 	void updateUserInfo(UserInfo user);
 
-	void insertWishList(@Param("s")int s, @Param("username")String username);
-
-	List<Integer> getWishList(String username);
-
 	void deleteWishItem(@Param("code")int code, @Param("username")String username);
+
+	void insertWishItems(OrderRequest item);
+
+	List<OrderRequest> getWishItems(String username);
+
+	void delete_WishItem(int code);
 
 }

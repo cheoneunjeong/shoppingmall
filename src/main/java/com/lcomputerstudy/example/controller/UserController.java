@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,52 +60,27 @@ public class UserController {
 	@Autowired
 	OrderService orderService;
 	
-	@PostMapping("/wishlist")
-	public ResponseEntity<?> updateWishList(@Validated @RequestBody UserInfo user) {
-		System.out.println("############");
-		for(int s : user.getWishList()) {
-			
-			userService.insertWishList(s, user.getUsername());
-		}
-		List<Integer> list = userService.getWishList(user.getUsername());
-
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
-	
 	@PostMapping("wishlist-details")
-	public ResponseEntity<?> getWishListDetails(@Validated @RequestBody List<Integer> code) {
-		
-		List<Product> list = new ArrayList<>();
-		for(int c : code) {
-			Product product = productService.getProductDetails(c);
-			list.add(product);
+	public ResponseEntity<?> getWishListDetails(@Validated @RequestBody List<OrderRequest> list) {
+
+		for(OrderRequest item : list) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
 		}
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("wishlist")
-	public ResponseEntity<?> deleteWishItem(HttpServletRequest request, @Validated int code) {
+	@PostMapping("heart-items")
+	public ResponseEntity<?> getHeartImems(@Validated @RequestBody List<Integer> list){
 		
-		String token = new String();
-		token = request.getHeader("Authorization");
-
-		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
-			token = token.substring(7, token.length());
+		List<Product> items = new ArrayList<Product>();
+		for(int item : list) {
+			Product p = productService.getProductDetails(item);
+			items.add(p);
 		}
 		
-		String username = jwtUtils.getUserEmailFromToken(token);
-		
-		userService.deleteWishItem(code, username);
-		
-		List<Integer> wishItems = userService.getWishList(username);
-		List<Product> list = new ArrayList<>();
-		for(int c : wishItems) {
-			Product product = productService.getProductDetails(c);
-			list.add(product);
-		}
-		
-		return ResponseEntity.ok(new WishListResponse(wishItems, list));
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 	
 	@PostMapping("orderlist") 
@@ -209,6 +185,72 @@ public class UserController {
 			order.setUserInfo(user);
 		}
 
+		return new ResponseEntity<>(orders, HttpStatus.OK);
+	}
+	
+	@PostMapping("wishitems")
+	public ResponseEntity<?> insertWishItems(HttpServletRequest request, @Validated @RequestBody List<OrderRequest> list) {
+		
+		String token = new String();
+		token = request.getHeader("Authorization");
+
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		
+		String username = jwtUtils.getUserEmailFromToken(token);
+		
+		for(OrderRequest item : list) {
+			item.setId(username);
+			userService.insertWishItems(item);
+		}
+		
+		List<OrderRequest> wishItems = userService.getWishItems(username);
+		for(OrderRequest item : wishItems) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
+		}
+		UserInfo user = userService.readUser_refresh(username);
+		user.setWishItems(wishItems);
+		
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
+	@PutMapping("wishitems")
+	public ResponseEntity<?> deleteWishItems(@Validated @RequestBody List<OrderRequest> list) {
+		
+		for(OrderRequest item : list) {
+			userService.delete_WishItem(item.getNum());
+		}
+	
+		List<OrderRequest> wishlist = userService.getWishItems(list.get(0).getId());
+		for(OrderRequest item : wishlist) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
+		}
+		
+		return new ResponseEntity<>(wishlist, HttpStatus.OK);
+	}
+	
+	@GetMapping("orderlist")
+	public ResponseEntity<?> getAllOrderList() {
+		
+		List<OrderInfo> orders = orderService.getOrderInfo_All();
+		
+		for(OrderInfo order : orders) {
+			List<OrderRequest> orderDetails = orderService.getOrderDetails(order.getOrderCode());
+			for(OrderRequest request : orderDetails) {
+				Product p = productService.getProductDetails(request.getCode());
+				request.setProduct(p);
+			}
+			order.setProducts(orderDetails);
+			
+			ReceiverInfo receiverInfo = orderService.getReceiverInfo(order.getOrderCode());
+			order.setReceiverInfo(receiverInfo);
+			UserInfo user = orderService.getUserInfo(order.getOrderCode());
+			order.setUserInfo(user);
+		}
+		
 		return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
 }

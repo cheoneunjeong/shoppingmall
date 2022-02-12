@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
 
@@ -41,10 +42,10 @@ public interface UserService extends UserDetailsService {
 
 	public void updateUserInfo(UserInfo user);
 
-	public void insertWishList(int s, String username);
+	public void insertWishItems(OrderRequest item);
 
-	public List<Integer> getWishList(String username);
+	public List<OrderRequest> getWishItems(String username);
 
-	public void deleteWishItem(int code, String username);
+	public void delete_WishItem(int code);
 	
 }

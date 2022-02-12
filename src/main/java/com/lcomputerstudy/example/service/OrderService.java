@@ -27,4 +27,6 @@ public interface OrderService {
 
 	UserInfo getUserInfo(int orderCode);
 
+	List<OrderInfo> getOrderInfo_All();
+
 }

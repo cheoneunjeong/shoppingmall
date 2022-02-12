@@ -36,6 +36,7 @@ import com.lcomputerstudy.example.config.JwtUtils;
 import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.KakaoUser;
 import com.lcomputerstudy.example.domain.Option;
+import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
@@ -125,8 +126,12 @@ public class PublicController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
-		List<Integer> wishList = userservice.getWishList(user.getUsername());
-		userInfo.setWishList(wishList);
+		List<OrderRequest> wishItems = userservice.getWishItems(user.getUsername());
+		for(OrderRequest item : wishItems) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
+		}
+		userInfo.setWishItems(wishItems);
 				
 		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
 	}
@@ -176,8 +181,12 @@ public class PublicController {
 				.collect(Collectors.toList());
 
 		UserInfo userInfo = userservice.readUser_refresh(user.getUsername());
-		List<Integer> wishList = userservice.getWishList(user.getUsername());
-		userInfo.setWishList(wishList);
+		List<OrderRequest> wishItems = userservice.getWishItems(user.getUsername());
+		for(OrderRequest item : wishItems) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
+		}
+		userInfo.setWishItems(wishItems);
 		
 		return ResponseEntity.ok(new JwtResponse(jwt, roles, userInfo));
 	}
@@ -221,8 +230,12 @@ public class PublicController {
 		List<String> roles = userservice.getAuthorities(username).stream()
 				.map(item -> item.getAuthority()).collect(Collectors.toList());
 		
-		List<Integer> wishList = userservice.getWishList(user.getUsername());
-		user.setWishList(wishList);
+		List<OrderRequest> wishItems = userservice.getWishItems(username);
+		for(OrderRequest item : wishItems) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
+		}
+		user.setWishItems(wishItems);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
@@ -248,8 +261,12 @@ public class PublicController {
 								.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
-		List<Integer> wishList = userservice.getWishList(user.getUsername());
-		user.setWishList(wishList);
+		List<OrderRequest> wishItems = userservice.getWishItems(user.getUsername());
+		for(OrderRequest item : wishItems) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
+		}
+		user.setWishItems(wishItems);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
@@ -275,8 +292,12 @@ public class PublicController {
 				.collect(Collectors.toList());
 		
 		UserInfo user = userservice.readUser_refresh(user_.getUsername());
-		List<Integer> wishList = userservice.getWishList(user.getUsername());
-		user.setWishList(wishList);
+		List<OrderRequest> wishItems = userservice.getWishItems(user.getUsername());
+		for(OrderRequest item : wishItems) {
+			Product p = productService.getProductDetails(item.getCode());
+			item.setProduct(p);
+		}
+		user.setWishItems(wishItems);
 		
 		return ResponseEntity.ok(new JwtResponse(token, roles, user));
 	}
