@@ -83,4 +83,10 @@ public class ProductServiceImpl implements ProductService {
 		return productmapper.getproductlist_shop(code);
 	}
 
+	@Override
+	public void updateProductStock(int p_code, int count) {
+		productmapper.updateProductStock(p_code, count);
+		
+	}
+
 }

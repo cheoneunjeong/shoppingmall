@@ -15,6 +15,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.sound.midi.Receiver;
 
+import org.apache.ibatis.annotations.Delete;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,9 +96,10 @@ public class UserController {
 		return new ResponseEntity<>(request, HttpStatus.OK);
 	}
 	
-	@GetMapping("kakaopay")
-	public ResponseEntity<?> kakaopay(@Validated int total) throws IOException {
+	@PostMapping("kakaopay")
+	public ResponseEntity<?> kakaopay(@Validated @RequestBody OrderInfo order) throws IOException {
 		try {
+			System.out.println(order.getTotal());
 			// 보내는 부분
 			URL address = new URL("https://kapi.kakao.com/v1/payment/ready");
 			HttpURLConnection connection = (HttpURLConnection) address.openConnection(); // 서버연결
@@ -110,10 +112,10 @@ public class UserController {
 					+ "&partner_user_id=partner_user_id" // 가맹점 회원 id
 					+ "&item_name=초코파이" // 상품명
 					+ "&quantity=1" // 상품 수량
-					+ "&total_amount="+total // 총 금액
+					+ "&total_amount="+order.getTotal() // 총 금액
 					+ "&vat_amount=200" // 부가세
 					+ "&tax_free_amount=0" // 상품 비과세 금액
-					+ "&approval_url=http://localhost:8080/shop/mypage" // 결제 성공 시
+					+ "&approval_url=http://localhost:8080/shop/kakaopay-success" // 결제 성공 시
 					+ "&fail_url=http://localhost:8080/shop/kakaopay-fail" // 결제 실패 시
 					+ "&cancel_url=http://localhost:8080/shop/kakaopay-fail"; // 결제 취소 시
 			OutputStream send = connection.getOutputStream(); // 이제 뭔가를 를 줄 수 있다.
@@ -129,6 +131,8 @@ public class UserController {
 				receive = connection.getInputStream();
 			}else {
 				receive = connection.getErrorStream(); 
+				
+				return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			// 읽는 부분
 			InputStreamReader read = new InputStreamReader(receive); // 받은걸 읽는다.
@@ -151,22 +155,35 @@ public class UserController {
 		
 		order.setState("주문확인중");
 		order.setUser(order.getUserInfo().getUsername());
+		
 		orderService.insertOrderInfo(order);
-		if(order.getReceiverInfo()==null) {
-			ReceiverInfo receiver = new ReceiverInfo();
-			receiver.setSame("주문자와 동일");
-			order.setReceiverInfo(receiver);
+		
+		if(order.getReceiverInfo().getAddress() == null) {
+			order.getReceiverInfo().setSame("주문자와 동일");
 		}
 		orderService.insertUserInfo_order(order.getUserInfo());
 		orderService.insertReceiverInfo(order.getReceiverInfo());
 		int code = orderService.getOrderCode();
+		order.setOrderCode(code);
+		
+		int totalGivePoint = 0;
 		
 		for(OrderRequest o : order.getProducts()) {
+
+			if(o.getProduct().getPoint().equals("판매가기준 설정비율")) {
+				//3%적립	
+				int p = (int) (o.getProduct().getPrice() * 0.03 * o.getCount());
+				o.setGivePoint(p);
+			}
+			totalGivePoint += o.getGivePoint();
+			
 			o.setOrder_num(code);
 			orderService.insertOrderDetails(o);
 		}
-		
-		
+
+		order.setGivePoint(totalGivePoint);
+		orderService.insertGivePoint(order);
+			
 		return new ResponseEntity<>( HttpStatus.OK);
 	}
 	
@@ -257,5 +274,48 @@ public class UserController {
 		
 		return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
+	
+	@DeleteMapping("orderinfo")
+	public ResponseEntity<?> deleteFailOrderInfo(HttpServletRequest request) {
+	
+		String token = new String();
+		token = request.getHeader("Authorization");
 
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		
+		String id = jwtUtils.getUserEmailFromToken(token);
+		
+		orderService.deleteFailOrderInfo(id);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping("user-point")
+	public ResponseEntity<?> updateUserPoint(HttpServletRequest request) {
+
+		String token = new String();
+		token = request.getHeader("Authorization");
+
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		
+		String id = jwtUtils.getUserEmailFromToken(token);
+		
+		OrderInfo order = orderService.getOrderinfoById(id);
+//		List<OrderRequest> orderDetails = orderService.getOrderDetails(order.getOrderCode());
+//		for(OrderRequest o : orderDetails) {
+//			int p_code = o.getCode();
+//			int count = o.getCount();
+//			
+//			productService.updateProductStock(p_code, count);
+//		}
+		int point = order.getPoint();
+		userService.updatePoint(id, point);
+		
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

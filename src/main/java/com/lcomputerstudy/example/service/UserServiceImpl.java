@@ -156,4 +156,11 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public void updatePoint(String id, int point) {
+		usermapper.updatePoint(id, point);
+		
+	}
+
 }

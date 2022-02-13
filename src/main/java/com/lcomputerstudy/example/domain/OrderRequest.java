@@ -9,6 +9,7 @@ public class OrderRequest {
 	private int order_num;
 	private String id;
 	private int num;
+	private int givePoint;
 	
 	public int getOrder_num() {
 		return order_num;
@@ -51,6 +52,12 @@ public class OrderRequest {
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	public int getGivePoint() {
+		return givePoint;
+	}
+	public void setGivePoint(int givePoint) {
+		this.givePoint = givePoint;
 	}
 	
 	

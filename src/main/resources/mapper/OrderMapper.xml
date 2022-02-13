@@ -88,4 +88,18 @@
 	<select id="getOrderInfo_All" resultType="OrderInfo">
 		SELECT * FROM orderinfo
 	</select>
+	
+	<delete id="deleteFailOrderInfo" parameterType="String">
+		DELETE FROM orderinfo WHERE user=#{id} ORDER BY DATETIME DESC LIMIT 1 
+	</delete>
+	
+	<select id="getOrderinfoById" parameterType="String" resultType="OrderInfo">
+		SELECT * FROM orderinfo WHERE user=#{id} ORDER BY DATETIME DESC LIMIT 1 
+	</select>
+	
+	<update id="insertGivePoint" parameterType="OrderInfo">
+		UPDATE orderinfo
+		SET		givePoint = #{givePoint}
+		WHERE orderCode = #{orderCode}
+	</update>
 </mapper>

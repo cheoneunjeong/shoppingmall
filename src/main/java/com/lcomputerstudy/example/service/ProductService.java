@@ -29,4 +29,6 @@ public interface ProductService {
 
 	List<Product> getproductlist_shop(int code);
 
+	void updateProductStock(int p_code, int count);
+
 }

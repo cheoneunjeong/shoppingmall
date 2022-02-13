@@ -78,4 +78,24 @@ public class OrderServiceImpl implements OrderService {
 		return orderMapper.getOrderInfo_All();
 	}
 
+	@Override
+	public void deleteFailOrderInfo(String id) {
+		orderMapper.deleteFailOrderInfo(id);
+		
+	}
+
+	@Override
+	public OrderInfo getOrderinfoById(String id) {
+		// TODO Auto-generated method stub
+		return 	orderMapper.getOrderinfoById(id);
+	}
+
+	@Override
+	public void insertGivePoint(OrderInfo order) {
+		orderMapper.insertGivePoint(order);
+		
+	}
+
+
+
 }

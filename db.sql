@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.category:~6 rows (대략적) 내보내기
-DELETE FROM `category`;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`code`, `name`, `stock`, `isSale`, `groups`, `orders`, `depth`) VALUES
 	(1, 'TOP', 100, 1, 1, 1, NULL),
@@ -53,7 +52,6 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
-DELETE FROM `kakao_user`;
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
 INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`, `access_token`) VALUES
 	(15, '천은정', 'cjsdmswjd010@naver.com', '1Ie8erVxGVEWx24661UKlA8xGVjgA9mXk_r7vQo9dRsAAAF-0gOm6Q');
@@ -77,14 +75,17 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
   `user_phone` int(11) DEFAULT NULL,
   `user_name` varchar(50) DEFAULT NULL,
   `user_postcode` int(11) DEFAULT NULL,
+  `givePoint` int(11) DEFAULT 0,
   PRIMARY KEY (`orderCode`),
   KEY `user` (`user`),
   CONSTRAINT `orderinfo_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.orderinfo:~1 rows (대략적) 내보내기
-DELETE FROM `orderinfo`;
+-- 테이블 데이터 project.orderinfo:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
+INSERT INTO `orderinfo` (`orderCode`, `state`, `payway`, `point`, `total`, `user`, `datetime`, `receiver_address`, `receiver_postcode`, `receiver_name`, `receiver_phone`, `receiver_same`, `user_address`, `user_phone`, `user_name`, `user_postcode`, `givePoint`) VALUES
+	(39, '주문확인중', '카카오페이', 0, 70000, 'aa', '2022-02-13 16:44:02', NULL, '', '', '', '주문자와 동일', '대구 남구 경상길 1  (대명동)', 1011111111, '주문자', 42463, 0),
+	(43, '주문확인중', '카카오페이', 15000, 37500, 'aa', '2022-02-13 20:05:33', '울산 중구 강정3길 57  (교동)', '44468', '받는자', '010456456', NULL, '부산 강서구 가달1로 7  (생곡동)', 10123123, '주문자', 46729, 0);
 /*!40000 ALTER TABLE `orderinfo` ENABLE KEYS */;
 
 -- 테이블 project.order_details 구조 내보내기
@@ -93,15 +94,18 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `order_num` int(11) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   `option` varchar(50) NOT NULL DEFAULT '옵션없음',
+  `givePoint` int(11) DEFAULT 0,
   KEY `order_num` (`order_num`),
   KEY `p_code` (`p_code`),
   CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_num`) REFERENCES `orderinfo` (`orderCode`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.order_details:~1 rows (대략적) 내보내기
-DELETE FROM `order_details`;
+-- 테이블 데이터 project.order_details:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
+INSERT INTO `order_details` (`p_code`, `order_num`, `count`, `option`, `givePoint`) VALUES
+	(6, 39, 1, 'S', 0),
+	(5, 43, 1, 'Red', 0);
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 
 -- 테이블 project.pointlist 구조 내보내기
@@ -118,7 +122,6 @@ CREATE TABLE IF NOT EXISTS `pointlist` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.pointlist:~0 rows (대략적) 내보내기
-DELETE FROM `pointlist`;
 /*!40000 ALTER TABLE `pointlist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pointlist` ENABLE KEYS */;
 
@@ -148,17 +151,16 @@ CREATE TABLE IF NOT EXISTS `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.product:~8 rows (대략적) 내보내기
-DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`code`, `category`, `name`, `descr`, `type`, `isSale`, `detail_desc`, `material`, `size`, `manufacturer`, `caution`, `price`, `point_t`, `stock`, `ship`, `files`, `mainPhoto`, `mainCategory`) VALUES
 	(1, 'TOP/sweater(120)', 'pinkSweater', '출처 우신사', 'hit,new,disc,recom,best', 1, '출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 10, '무료배송', 'sweater1.jpg,sweater1detail.jpg', 'sweater1.jpg', 120),
-	(2, 'ACC(3)', '래빗키링', '우신사스토어', 'hit,new', 1, '사진출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 20000, '구매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', '키링.jpg,키링디테일.jpg', '키링.jpg', 3),
+	(2, 'ACC(3)', '래빗키링', '우신사스토어', 'hit,new', 1, '사진출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 20000, '판매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', '키링.jpg,키링디테일.jpg', '키링.jpg', 3),
 	(3, 'TOP/shirt(110)', 'shirt', '우신사스토어제품', 'new,recom', 1, '참고자료 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 60000, '판매가기준 설정비율', 30, '쇼핑몰 기본설정 사용', 'shirt1.jpg,shirt1detail.jpg', 'shirt1.jpg', 110),
-	(4, 'TOP(1)', 'tee', '상세페이지 참고', 'hit,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 35000, '구매가기준 설정비율', 10, '쇼핑몰 기본설정 사용', 'tee.jpg,teedetail.jpg', 'tee.jpg', 1),
-	(5, 'TOP(1)', 'mtm', '상세페이지 참고', 'disc,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '구매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', 'mtm.jpg,mtmdetail.jpg', 'mtm.jpg', 1),
+	(4, 'TOP(1)', 'tee', '상세페이지 참고', 'hit,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 35000, '판매가기준 설정비율', 10, '쇼핑몰 기본설정 사용', 'tee.jpg,teedetail.jpg', 'tee.jpg', 1),
+	(5, 'TOP(1)', 'mtm', '상세페이지 참고', 'disc,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', 'mtm.jpg,mtmdetail.jpg', 'mtm.jpg', 1),
 	(6, 'BOTTOM(2)', '오버롤st', '상세페이지 참고', 'new,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 70000, '판매가기준 설정비율', 50, '무료배송', 'pants1.jpg,pants1detail.jpg', 'pants1.jpg', 2),
 	(7, 'BOTTOM/pants(210)', 'pants', '상세페이지 참고', 'disc,recom', 1, '우신사 스토어 제품', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 40000, '판매가기준 설정비율', 50, '쇼핑몰 기본설정 사용', 'pants2.jpg,pants1detail.jpg', 'pants2.jpg', 210),
-	(8, 'ACC(3)', '지비츠', '상세페이지 참고', 'hit,disc,recom', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 5000, '구매가기준 설정비율', 9, '쇼핑몰 기본설정 사용', '지비츠.jpg,지비츠detail.jpg', '지비츠.jpg', 3);
+	(8, 'ACC(3)', '지비츠', '상세페이지 참고', 'hit,disc,recom', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 5000, '판매가기준 설정비율', 9, '쇼핑몰 기본설정 사용', '지비츠.jpg,지비츠detail.jpg', '지비츠.jpg', 3);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- 테이블 project.p_options 구조 내보내기
@@ -172,7 +174,6 @@ CREATE TABLE IF NOT EXISTS `p_options` (
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.p_options:~18 rows (대략적) 내보내기
-DELETE FROM `p_options`;
 /*!40000 ALTER TABLE `p_options` DISABLE KEYS */;
 INSERT INTO `p_options` (`num`, `p_code`, `option`) VALUES
 	(81, 1, '핑크'),
@@ -211,7 +212,6 @@ CREATE TABLE IF NOT EXISTS `spring_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session`;
 /*!40000 ALTER TABLE `spring_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session` ENABLE KEYS */;
 
@@ -225,7 +225,6 @@ CREATE TABLE IF NOT EXISTS `spring_session_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session_attributes:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session_attributes`;
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
 
@@ -249,10 +248,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.user:~3 rows (대략적) 내보내기
-DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`, `postcode`, `address`, `phone`, `point`, `auth`) VALUES
-	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', 'AAA', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, 42923, '대구 달성군 다사읍 서재리 202 경신그린빌 102', '01044445555', 1000000, 'ADMIN'),
+	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', 'AAA', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, 42923, '대구 달성군 다사읍 서재리 202 경신그린빌 102', '01044445555', 985000, 'ADMIN'),
 	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 0, 1, 1, 'kakao', NULL, NULL, NULL, 0, NULL),
 	('zz', '$2a$10$HkU6fIv6rGhsv649s4zDwelshW2wtodh0qxi.7V.EofPSVFIFZs0m', 'zz', '2022-02-07 21:47:01', 1, 1, 1, 1, NULL, 123, 'dd  ', '111111111', 0, 'ADMIN');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
@@ -265,7 +263,6 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.u_auth:~6 rows (대략적) 내보내기
-DELETE FROM `u_auth`;
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
 INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
 	('aa', 'ROLE_ADMIN'),
@@ -288,14 +285,14 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   KEY `wishitem` (`wishitem`),
   CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`),
   CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`wishitem`) REFERENCES `product` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.wishlist:~2 rows (대략적) 내보내기
-DELETE FROM `wishlist`;
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
 INSERT INTO `wishlist` (`wishitem`, `id`, `option`, `count`, `num`) VALUES
-	(6, 'aa', 'S', 2, 7),
-	(8, 'aa', '체리곰', 1, 14);
+	(8, 'aa', '체리곰', 1, 14),
+	(6, 'aa', 'S', 1, 15),
+	(2, 'aa', '옵션없음', 1, 16);
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -33,4 +33,6 @@ public interface ProductMapper {
 
 	List<Product> getproductlist_shop(int code);
 
+	void updateProductStock(@Param("p_code")int p_code, @Param("count")int count);
+
 }

@@ -166,4 +166,10 @@
 	<delete id="delete_WishItem" parameterType="Integer">
 		DELETE FROM wishlist WHERE num = #{code}
 	</delete>
+	
+	<update id="updatePoint" parameterType="map">
+		UPDATE 				user
+  	 	SET 				point = point-#{point}
+		WHERE 				u_id = #{id}
+	</update>
 </mapper>

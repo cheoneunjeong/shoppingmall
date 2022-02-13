@@ -29,4 +29,13 @@ public interface OrderService {
 
 	List<OrderInfo> getOrderInfo_All();
 
+	void deleteFailOrderInfo(String id);
+
+	OrderInfo getOrderinfoById(String id);
+
+	void insertGivePoint(OrderInfo order);
+
+
+
+
 }

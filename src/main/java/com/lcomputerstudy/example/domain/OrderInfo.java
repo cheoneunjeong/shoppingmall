@@ -13,6 +13,7 @@ public class OrderInfo {
 	private int total;
 	private UserInfo userInfo;
 	private String datetime;
+	private int givePoint;
 	
 	private String user;
 
@@ -76,6 +77,12 @@ public class OrderInfo {
 	}
 	public void setDatetime(String datetime) {
 		this.datetime = datetime;
+	}
+	public int getGivePoint() {
+		return givePoint;
+	}
+	public void setGivePoint(int givePoint) {
+		this.givePoint = givePoint;
 	}	
 
 

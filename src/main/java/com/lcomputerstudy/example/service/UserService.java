@@ -47,5 +47,7 @@ public interface UserService extends UserDetailsService {
 	public List<OrderRequest> getWishItems(String username);
 
 	public void delete_WishItem(int code);
+
+	public void updatePoint(String id, int point);
 	
 }

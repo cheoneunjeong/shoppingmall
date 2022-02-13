@@ -55,4 +55,6 @@ public interface UserMapper {
 
 	void delete_WishItem(int code);
 
+	void updatePoint(@Param("id")String id, @Param("point")int point);
+
 }

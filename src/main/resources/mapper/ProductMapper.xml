@@ -154,5 +154,13 @@
 	<select id="getproductlist_shop" parameterType="Integer" resultType="Product">
 		SELECT * FROM product WHERE  mainCategory = #{code}
 	</select>
+	
+	<update id="updateProductStock" parameterType="map">
+		UPDATE 				product
+  	 	SET 				
+							stock = stock-#{count}
+		WHERE 
+				 CODE = #{p_code}
+	</update>
 
 </mapper>
