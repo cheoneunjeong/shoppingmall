@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sound.midi.Receiver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +102,7 @@ public class UserController {
 			URL address = new URL("https://kapi.kakao.com/v1/payment/ready");
 			HttpURLConnection connection = (HttpURLConnection) address.openConnection(); // 서버연결
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Authorization", "KakaoAK c09b3d5a62d241581fcb68c8f93475f4"); // 어드민 키
+			connection.setRequestProperty("Authorization", "KakaoAK c912ec447438b361454267741806c2e0"); // 어드민 키
 			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 			connection.setDoOutput(true); // 서버한테 전달할게 있는지 없는지
 			String parameter = "cid=TC0ONETIME" // 가맹점 코드
@@ -151,8 +152,10 @@ public class UserController {
 		order.setState("주문확인중");
 		order.setUser(order.getUserInfo().getUsername());
 		orderService.insertOrderInfo(order);
-		if(order.getReceiverInfo().getAddress()==null) {
-			order.getReceiverInfo().setSame("주문자와 동일");
+		if(order.getReceiverInfo()==null) {
+			ReceiverInfo receiver = new ReceiverInfo();
+			receiver.setSame("주문자와 동일");
+			order.setReceiverInfo(receiver);
 		}
 		orderService.insertUserInfo_order(order.getUserInfo());
 		orderService.insertReceiverInfo(order.getReceiverInfo());
@@ -163,7 +166,8 @@ public class UserController {
 			orderService.insertOrderDetails(o);
 		}
 		
-		return new ResponseEntity<>(code, HttpStatus.OK);
+		
+		return new ResponseEntity<>( HttpStatus.OK);
 	}
 	
 	@GetMapping("order-success")
@@ -253,4 +257,5 @@ public class UserController {
 		
 		return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
+
 }

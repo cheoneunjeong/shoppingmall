@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.category:~6 rows (대략적) 내보내기
+DELETE FROM `category`;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`code`, `name`, `stock`, `isSale`, `groups`, `orders`, `depth`) VALUES
 	(1, 'TOP', 100, 1, 1, 1, NULL),
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
+DELETE FROM `kakao_user`;
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
 INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`, `access_token`) VALUES
 	(15, '천은정', 'cjsdmswjd010@naver.com', '1Ie8erVxGVEWx24661UKlA8xGVjgA9mXk_r7vQo9dRsAAAF-0gOm6Q');
@@ -78,9 +80,10 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
   PRIMARY KEY (`orderCode`),
   KEY `user` (`user`),
   CONSTRAINT `orderinfo_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.orderinfo:~0 rows (대략적) 내보내기
+-- 테이블 데이터 project.orderinfo:~1 rows (대략적) 내보내기
+DELETE FROM `orderinfo`;
 /*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `orderinfo` ENABLE KEYS */;
 
@@ -96,7 +99,8 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.order_details:~0 rows (대략적) 내보내기
+-- 테이블 데이터 project.order_details:~1 rows (대략적) 내보내기
+DELETE FROM `order_details`;
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 
@@ -114,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `pointlist` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.pointlist:~0 rows (대략적) 내보내기
+DELETE FROM `pointlist`;
 /*!40000 ALTER TABLE `pointlist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pointlist` ENABLE KEYS */;
 
@@ -143,6 +148,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.product:~8 rows (대략적) 내보내기
+DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`code`, `category`, `name`, `descr`, `type`, `isSale`, `detail_desc`, `material`, `size`, `manufacturer`, `caution`, `price`, `point_t`, `stock`, `ship`, `files`, `mainPhoto`, `mainCategory`) VALUES
 	(1, 'TOP/sweater(120)', 'pinkSweater', '출처 우신사', 'hit,new,disc,recom,best', 1, '출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 10, '무료배송', 'sweater1.jpg,sweater1detail.jpg', 'sweater1.jpg', 120),
@@ -166,6 +172,7 @@ CREATE TABLE IF NOT EXISTS `p_options` (
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.p_options:~18 rows (대략적) 내보내기
+DELETE FROM `p_options`;
 /*!40000 ALTER TABLE `p_options` DISABLE KEYS */;
 INSERT INTO `p_options` (`num`, `p_code`, `option`) VALUES
 	(81, 1, '핑크'),
@@ -204,6 +211,7 @@ CREATE TABLE IF NOT EXISTS `spring_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session:~0 rows (대략적) 내보내기
+DELETE FROM `spring_session`;
 /*!40000 ALTER TABLE `spring_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session` ENABLE KEYS */;
 
@@ -217,6 +225,7 @@ CREATE TABLE IF NOT EXISTS `spring_session_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 project.spring_session_attributes:~0 rows (대략적) 내보내기
+DELETE FROM `spring_session_attributes`;
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
 
@@ -240,6 +249,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.user:~3 rows (대략적) 내보내기
+DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`, `postcode`, `address`, `phone`, `point`, `auth`) VALUES
 	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', 'AAA', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, 42923, '대구 달성군 다사읍 서재리 202 경신그린빌 102', '01044445555', 1000000, 'ADMIN'),
@@ -255,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.u_auth:~6 rows (대략적) 내보내기
+DELETE FROM `u_auth`;
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
 INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
 	('aa', 'ROLE_ADMIN'),
@@ -280,6 +291,7 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.wishlist:~2 rows (대략적) 내보내기
+DELETE FROM `wishlist`;
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
 INSERT INTO `wishlist` (`wishitem`, `id`, `option`, `count`, `num`) VALUES
 	(6, 'aa', 'S', 2, 7),
