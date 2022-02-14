@@ -38,6 +38,7 @@ import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.QABoard;
 import com.lcomputerstudy.example.domain.ReceiverInfo;
+import com.lcomputerstudy.example.domain.Review;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.response.WishListResponse;
 import com.lcomputerstudy.example.service.BoardService;
@@ -310,13 +311,7 @@ public class UserController {
 		String id = jwtUtils.getUserEmailFromToken(token);
 		
 		OrderInfo order = orderService.getOrderinfoById(id);
-//		List<OrderRequest> orderDetails = orderService.getOrderDetails(order.getOrderCode());
-//		for(OrderRequest o : orderDetails) {
-//			int p_code = o.getCode();
-//			int count = o.getCount();
-//			
-//			productService.updateProductStock(p_code, count);
-//		}
+
 		int point = order.getPoint();
 		userService.updatePoint(id, point);
 		
@@ -330,6 +325,72 @@ public class UserController {
 		boardService.insertQAPost(post);
 		
 		List<QABoard> list = boardService.getQABoardList();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@PostMapping("review")
+	public ResponseEntity<?> saveReview(@Validated @RequestBody Review review) {
+		
+		boardService.insertReview(review);
+		
+		Product p = productService.getProductDetails(review.getP_code());
+		List<Integer> ratings = boardService.getRatings(review.getP_code());
+		
+		int total=0;
+		for(int i=0; i<ratings.size(); i++) {
+			int r = ratings.get(i);
+			total += r;
+		}
+		
+		int review_count = boardService.getReviewCount(review.getP_code());
+		int result = total/review_count;
+		
+		p.setRating(result);
+		
+		productService.updateRating(p);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PostMapping("delete-review")
+	public ResponseEntity<?> deleteReviews(@Validated @RequestBody List<Review> list) {
+		
+		for(Review review : list) {
+			boardService.deleteReview(review.getNum());
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PutMapping("review")
+	public ResponseEntity<?> editReview(@Validated @RequestBody Review review) {
+		boardService.editReview(review);
+		
+		Product p = productService.getProductDetails(review.getP_code());
+		List<Integer> ratings = boardService.getRatings(review.getP_code());
+		
+		int total=0;
+		for(int i=0; i<ratings.size(); i++) {
+			int r = ratings.get(i);
+			total += r;
+		}
+		
+		int review_count = boardService.getReviewCount(review.getP_code());
+		int result = total/review_count;
+		
+		p.setRating(result);
+		
+		productService.updateRating(p);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("review")
+	public ResponseEntity<?> getUsersReview(@Validated String id) {
+		System.out.println(id);
+		
+		List<Review> list = boardService.getUsersReview(id);
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}

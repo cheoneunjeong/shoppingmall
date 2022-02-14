@@ -27,14 +27,13 @@
 	</update>
 	
 	<select id="getQABoardList" resultType="QABoard">
-		SELECT * FROM
-						(select @rownum := @rownum+1 as rownum, (concat(repeat('-', depth), title))as con, 
+		select  (concat(repeat('-', depth), title))as con, 
 						ta.*
 		FROM 				
-						qaboard ta, 
-					 (select @rownum := (select COUNT(*)-COUNT(*) FROM qaboard ta)) tb 
+						qaboard ta
+				
 		ORDER BY 
-						groups desc, orders ASC )a
+						groups desc, orders asc
 	</select>
 	
 	<select id="getQAPostDetails" parameterType="Integer" resultType="QABoard">
@@ -81,5 +80,57 @@
 	<delete id="deletePost" parameterType="Integer">
 		DELETE FROM qaboard WHERE num = #{num}
 	</delete>
+	
+	<insert id="insertReview" parameterType="Review">  
+        INSERT INTO review (
+        		title,
+				content,
+				writer,
+				order_num,
+				p_code,
+				p_option,
+				rating
+      ) VALUES (
+         #{title},
+         #{content},
+         #{writer},
+         #{order_num},
+         #{p_code},
+         #{p_option},
+         #{rating}
+         )
+	</insert>
+	
+	<select id="getReviews" parameterType="Integer" resultType="Review">
+		SELECT * FROM review WHERE p_code = #{code}  ORDER BY DATETIME desc
+	</select>
+	
+	<delete id="deleteReview" parameterType="Integer">
+		DELETE FROM review WHERE num = #{num}
+	</delete>
+	
+	<select id="getReviewList" resultType="Review">
+		SELECT * FROM review ORDER BY DATETIME desc
+	</select>
+	
+	<update id="editReview" parameterType="Review">
+  	 	UPDATE 				review 
+  	 	SET 				title = #{title},
+  	 						content = #{content},
+  	 						rating = #{rating}
+		WHERE 			num = #{num}
+	</update>
+	
+	<select id="getReviewCount" resultType="Integer" parameterType="Integer">
+		SELECT COUNT(*) FROM review WHERE p_code = #{p_code}
+	</select>
+	
+	<select id="getRatings" resultType="Integer" parameterType="Integer">
+		SELECT rating FROM review WHERE p_code = #{p_code}
+	</select>
+	
+	<select id="getUsersReview" resultType="Review" parameterType="String">
+		SELECT * FROM review WHERE writer = #{id}
+	</select>
 	
 </mapper>

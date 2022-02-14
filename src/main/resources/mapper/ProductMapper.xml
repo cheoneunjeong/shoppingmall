@@ -83,7 +83,8 @@
 					files AS filesname,
 					type AS type_s,
 					category,
-					mainPhoto
+					mainPhoto,
+					rating
 		FROM product
 	</select>
 	
@@ -109,7 +110,8 @@
 					type AS type_s,
 					category,
 					mainPhoto, 
-					mainCategory
+					mainCategory,
+					rating
 		FROM product
 		WHERE CODE = #{code}
 	</select>
@@ -155,12 +157,12 @@
 		SELECT * FROM product WHERE  mainCategory = #{code}
 	</select>
 	
-	<update id="updateProductStock" parameterType="map">
+	<update id="updateRating" parameterType="Product">
 		UPDATE 				product
   	 	SET 				
-							stock = stock-#{count}
+							rating = #{rating}
 		WHERE 
-				 CODE = #{p_code}
+				 code = #{code}
 	</update>
 
 </mapper>

@@ -28,6 +28,7 @@ public class Product {
 	private String mainCategory;
 	private List<String> file_list;
 	private List<String> options_s;
+	private int rating;
 
 	public int getCode() {
 		return code;
@@ -161,6 +162,12 @@ public class Product {
 	public void setOptions_s(List<String> options_s) {
 		this.options_s = options_s;
 	}
-
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+	
 	
 }

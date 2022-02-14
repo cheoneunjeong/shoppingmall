@@ -35,4 +35,6 @@ public interface ProductMapper {
 
 	void updateProductStock(@Param("p_code")int p_code, @Param("count")int count);
 
+	void updateRating(Product p);
+
 }

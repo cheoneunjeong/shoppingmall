@@ -31,4 +31,6 @@ public interface ProductService {
 
 	void updateProductStock(int p_code, int count);
 
+	void updateRating(Product p);
+
 }

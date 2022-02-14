@@ -39,6 +39,7 @@ import com.lcomputerstudy.example.domain.Option;
 import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.QABoard;
+import com.lcomputerstudy.example.domain.Review;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.mapper.KakaoMapper;
@@ -394,6 +395,14 @@ public class PublicController {
 		QABoard post = boardService.getQAPostDetails(num);
 		
 		return new ResponseEntity<>(post, HttpStatus.OK);
+	}
+	
+	@GetMapping("review")
+	public ResponseEntity<?> getReviews(@Validated int code) {
+		
+		List<Review> list = boardService.getReviews(code);
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 }

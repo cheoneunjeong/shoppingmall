@@ -31,6 +31,7 @@ import com.lcomputerstudy.example.domain.Option;
 import com.lcomputerstudy.example.domain.Point;
 import com.lcomputerstudy.example.domain.Product;
 import com.lcomputerstudy.example.domain.QABoard;
+import com.lcomputerstudy.example.domain.Review;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.CategoryService;
@@ -303,6 +304,14 @@ public class AdminController {
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("review-list")
+	public ResponseEntity<?> getReviewList() {
+		
+		List<Review> list = boardService.getReviewList();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 }

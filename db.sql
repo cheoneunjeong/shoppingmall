@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.5.8-MariaDB - mariadb.org binary distribution
+-- 서버 버전:                        10.6.4-MariaDB - mariadb.org binary distribution
 -- 서버 OS:                        Win64
--- HeidiSQL 버전:                  11.0.0.5919
+-- HeidiSQL 버전:                  11.3.0.6295
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,6 +10,7 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- project 데이터베이스 구조 내보내기
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`code`),
   KEY `category_ibfk_1` (`groups`),
   CONSTRAINT `category_ibfk_1` FOREIGN KEY (`groups`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.category:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
   `k_email` varchar(50) NOT NULL,
   `access_token` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`k_number`,`k_email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
@@ -78,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
   PRIMARY KEY (`orderCode`),
   KEY `user` (`user`),
   CONSTRAINT `orderinfo_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.orderinfo:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
@@ -98,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   KEY `p_code` (`p_code`),
   CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_num`) REFERENCES `orderinfo` (`orderCode`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.order_details:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
@@ -118,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `pointlist` (
   PRIMARY KEY (`num`),
   KEY `id` (`id`),
   CONSTRAINT `pointlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.pointlist:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `pointlist` DISABLE KEYS */;
@@ -144,22 +145,23 @@ CREATE TABLE IF NOT EXISTS `product` (
   `files` varchar(50) DEFAULT NULL,
   `mainPhoto` varchar(50) DEFAULT NULL,
   `mainCategory` int(255) NOT NULL,
+  `rating` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`code`),
   KEY `product_ibfk_1` (`mainCategory`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`mainCategory`) REFERENCES `category` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.product:~8 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` (`code`, `category`, `name`, `descr`, `type`, `isSale`, `detail_desc`, `material`, `size`, `manufacturer`, `caution`, `price`, `point_t`, `stock`, `ship`, `files`, `mainPhoto`, `mainCategory`) VALUES
-	(1, 'TOP/sweater(120)', 'pinkSweater', '출처 우신사', 'hit,new,disc,recom,best', 1, '출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 10, '무료배송', 'sweater1.jpg,sweater1detail.jpg', 'sweater1.jpg', 120),
-	(2, 'ACC(3)', '래빗키링', '우신사스토어', 'hit,new', 1, '사진출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 20000, '판매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', '키링.jpg,키링디테일.jpg', '키링.jpg', 3),
-	(3, 'TOP/shirt(110)', 'shirt', '우신사스토어제품', 'new,recom', 1, '참고자료 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 60000, '판매가기준 설정비율', 30, '쇼핑몰 기본설정 사용', 'shirt1.jpg,shirt1detail.jpg', 'shirt1.jpg', 110),
-	(4, 'TOP(1)', 'tee', '상세페이지 참고', 'hit,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 35000, '판매가기준 설정비율', 10, '쇼핑몰 기본설정 사용', 'tee.jpg,teedetail.jpg', 'tee.jpg', 1),
-	(5, 'TOP(1)', 'mtm', '상세페이지 참고', 'disc,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', 'mtm.jpg,mtmdetail.jpg', 'mtm.jpg', 1),
-	(6, 'BOTTOM(2)', '오버롤st', '상세페이지 참고', 'new,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 70000, '판매가기준 설정비율', 50, '무료배송', 'pants1.jpg,pants1detail.jpg', 'pants1.jpg', 2),
-	(7, 'BOTTOM/pants(210)', 'pants', '상세페이지 참고', 'disc,recom', 1, '우신사 스토어 제품', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 40000, '판매가기준 설정비율', 50, '쇼핑몰 기본설정 사용', 'pants2.jpg,pants1detail.jpg', 'pants2.jpg', 210),
-	(8, 'ACC(3)', '지비츠', '상세페이지 참고', 'hit,disc,recom', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 5000, '판매가기준 설정비율', 9, '쇼핑몰 기본설정 사용', '지비츠.jpg,지비츠detail.jpg', '지비츠.jpg', 3);
+INSERT INTO `product` (`code`, `category`, `name`, `descr`, `type`, `isSale`, `detail_desc`, `material`, `size`, `manufacturer`, `caution`, `price`, `point_t`, `stock`, `ship`, `files`, `mainPhoto`, `mainCategory`, `rating`) VALUES
+	(1, 'TOP/sweater(120)', 'pinkSweater', '출처 우신사', 'hit,new,disc,recom,best', 1, '출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 10, '무료배송', 'sweater1.jpg,sweater1detail.jpg', 'sweater1.jpg', 120, 0),
+	(2, 'ACC(3)', '래빗키링', '우신사스토어', 'hit,new', 1, '사진출처 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 20000, '판매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', '키링.jpg,키링디테일.jpg', '키링.jpg', 3, 0),
+	(3, 'TOP/shirt(110)', 'shirt', '우신사스토어제품', 'new,recom', 1, '참고자료 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 60000, '판매가기준 설정비율', 30, '쇼핑몰 기본설정 사용', 'shirt1.jpg,shirt1detail.jpg', 'shirt1.jpg', 110, 0),
+	(4, 'TOP(1)', 'tee', '상세페이지 참고', 'hit,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 35000, '판매가기준 설정비율', 10, '쇼핑몰 기본설정 사용', 'tee.jpg,teedetail.jpg', 'tee.jpg', 1, 0),
+	(5, 'TOP(1)', 'mtm', '상세페이지 참고', 'disc,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', 'mtm.jpg,mtmdetail.jpg', 'mtm.jpg', 1, 5),
+	(6, 'BOTTOM(2)', '오버롤st', '상세페이지 참고', 'new,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 70000, '판매가기준 설정비율', 50, '무료배송', 'pants1.jpg,pants1detail.jpg', 'pants1.jpg', 2, 0),
+	(7, 'BOTTOM/pants(210)', 'pants', '상세페이지 참고', 'disc,recom', 1, '우신사 스토어 제품', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 40000, '판매가기준 설정비율', 50, '쇼핑몰 기본설정 사용', 'pants2.jpg,pants1detail.jpg', 'pants2.jpg', 210, 0),
+	(8, 'ACC(3)', '지비츠', '상세페이지 참고', 'hit,disc,recom', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 5000, '판매가기준 설정비율', 9, '쇼핑몰 기본설정 사용', '지비츠.jpg,지비츠detail.jpg', '지비츠.jpg', 3, 0);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 -- 테이블 project.p_options 구조 내보내기
@@ -170,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `p_options` (
   PRIMARY KEY (`num`),
   KEY `p_options_ibfk_1` (`p_code`),
   CONSTRAINT `p_options_ibfk_1` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.p_options:~18 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `p_options` DISABLE KEYS */;
@@ -210,17 +212,37 @@ CREATE TABLE IF NOT EXISTS `qaboard` (
   PRIMARY KEY (`num`),
   KEY `writer` (`writer`),
   CONSTRAINT `qaboard_ibfk_1` FOREIGN KEY (`writer`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.qaboard:~2 rows (대략적) 내보내기
+-- 테이블 데이터 project.qaboard:~1 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `qaboard` DISABLE KEYS */;
 INSERT INTO `qaboard` (`num`, `title`, `type`, `content`, `writer`, `datetime`, `hit`, `groups`, `orders`, `depth`) VALUES
-	(1, '테스트제목', '상품문의', '내용입니당', 'aa', '2022-02-14 10:28:52', 1, 1, 1, 0),
-	(2, '답글', '상품문의', '답글입ㄴ다.ㅇ', 'aa', '2022-02-14 11:21:48', 1, 1, 4, 1),
-	(3, '문의합니다', '기타사항', '내용ㅇㅇ', 'aa', '2022-02-14 11:27:12', 9, 3, 1, 0),
-	(4, '1-2답글', '상품문의', '답ㅇㅇ', 'aa', '2022-02-14 11:27:28', 7, 1, 2, 1),
-	(5, '12-1답글', '상품문의', 'ㅇㅇ', 'aa', '2022-02-14 11:55:47', 2, 1, 3, 2);
+	(7, 'dd', '', 'aaa', 'zz', '2022-02-14 14:36:59', 5, 7, 1, 0);
 /*!40000 ALTER TABLE `qaboard` ENABLE KEYS */;
+
+-- 테이블 project.review 구조 내보내기
+CREATE TABLE IF NOT EXISTS `review` (
+  `num` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `writer` varchar(50) DEFAULT NULL,
+  `order_num` int(11) DEFAULT NULL,
+  `p_code` int(11) DEFAULT NULL,
+  `p_option` varchar(50) DEFAULT NULL,
+  `rating` int(11) DEFAULT NULL,
+  `datetime` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`num`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3;
+
+-- 테이블 데이터 project.review:~1 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `review` DISABLE KEYS */;
+INSERT INTO `review` (`num`, `title`, `content`, `writer`, `order_num`, `p_code`, `p_option`, `rating`, `datetime`) VALUES
+	(22, '1', '55', 'aa', 43, 5, 'Red', 5, '2022-02-14 18:58:40'),
+	(23, 'ㅇㅇ', 'ㅌㅌㅌㅌ', 'aa', 43, 5, 'Red', 5, '2022-02-14 18:58:46'),
+	(24, '수정', '333333', 'aa', 43, 5, 'Red', 5, '2022-02-14 19:01:09'),
+	(25, '수정2', 'ㅇㅇㅇㅇㅇㅇ', 'aa', 43, 5, 'Red', 5, '2022-02-14 19:03:43'),
+	(26, '수정1', 'ㅇㅇㅇ', 'aa', 43, 5, 'Red', 5, '2022-02-14 19:06:21');
+/*!40000 ALTER TABLE `review` ENABLE KEYS */;
 
 -- 테이블 project.spring_session 구조 내보내기
 CREATE TABLE IF NOT EXISTS `spring_session` (
@@ -271,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `point` int(255) NOT NULL DEFAULT 0,
   `auth` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`u_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.user:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
@@ -286,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
   `u_id` varchar(50) NOT NULL,
   `u_auth` varchar(50) NOT NULL,
   PRIMARY KEY (`u_id`,`u_auth`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.u_auth:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_auth` DISABLE KEYS */;
@@ -311,7 +333,7 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   KEY `wishitem` (`wishitem`),
   CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`),
   CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`wishitem`) REFERENCES `product` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 project.wishlist:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
@@ -322,5 +344,6 @@ INSERT INTO `wishlist` (`wishitem`, `id`, `option`, `count`, `num`) VALUES
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
