@@ -36,9 +36,11 @@ import com.lcomputerstudy.example.config.JwtUtils;
 import com.lcomputerstudy.example.domain.OrderInfo;
 import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.Product;
+import com.lcomputerstudy.example.domain.QABoard;
 import com.lcomputerstudy.example.domain.ReceiverInfo;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.response.WishListResponse;
+import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.OrderService;
 import com.lcomputerstudy.example.service.ProductService;
 import com.lcomputerstudy.example.service.UserService;
@@ -61,6 +63,9 @@ public class UserController {
 	
 	@Autowired
 	OrderService orderService;
+	
+	@Autowired
+	BoardService boardService;
 	
 	@PostMapping("wishlist-details")
 	public ResponseEntity<?> getWishListDetails(@Validated @RequestBody List<OrderRequest> list) {
@@ -317,5 +322,15 @@ public class UserController {
 		
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PostMapping("q-post")
+	public ResponseEntity<?> saveQAPost(@Validated @RequestBody QABoard post) {
+		
+		boardService.insertQAPost(post);
+		
+		List<QABoard> list = boardService.getQABoardList();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 }

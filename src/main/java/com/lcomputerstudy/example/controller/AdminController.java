@@ -30,7 +30,9 @@ import com.lcomputerstudy.example.domain.Category;
 import com.lcomputerstudy.example.domain.Option;
 import com.lcomputerstudy.example.domain.Point;
 import com.lcomputerstudy.example.domain.Product;
+import com.lcomputerstudy.example.domain.QABoard;
 import com.lcomputerstudy.example.domain.UserInfo;
+import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.CategoryService;
 import com.lcomputerstudy.example.service.PointService;
 import com.lcomputerstudy.example.service.ProductService;
@@ -54,6 +56,9 @@ public class AdminController {
 	
 	@Autowired
 	PointService pointService;
+	
+	@Autowired
+	BoardService boardService;
 	
 	@GetMapping("category")
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -276,6 +281,26 @@ public class AdminController {
 	public ResponseEntity<?> unblockUser(@Validated @RequestBody UserInfo user) {
 		
 		userService.updateUnblockUser(user.getUsername());
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PostMapping("a-post")
+	public ResponseEntity<?> saveAnswerPost(@Validated @RequestBody QABoard post) {
+		
+		boardService.insertAnswerPost(post);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PostMapping("delete-post")
+	public ResponseEntity<?> delete_selectedPost(@Validated @RequestBody List<QABoard> list) {
+		
+		for(QABoard post : list) {
+			System.out.println(post.getNum());
+			
+			boardService.deletePost(post.getNum());
+		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

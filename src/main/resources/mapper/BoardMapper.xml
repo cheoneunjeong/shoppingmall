@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lcomputerstudy.example.mapper.BoardMapper">
+
+	<insert id="insertQAPost1" parameterType="QABoard">
+		INSERT INTO qaboard (
+									title,
+									type,
+									content,
+									writer
+									)
+				VALUES ( 	#{title},
+							#{type},
+							#{content},
+							#{writer} )
+	</insert>
+	
+	<update id="insertQAPost2" parameterType="QABoard">
+  	 	UPDATE 			qaboard
+   		SET
+      				 groups = LAST_INSERT_ID(),
+      				 orders = '1'
+
+   		WHERE		 num = last_insert_id()
+	</update>
+	
+	<select id="getQABoardList" resultType="QABoard">
+		SELECT * FROM
+						(select @rownum := @rownum+1 as rownum, (concat(repeat('-', depth), title))as con, 
+						ta.*
+		FROM 				
+						qaboard ta, 
+					 (select @rownum := (select COUNT(*)-COUNT(*) FROM qaboard ta)) tb 
+		ORDER BY 
+						groups desc, orders ASC )a
+	</select>
+	
+	<select id="getQAPostDetails" parameterType="Integer" resultType="QABoard">
+		SELECT		*
+		FROM			qaboard
+		WHERE		num = #{num}
+	</select>
+	
+	<insert id="insertAnswerPost1" parameterType="QABoard">  
+        INSERT INTO qaboard (
+        		title,
+				type,
+				content,
+				writer,
+        		groups,
+        		orders,
+        		depth
+      ) VALUES (
+         #{title},
+         #{type},
+         #{content},
+         #{writer},
+         #{groups},
+         #{orders}+1,
+         #{depth}+1
+         )
+	</insert>
+	
+	<update id="insertAnswerPost2" parameterType="QABoard">
+  	 	UPDATE 				qaboard 
+  	 	SET 				orders = orders+1 
+		WHERE 
+				 (not num =  LAST_INSERT_ID() )
+					&amp;&amp; (not orders &lt; #{orders}+1) 
+					&amp;&amp; (groups = #{groups})
+	</update>
+	
+	<update id="addHit" parameterType="Integer">
+  	 	UPDATE 				qaboard 
+  	 	SET 				hit = hit+1
+		WHERE 				num = #{num}
+	</update>
+	
+	<delete id="deletePost" parameterType="Integer">
+		DELETE FROM qaboard WHERE num = #{num}
+	</delete>
+	
+</mapper>

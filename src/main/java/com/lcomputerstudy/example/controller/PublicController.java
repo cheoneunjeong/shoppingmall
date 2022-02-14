@@ -38,12 +38,14 @@ import com.lcomputerstudy.example.domain.KakaoUser;
 import com.lcomputerstudy.example.domain.Option;
 import com.lcomputerstudy.example.domain.OrderRequest;
 import com.lcomputerstudy.example.domain.Product;
+import com.lcomputerstudy.example.domain.QABoard;
 import com.lcomputerstudy.example.domain.User;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.mapper.KakaoMapper;
 import com.lcomputerstudy.example.request.JoinRequest;
 import com.lcomputerstudy.example.request.LoginRequest;
 import com.lcomputerstudy.example.response.JwtResponse;
+import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.CategoryService;
 import com.lcomputerstudy.example.service.KakaoLoginService;
 import com.lcomputerstudy.example.service.ProductService;
@@ -82,6 +84,9 @@ public class PublicController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	BoardService boardService;
 	
 	@PostMapping("newUser")
 	public ResponseEntity<?> insertNewUser(@Validated @RequestBody JoinRequest joinUser) {
@@ -372,6 +377,23 @@ public class PublicController {
 		product.setOptions_s(options_s);
 		
 		return new ResponseEntity<>(product, HttpStatus.OK);
+	}
+	
+	@GetMapping("qa-post")
+	public ResponseEntity<?> getQABoardList() {
+		
+		List<QABoard> list = boardService.getQABoardList();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("qa-post-details")
+	public ResponseEntity<?> getQAPostDetails(@Validated int num) {
+		
+		boardService.addHit(num);
+		QABoard post = boardService.getQAPostDetails(num);
+		
+		return new ResponseEntity<>(post, HttpStatus.OK);
 	}
 	
 }
