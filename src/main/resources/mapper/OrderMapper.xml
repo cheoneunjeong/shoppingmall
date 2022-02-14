@@ -102,4 +102,9 @@
 		SET		givePoint = #{givePoint}
 		WHERE orderCode = #{orderCode}
 	</update>
+	
+	<select id="getTotalSales" parameterType="String" resultType="Integer">
+		SELECT total FROM orderinfo WHERE DATETIME LIKE #{param}
+	</select>
+	
 </mapper>

@@ -35,6 +35,8 @@ public interface OrderService {
 
 	void insertGivePoint(OrderInfo order);
 
+	List<Integer> getTotalSales(String param);
+
 
 
 

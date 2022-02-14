@@ -96,6 +96,12 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
+	@Override
+	public List<Integer> getTotalSales(String param) {
+		// TODO Auto-generated method stub
+		return orderMapper.getTotalSales(param);
+	}
+
 
 
 }

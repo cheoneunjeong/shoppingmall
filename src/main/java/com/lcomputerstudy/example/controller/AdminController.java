@@ -3,7 +3,7 @@ package com.lcomputerstudy.example.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +35,7 @@ import com.lcomputerstudy.example.domain.Review;
 import com.lcomputerstudy.example.domain.UserInfo;
 import com.lcomputerstudy.example.service.BoardService;
 import com.lcomputerstudy.example.service.CategoryService;
+import com.lcomputerstudy.example.service.OrderService;
 import com.lcomputerstudy.example.service.PointService;
 import com.lcomputerstudy.example.service.ProductService;
 import com.lcomputerstudy.example.service.UserService;
@@ -60,6 +61,9 @@ public class AdminController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	OrderService orderService;
 	
 	@GetMapping("category")
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -310,6 +314,120 @@ public class AdminController {
 	public ResponseEntity<?> getReviewList() {
 		
 		List<Review> list = boardService.getReviewList();
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("sales")
+	public ResponseEntity<?> getTotalSales(@Validated String date) {
+		
+		List<Integer> totalSales = new ArrayList<Integer>();
+		
+		String jan = "%"+date+"-01-%";
+		List<Integer> janlist = orderService.getTotalSales(jan);
+		int janSales=0;
+		for(int sales : janlist) {
+			janSales += sales;
+		}
+		totalSales.add(janSales);
+		
+		String feb = "%"+date+"-02-%";
+		List<Integer> feblist = orderService.getTotalSales(feb);
+		int febSales=0;
+		for(int sales : feblist) {
+			febSales += sales;
+		}
+		totalSales.add(febSales);
+		
+		String mar = "%"+date+"-03-%";
+		List<Integer> marlist = orderService.getTotalSales(mar);
+		int marSales=0;
+		for(int sales : marlist) {
+			marSales += sales;
+		}
+		totalSales.add(marSales);
+		
+		String apr = "%"+date+"-04-%";
+		List<Integer> aprlist = orderService.getTotalSales(apr);
+		int aprSales=0;
+		for(int sales : aprlist) {
+			aprSales += sales;
+		}
+		totalSales.add(aprSales);
+		
+		String may = "%"+date+"-05-%";
+		List<Integer> maylist = orderService.getTotalSales(may);
+		int maySales=0;
+		for(int sales : maylist) {
+			maySales += sales;
+		}
+		totalSales.add(maySales);
+		
+		String jun = "%"+date+"-06-%";
+		List<Integer> junlist = orderService.getTotalSales(jun);
+		int junSales=0;
+		for(int sales : junlist) {
+			junSales += sales;
+		}
+		totalSales.add(junSales);
+		
+		String jul = "%"+date+"-07-%";
+		List<Integer> jullist = orderService.getTotalSales(jul);
+		int julSales=0;
+		for(int sales : jullist) {
+			julSales += sales;
+		}
+		totalSales.add(julSales);
+		
+		String aug = "%"+date+"-08-%";
+		List<Integer> auglist = orderService.getTotalSales(aug);
+		int augSales=0;
+		for(int sales : auglist) {
+			augSales += sales;
+		}
+		totalSales.add(augSales);
+		
+		String sep = "%"+date+"-09-%";
+		List<Integer> seplist = orderService.getTotalSales(sep);
+		int sepSales=0;
+		for(int sales : seplist) {
+			sepSales += sales;
+		}
+		totalSales.add(sepSales);
+		
+		String oct = "%"+date+"-10-%";
+		List<Integer> octlist = orderService.getTotalSales(oct);
+		int octSales=0;
+		for(int sales : octlist) {
+			octSales += sales;
+		}
+		totalSales.add(octSales);
+		
+		String nov = "%"+date+"-11-%";
+		List<Integer> novlist = orderService.getTotalSales(nov);
+		int novSales=0;
+		for(int sales : novlist) {
+			novSales += sales;
+		}
+		totalSales.add(novSales);
+		
+		String dec = "%"+date+"-12-%";
+		List<Integer> declist = orderService.getTotalSales(dec);
+		int decSales=0;
+		for(int sales : declist) {
+			decSales += sales;
+		}
+		totalSales.add(decSales);
+
+		return new ResponseEntity<>(totalSales, HttpStatus.OK);
+	}
+	
+	@GetMapping("ranking-list")
+	public ResponseEntity<?> getRankingList(@Validated String type) {
+		
+		System.out.println(type);
+		
+		List<Product> list = productService.getRankingList();
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}

@@ -38,6 +38,8 @@ public interface OrderMapper {
 
 	void insertGivePoint(OrderInfo order);
 
+	List<Integer> getTotalSales(String param);
+
 	
 
 	

@@ -37,4 +37,6 @@ public interface ProductMapper {
 
 	void updateRating(Product p);
 
+	List<Product> getRankingList();
+
 }

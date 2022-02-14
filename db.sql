@@ -79,13 +79,17 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
   PRIMARY KEY (`orderCode`),
   KEY `user` (`user`),
   CONSTRAINT `orderinfo_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.orderinfo:~2 rows (대략적) 내보내기
+-- 테이블 데이터 project.orderinfo:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
 INSERT INTO `orderinfo` (`orderCode`, `state`, `payway`, `point`, `total`, `user`, `datetime`, `receiver_address`, `receiver_postcode`, `receiver_name`, `receiver_phone`, `receiver_same`, `user_address`, `user_phone`, `user_name`, `user_postcode`, `givePoint`) VALUES
 	(39, '주문확인중', '카카오페이', 0, 70000, 'aa', '2022-02-13 16:44:02', NULL, '', '', '', '주문자와 동일', '대구 남구 경상길 1  (대명동)', 1011111111, '주문자', 42463, 0),
-	(43, '주문확인중', '카카오페이', 15000, 37500, 'aa', '2022-02-13 20:05:33', '울산 중구 강정3길 57  (교동)', '44468', '받는자', '010456456', NULL, '부산 강서구 가달1로 7  (생곡동)', 10123123, '주문자', 46729, 0);
+	(43, '주문확인중', '카카오페이', 15000, 37500, 'aa', '2022-02-13 20:05:33', '울산 중구 강정3길 57  (교동)', '44468', '받는자', '010456456', NULL, '부산 강서구 가달1로 7  (생곡동)', 10123123, '주문자', 46729, 0),
+	(60, '주문확인중', '카카오페이', 5000, 32500, 'aa', '2022-02-14 21:38:41', NULL, '', '', '', '주문자와 동일', '경북 청송군 주왕산면 라동길 7  ', 10112233, '테스트', 37441, 1050),
+	(61, '주문확인중', '카카오페이', 0, 22500, 'aa', '2022-02-14 21:40:14', '대구 달성군 구지면 구미마을길 83-10  ', '43012', '테스트111', '010888777', NULL, '서울 강남구 신사동 536-9  ', 103336655, '테스트1', 6035, 600),
+	(62, '주문확인중', '카카오페이', 0, 70000, 'aa', '2022-02-14 21:41:23', NULL, '', '', '', '주문자와 동일', '경기 용인시 처인구 모현읍 능원리 362-8  ', 10887777, 'aaa', 16886, 2100),
+	(64, '주문확인중', '카카오페이', 0, 197500, 'aa', '2022-02-14 21:52:46', NULL, '', '', '', '주문자와 동일', '경기 가평군 가평읍 금대리 585  ', 1044445555, 'ggg', 12428, 4350);
 /*!40000 ALTER TABLE `orderinfo` ENABLE KEYS */;
 
 -- 테이블 project.order_details 구조 내보내기
@@ -101,11 +105,18 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.order_details:~2 rows (대략적) 내보내기
+-- 테이블 데이터 project.order_details:~9 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
 INSERT INTO `order_details` (`p_code`, `order_num`, `count`, `option`, `givePoint`) VALUES
 	(6, 39, 1, 'S', 0),
-	(5, 43, 1, 'Red', 0);
+	(5, 43, 1, 'Red', 0),
+	(4, 60, 1, 'M', 0),
+	(2, 61, 1, '옵션없음', 0),
+	(6, 62, 1, 'S', 0),
+	(8, 64, 1, '체리곰', 0),
+	(6, 64, 1, 'S', 0),
+	(2, 64, 1, '옵션없음', 0),
+	(5, 64, 1, 'White', 0);
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 
 -- 테이블 project.pointlist 구조 내보내기
@@ -234,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `review` (
   PRIMARY KEY (`num`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.review:~1 rows (대략적) 내보내기
+-- 테이블 데이터 project.review:~5 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
 INSERT INTO `review` (`num`, `title`, `content`, `writer`, `order_num`, `p_code`, `p_option`, `rating`, `datetime`) VALUES
 	(22, '1', '55', 'aa', 43, 5, 'Red', 5, '2022-02-14 18:58:40'),
@@ -298,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- 테이블 데이터 project.user:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`, `postcode`, `address`, `phone`, `point`, `auth`) VALUES
-	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', 'AAA', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, 42923, '대구 달성군 다사읍 서재리 202 경신그린빌 102', '01044445555', 985000, 'ADMIN'),
+	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', 'AAA', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, 42923, '대구 달성군 다사읍 서재리 202 경신그린빌 102', '01044445555', 980000, 'ADMIN'),
 	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 0, 1, 1, 'kakao', NULL, NULL, NULL, 0, NULL),
 	('zz', '$2a$10$HkU6fIv6rGhsv649s4zDwelshW2wtodh0qxi.7V.EofPSVFIFZs0m', 'zz', '2022-02-07 21:47:01', 1, 1, 1, 1, NULL, 123, 'dd  ', '111111111', 0, 'ADMIN');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
@@ -333,14 +344,15 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   KEY `wishitem` (`wishitem`),
   CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`),
   CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`wishitem`) REFERENCES `product` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 project.wishlist:~3 rows (대략적) 내보내기
+-- 테이블 데이터 project.wishlist:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
 INSERT INTO `wishlist` (`wishitem`, `id`, `option`, `count`, `num`) VALUES
 	(8, 'aa', '체리곰', 1, 14),
 	(6, 'aa', 'S', 1, 15),
-	(2, 'aa', '옵션없음', 1, 16);
+	(2, 'aa', '옵션없음', 1, 16),
+	(5, 'aa', 'White', 1, 19);
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

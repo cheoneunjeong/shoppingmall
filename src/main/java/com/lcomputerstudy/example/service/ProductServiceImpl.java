@@ -95,4 +95,10 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public List<Product> getRankingList() {
+		// TODO Auto-generated method stub
+		return productmapper.getRankingList();
+	}
+
 }

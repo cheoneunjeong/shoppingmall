@@ -164,5 +164,31 @@
 		WHERE 
 				 code = #{code}
 	</update>
+	
+	<select id="getRankingList" resultType="Product">
+		SELECT 		
+					count,
+					code,
+					name,
+					descr,
+					isSale,
+					detail_desc,
+					material,
+					size,
+					manufacturer,
+					caution,
+					price,
+					point_t AS point,
+					stock,
+					ship AS shipping,
+					files AS filesname,
+					type AS type_s,
+					category,
+					mainPhoto,
+					rating 
+		FROM (SELECT COUNT(*) AS count,p_code FROM order_details ta GROUP BY p_code) ta
+		INNER JOIN product ON ta.p_code = product.code
+		ORDER BY ta.count DESC
+	</select>
 
 </mapper>

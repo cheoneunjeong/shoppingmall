@@ -405,4 +405,16 @@ public class PublicController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+	@PostMapping("heart-items")
+	public ResponseEntity<?> getHeartImems(@Validated @RequestBody List<Integer> list){
+		
+		List<Product> items = new ArrayList<Product>();
+		for(int item : list) {
+			Product p = productService.getProductDetails(item);
+			items.add(p);
+		}
+		
+		return new ResponseEntity<>(items, HttpStatus.OK);
+	}
+	
 }

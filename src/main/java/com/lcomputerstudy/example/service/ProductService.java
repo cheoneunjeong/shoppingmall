@@ -33,4 +33,6 @@ public interface ProductService {
 
 	void updateRating(Product p);
 
+	List<Product> getRankingList();
+
 }
