@@ -180,8 +180,36 @@ public class AdminController {
 	@PostMapping("delete-product")
 	public ResponseEntity<?> deleteProduct(@Validated @RequestBody List<Integer> codeList) {
 		for(int code : codeList) {
+//			Product p = productService.getProductDetails(code);
+//			String filename = p.getFilesname();
+//			
+//			if(filename.contains(",")) {
+//				List<String> files = Arrays.asList(filename.split(","));
+//				for(String f : files) {
+//					String filePath =  System.getProperty("user.home")+"\\shoppingmall_vue\\src\\assets\\"+f;
+//					File deleteFile = new File(filePath);
+//					if(deleteFile.exists()) {
+//						deleteFile.delete();
+//						System.out.println("파일을 삭제하였습니다.");
+//					} else {
+//						System.out.println("파일이 존재하지않습니다.");
+//					}
+//				}
+//			} else {
+//				String filePath =  System.getProperty("user.home")+"\\shoppingmall_vue\\src\\assets\\"+filename;
+//				File deleteFile = new File(filePath);
+//				if(deleteFile.exists()) {
+//					deleteFile.delete();
+//					System.out.println("파일을 삭제하였습니다.");
+//				} else {
+//					System.out.println("파일이 존재하지않습니다.");
+//				}
+//			}
+			
 			productService.deleteProduct(code);
 		}
+		
+		
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
