@@ -48,12 +48,13 @@ CREATE TABLE IF NOT EXISTS `kakao_user` (
   `k_email` varchar(50) NOT NULL,
   `access_token` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`k_number`,`k_email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 project.kakao_user:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `kakao_user` DISABLE KEYS */;
 INSERT INTO `kakao_user` (`k_number`, `k_name`, `k_email`, `access_token`) VALUES
-	(15, '천은정', 'cjsdmswjd010@naver.com', '1Ie8erVxGVEWx24661UKlA8xGVjgA9mXk_r7vQo9dRsAAAF-0gOm6Q');
+	(17, '천은정', 'cjsdmswjd010@naver.com', '3DXkXmaFQldmLCVNBWG2UQApY_RhUFbvIbbpWgopb1QAAAF_AIAuAg'),
+	(18, '泥쒖��젙', 'cjsdmswjd010@naver.com', '3DXkXmaFQldmLCVNBWG2UQApY_RhUFbvIbbpWgopb1QAAAF_AIAuAg');
 /*!40000 ALTER TABLE `kakao_user` ENABLE KEYS */;
 
 -- 테이블 project.orderinfo 구조 내보내기
@@ -78,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
   PRIMARY KEY (`orderCode`),
   KEY `user` (`user`),
   CONSTRAINT `orderinfo_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 project.orderinfo:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
@@ -88,7 +89,9 @@ INSERT INTO `orderinfo` (`orderCode`, `state`, `payway`, `point`, `total`, `user
 	(60, '주문확인중', '카카오페이', 5000, 32500, 'aa', '2022-02-14 21:38:41', NULL, '', '', '', '주문자와 동일', '경북 청송군 주왕산면 라동길 7  ', 10112233, '테스트', 37441, 1050),
 	(61, '주문확인중', '카카오페이', 0, 22500, 'aa', '2022-02-14 21:40:14', '대구 달성군 구지면 구미마을길 83-10  ', '43012', '테스트111', '010888777', NULL, '서울 강남구 신사동 536-9  ', 103336655, '테스트1', 6035, 600),
 	(62, '주문확인중', '카카오페이', 0, 70000, 'aa', '2022-02-14 21:41:23', NULL, '', '', '', '주문자와 동일', '경기 용인시 처인구 모현읍 능원리 362-8  ', 10887777, 'aaa', 16886, 2100),
-	(64, '주문확인중', '카카오페이', 0, 197500, 'aa', '2022-02-14 21:52:46', NULL, '', '', '', '주문자와 동일', '경기 가평군 가평읍 금대리 585  ', 1044445555, 'ggg', 12428, 4350);
+	(64, '주문확인중', '카카오페이', 0, 197500, 'aa', '2022-02-14 21:52:46', NULL, '', '', '', '주문자와 동일', '경기 가평군 가평읍 금대리 585  ', 1044445555, 'ggg', 12428, 4350),
+	(65, '주문확인중', '카카오페이', 0, 42500, 'aa', '2022-02-16 10:50:04', NULL, '', '', '', '주문자와 동일', 'test  ', 123123, 'test', 123, 1200),
+	(66, '주문확인중', '카카오페이', 0, 62500, 'cjsdmswjd010@naver.com', '2022-02-16 11:46:44', NULL, '', '', '', '주문자와 동일', 'test  ', 123, 'test', 123, 1800);
 /*!40000 ALTER TABLE `orderinfo` ENABLE KEYS */;
 
 -- 테이블 project.order_details 구조 내보내기
@@ -115,7 +118,9 @@ INSERT INTO `order_details` (`p_code`, `order_num`, `count`, `option`, `givePoin
 	(8, 64, 1, '체리곰', 0),
 	(6, 64, 1, 'S', 0),
 	(2, 64, 1, '옵션없음', 0),
-	(5, 64, 1, 'White', 0);
+	(5, 64, 1, 'White', 0),
+	(7, 65, 1, 'S', 0),
+	(3, 66, 1, 'L', 0);
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 
 -- 테이블 project.pointlist 구조 내보내기
@@ -169,7 +174,7 @@ INSERT INTO `product` (`code`, `category`, `name`, `descr`, `type`, `isSale`, `d
 	(3, 'TOP/shirt(110)', 'shirt', '우신사스토어제품', 'new,recom', 1, '참고자료 우신사스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 60000, '판매가기준 설정비율', 30, '쇼핑몰 기본설정 사용', 'shirt1.jpg,shirt1detail.jpg', 'shirt1.jpg', 110, 0),
 	(4, 'TOP(1)', 'tee', '상세페이지 참고', 'hit,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 35000, '판매가기준 설정비율', 10, '쇼핑몰 기본설정 사용', 'tee.jpg,teedetail.jpg', 'tee.jpg', 1, 0),
 	(5, 'TOP(1)', 'mtm', '상세페이지 참고', 'disc,recom,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 50000, '판매가기준 설정비율', 20, '쇼핑몰 기본설정 사용', 'mtm.jpg,mtmdetail.jpg', 'mtm.jpg', 1, 5),
-	(6, 'BOTTOM(2)', '오버롤st', '상세페이지 참고', 'new,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 70000, '판매가기준 설정비율', 50, '무료배송', 'pants1.jpg,pants1detail.jpg', 'pants1.jpg', 2, 0),
+	(6, 'BOTTOM(2)', '오버롤st', '상세페이지 참고', 'new,best', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 70000, '판매가기준 설정비율', 50, '무료배송', 'pants1.jpg,pants1detail.jpg', 'pants1.jpg', 2, 5),
 	(7, 'BOTTOM/pants(210)', 'pants', '상세페이지 참고', 'disc,recom', 1, '우신사 스토어 제품', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 40000, '판매가기준 설정비율', 50, '쇼핑몰 기본설정 사용', 'pants2.jpg,pants1detail.jpg', 'pants2.jpg', 210, 0),
 	(8, 'ACC(3)', '지비츠', '상세페이지 참고', 'hit,disc,recom', 1, '우신사 스토어', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', '상세페이지 참고', 5000, '판매가기준 설정비율', 9, '쇼핑몰 기본설정 사용', '지비츠.jpg,지비츠detail.jpg', '지비츠.jpg', 3, 0);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
@@ -222,12 +227,14 @@ CREATE TABLE IF NOT EXISTS `qaboard` (
   PRIMARY KEY (`num`),
   KEY `writer` (`writer`),
   CONSTRAINT `qaboard_ibfk_1` FOREIGN KEY (`writer`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 project.qaboard:~0 rows (대략적) 내보내기
+-- 테이블 데이터 project.qaboard:~1 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `qaboard` DISABLE KEYS */;
 INSERT INTO `qaboard` (`num`, `title`, `type`, `content`, `writer`, `datetime`, `hit`, `groups`, `orders`, `depth`) VALUES
-	(7, 'dd', '', 'aaa', 'zz', '2022-02-14 14:36:59', 5, 7, 1, 0);
+	(7, 'dd', '', 'aaa', 'zz', '2022-02-14 14:36:59', 5, 7, 1, 0),
+	(14, 'ㅇㅇ', '상품문의', 'ㅇㅇㅇㅇ', 'aa', '2022-02-16 10:44:45', 2, 14, 1, 0),
+	(15, '답글입니다', '상품문의', '답ㅇㅇ', 'aa', '2022-02-16 11:56:27', 0, 14, 2, 1);
 /*!40000 ALTER TABLE `qaboard` ENABLE KEYS */;
 
 -- 테이블 project.review 구조 내보내기
@@ -248,16 +255,14 @@ CREATE TABLE IF NOT EXISTS `review` (
   CONSTRAINT `review_ibfk_1` FOREIGN KEY (`writer`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `review_ibfk_2` FOREIGN KEY (`order_num`) REFERENCES `orderinfo` (`orderCode`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `review_ibfk_3` FOREIGN KEY (`p_code`) REFERENCES `product` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 project.review:~5 rows (대략적) 내보내기
+-- 테이블 데이터 project.review:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
 INSERT INTO `review` (`num`, `title`, `content`, `writer`, `order_num`, `p_code`, `p_option`, `rating`, `datetime`) VALUES
 	(22, '1', '55', 'aa', 43, 5, 'Red', 5, '2022-02-14 18:58:40'),
 	(23, 'ㅇㅇ', 'ㅌㅌㅌㅌ', 'aa', 43, 5, 'Red', 5, '2022-02-14 18:58:46'),
-	(24, '수정', '333333', 'aa', 43, 5, 'Red', 5, '2022-02-14 19:01:09'),
-	(25, '수정2', 'ㅇㅇㅇㅇㅇㅇ', 'aa', 43, 5, 'Red', 5, '2022-02-14 19:03:43'),
-	(26, '수정1', 'ㅇㅇㅇ', 'aa', 43, 5, 'Red', 5, '2022-02-14 19:06:21');
+	(27, 'ddd', '123', 'aa', 39, 6, 'S', 5, '2022-02-16 10:55:13');
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 
 -- 테이블 project.spring_session 구조 내보내기
@@ -315,7 +320,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_id`, `password`, `name`, `datetime`, `isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`, `oauth`, `postcode`, `address`, `phone`, `point`, `auth`) VALUES
 	('aa', '$2a$10$6WzNlbuGuE3slRPH6rgqxeuUPldWyXXMCtR0xk/SiCOI8eJ.VLO5W', 'AAA', '2022-02-06 23:50:34', 1, 1, 1, 1, NULL, 42923, '대구 달성군 다사읍 서재리 202 경신그린빌 102', '01044445555', 980000, 'ADMIN'),
-	('cjsdmswjd010@naver.com', '$2a$10$zHo8eZRfGHvw4t.73Z73meE3KcRJMTQA9BvgLbK9vJNGZb7le1GsG', '천은정', '2022-01-28 11:52:50', 1, 0, 1, 1, 'kakao', NULL, NULL, NULL, 0, NULL),
+	('cjsdmswjd010@naver.com', '$2a$10$AFm8pqNxmHYeqg6XL8ROseVMkOKHmUrH72IIa/ueX0Go1Lk/psG7e', '천은정', '2022-02-16 11:32:09', 1, 1, 1, 1, 'kakao', NULL, NULL, NULL, 0, 'USER'),
 	('zz', '$2a$10$HkU6fIv6rGhsv649s4zDwelshW2wtodh0qxi.7V.EofPSVFIFZs0m', 'zz', '2022-02-07 21:47:01', 1, 1, 1, 1, NULL, 123, 'dd  ', '111111111', 0, 'ADMIN');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
@@ -332,7 +337,6 @@ CREATE TABLE IF NOT EXISTS `u_auth` (
 INSERT INTO `u_auth` (`u_id`, `u_auth`) VALUES
 	('aa', 'ROLE_ADMIN'),
 	('aa', 'ROLE_USER'),
-	('cjsdmswjd010@naver.com', 'ROLE_ADMIN'),
 	('cjsdmswjd010@naver.com', 'ROLE_USER'),
 	('zz', 'ROLE_ADMIN'),
 	('zz', 'ROLE_USER');
@@ -350,15 +354,16 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
   KEY `wishitem` (`wishitem`),
   CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`wishitem`) REFERENCES `product` (`code`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 project.wishlist:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
 INSERT INTO `wishlist` (`wishitem`, `id`, `option`, `count`, `num`) VALUES
-	(8, 'aa', '체리곰', 1, 14),
 	(6, 'aa', 'S', 1, 15),
 	(2, 'aa', '옵션없음', 1, 16),
-	(5, 'aa', 'White', 1, 19);
+	(5, 'aa', 'White', 1, 19),
+	(4, 'cjsdmswjd010@naver.com', 'S', 1, 20),
+	(2, 'cjsdmswjd010@naver.com', '옵션없음', 1, 21);
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

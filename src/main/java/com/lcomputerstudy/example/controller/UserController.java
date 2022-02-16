@@ -94,12 +94,12 @@ public class UserController {
 	@PostMapping("kakaopay")
 	public ResponseEntity<?> kakaopay(@Validated @RequestBody OrderInfo order) throws IOException {
 		try {
-			System.out.println(order.getTotal());
+			System.out.println("카카오페이 시작");
 			// 보내는 부분
 			URL address = new URL("https://kapi.kakao.com/v1/payment/ready");
 			HttpURLConnection connection = (HttpURLConnection) address.openConnection(); // 서버연결
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Authorization", "KakaoAK c912ec447438b361454267741806c2e0"); // 어드민 키
+			connection.setRequestProperty("Authorization", "KakaoAK e45b4bcac582764f41bb7090013d1e64"); // 어드민 키
 			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 			connection.setDoOutput(true); // 서버한테 전달할게 있는지 없는지
 			String parameter = "cid=TC0ONETIME" // 가맹점 코드
@@ -110,9 +110,9 @@ public class UserController {
 					+ "&total_amount="+order.getTotal() // 총 금액
 					+ "&vat_amount=200" // 부가세
 					+ "&tax_free_amount=0" // 상품 비과세 금액
-					+ "&approval_url=http://localhost:8080/shop/kakaopay-success" // 결제 성공 시
-					+ "&fail_url=http://localhost:8080/shop/kakaopay-fail" // 결제 실패 시
-					+ "&cancel_url=http://localhost:8080/shop/kakaopay-fail"; // 결제 취소 시
+					+ "&approval_url=http://localhost/shop/kakaopay-success" // 결제 성공 시
+					+ "&fail_url=http://localhost/shop/kakaopay-fail" // 결제 실패 시
+					+ "&cancel_url=http://localhost/shop/kakaopay-fail"; // 결제 취소 시
 			OutputStream send = connection.getOutputStream(); // 이제 뭔가를 를 줄 수 있다.
 			DataOutputStream dataSend = new DataOutputStream(send); // 이제 데이터를 줄 수 있다.
 			dataSend.writeBytes(parameter); // OutputStream은 데이터를 바이트 형식으로 주고 받기로 약속되어 있다. (형변환)
