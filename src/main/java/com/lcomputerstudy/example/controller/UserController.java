@@ -110,9 +110,9 @@ public class UserController {
 					+ "&total_amount="+order.getTotal() // 총 금액
 					+ "&vat_amount=200" // 부가세
 					+ "&tax_free_amount=0" // 상품 비과세 금액
-					+ "&approval_url=http://localhost/shop/kakaopay-success" // 결제 성공 시
-					+ "&fail_url=http://localhost/shop/kakaopay-fail" // 결제 실패 시
-					+ "&cancel_url=http://localhost/shop/kakaopay-fail"; // 결제 취소 시
+					+ "&approval_url=http://3.39.35.173/shop/kakaopay-success" // 결제 성공 시
+					+ "&fail_url=http://3.39.35.173/shop/kakaopay-fail" // 결제 실패 시
+					+ "&cancel_url=http://3.39.35.173/shop/kakaopay-fail"; // 결제 취소 시
 			OutputStream send = connection.getOutputStream(); // 이제 뭔가를 를 줄 수 있다.
 			DataOutputStream dataSend = new DataOutputStream(send); // 이제 데이터를 줄 수 있다.
 			dataSend.writeBytes(parameter); // OutputStream은 데이터를 바이트 형식으로 주고 받기로 약속되어 있다. (형변환)
